@@ -10,20 +10,25 @@
 ;; add .emacs.d to load path
 (setq load-path (cons "~/.emacs.d/" load-path))
 
-;; note: be sure to also enter this in the shell
-;;  > defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
 ;; turn off anti-aliasing
 (setq mac-allow-anti-aliasing nil)
+;; Note: be sure to also enter the following into the shell
+;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
 
 ;; xcode font
-;;(set-face-attribute 'default nil :family "monaco" :height 100)
-;;(setq my-window-width 234)
-;;(setq my-window-height 65)
+(set-face-attribute 'default nil :family "monaco" :height 100)
+(setq my-window-width 234)
+(setq my-window-height 65)
 
 ;; large courier
-(set-face-attribute 'default nil :family "courier new" :height 130)
-(setq my-window-width 176)
-(setq my-window-height 57)
+;(set-face-attribute 'default nil :family "courier new" :height 130)
+;(setq my-window-width 176)
+;(setq my-window-height 57)
+
+;; windows
+;(set-face-attribute 'default nil :family "courier new" :height 130)
+;(setq my-window-width 176)
+;(setq my-window-height 64)
 
 ;; main frame
 (setq initial-frame-alist
@@ -48,22 +53,6 @@
 ;; hide tool bar & menu
 (menu-bar-mode nil)
 (tool-bar-mode nil)
-
-;; open buffer-menu (list buffers)
-(global-set-key "\C-x\C-b" 'buffer-menu)
-(global-set-key "\C-l" 'buffer-menu)
-
-;; move M-x to C-x C-m
-(global-set-key "\C-x\C-m" 'execute-extended-command)
-(global-set-key "\C-x\m" 'execute-extended-command)
-
-;; undo
-(global-set-key "\C-z" 'undo)
-
-;; compile
-(global-set-key "\C-c" 'compile)
-
-
 
 ;; color-theme
 (setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
@@ -106,25 +95,52 @@
    (interactive) 
    (scroll-up 1)) 
 
-(global-set-key "\M-p" 'scroll-down-keep-cursor)
-(global-set-key "\M-n" 'scroll-up-keep-cursor)
+;(global-set-key "\M-p" 'scroll-down-keep-cursor)
+;(global-set-key "\M-n" 'scroll-up-keep-cursor)
 
-(global-set-key "\M-n" 'scroll-up)
-(global-set-key "\M-p" 'scroll-down)
+;(global-set-key "\M-n" 'scroll-up)
+;(global-set-key "\M-p" 'scroll-down)
 
-(global-set-key "\M-C-i" 'indent-region)
-(global-set-key "\C-c" 'comment-region)
-(global-set-key "\M-c" 'uncomment-region)
-(global-set-key "\M-s" 'grep-find)
+;; open buffer-menu (list buffers)
+;(global-set-key "\C-x\C-b" 'buffer-menu)
+;(global-set-key "\C-l" 'buffer-menu)
 
-;; other buffer
-(global-set-key "\C-x\o" 'other-window)
+;; alias M-x with C-x C-m for meta less environments.
+(global-set-key "\C-x\C-m" 'execute-extended-command)
+(global-set-key "\C-x\m" 'execute-extended-command)
+
+;; ham-handed undo
+(global-set-key "\C-x\C-u" 'undo)
+
+;; short cut to shell
+(global-set-key "\C-c\s" 'shell)
+(global-set-key "\C-c\C-s" 'shell)
+
+;; C-\ is indent-region
+;(global-set-key "\M-C-i" 'indent-region)
+;(global-set-key [C-c C-c] 'comment-region)
+;(global-set-key [C-c C-u] 'uncomment-region)
+;(global-set-key "\M-s" 'grep-find)
+
+;; ham-handed other-window
 (global-set-key "\C-x\C-o" 'other-window)
+
+;; prevent accidently minimizing the window
+(global-set-key "\C-z" 'nil)
+
+;; M-$ doesn't work on Mac OS X so move to C-$ instead
+(global-set-key (kbd "C-$") 'ispell-word)
 
 ;; compile
 (global-set-key [f7] 'compile)
 (setq compile-command (concat "cd ~/code/lacquer/src/; rake debug"))
 
+;; ido find-file & buffer switching is awesome
+(require 'ido)
+(ido-mode t)
+
+;; other-frame
+(global-set-key [f5] 'other-frame)
 
 ;; glsl-mode
 (load-library "glsl-mode")
@@ -145,13 +161,6 @@
 (add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
 (add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
 
-;; I'll just stick to buffer-menu for now...
-
-;; alt-tab like buffer switching (bullshit)
-;;(require 'swbuff)
-;;(global-set-key "\M-p" 'swbuff-switch-to-previous-buffer)
-;;(global-set-key "\M-n" 'swbuff-switch-to-next-buffer)
-
 ;; irc chat
 ;;(require 'erc)
 
@@ -162,7 +171,7 @@
 (autoload 'inf-ruby-keys "inf-ruby" "Set local key defs for inf-ruby in ruby-mode")
 (add-hook 'ruby-mode-hook '(lambda () (inf-ruby-keys)))
 
-;;; Final version: while
+;; count words in region
 (defun count-words-region (beginning end)
   "Print number of words in the region."
   (interactive "r")
@@ -190,4 +199,5 @@
               "The region has %d words." count))))))
 
 
-
+;; describe-unbound-keys
+(load-library "unbound")
