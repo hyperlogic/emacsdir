@@ -112,6 +112,9 @@
 ;; ham-handed undo
 (global-set-key "\C-x\C-u" 'undo)
 
+;; C-x C-u is just too hard
+(global-set-key "\C-z" 'undo)
+
 ;; short cut to shell
 (global-set-key "\C-c\s" 'shell)
 (global-set-key "\C-c\C-s" 'shell)
