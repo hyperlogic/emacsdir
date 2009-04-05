@@ -110,9 +110,9 @@
 (global-set-key "\C-x\m" 'execute-extended-command)
 
 ;; ham-handed undo
-(global-set-key "\C-x\C-u" 'undo)
+;;(global-set-key "\C-x\C-u" 'undo)
 
-;; C-x C-u is just too hard
+;; cause C-x C-u is just too hard
 (global-set-key "\C-z" 'undo)
 
 ;; short cut to shell
@@ -127,9 +127,6 @@
 
 ;; ham-handed other-window
 (global-set-key "\C-x\C-o" 'other-window)
-
-;; prevent accidently minimizing the window
-(global-set-key "\C-z" 'nil)
 
 ;; M-$ doesn't work on Mac OS X so move to C-$ instead
 (global-set-key (kbd "C-$") 'ispell-word)
