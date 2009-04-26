@@ -128,6 +128,9 @@
 ;; ham-handed other-window
 (global-set-key "\C-x\C-o" 'other-window)
 
+;; ham-handed find-file
+(global-set-key "\C-xf" 'find-file)
+
 ;; M-$ doesn't work on Mac OS X so move to C-$ instead
 (global-set-key (kbd "C-$") 'ispell-word)
 
