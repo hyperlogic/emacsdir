@@ -138,6 +138,9 @@
 (global-set-key [f7] 'compile)
 (setq compile-command (concat "cd ~/code/lacquer/src/; rake debug"))
 
+;; scrolling output
+(setq compilation-scroll-output t)
+
 ;; ido find-file & buffer switching is awesome
 (require 'ido)
 (ido-mode t)
@@ -158,8 +161,10 @@
 				("\\.c$"    . c-mode)
 				("\\.txt$"  . text-mode)
 			    ("\\.rb$"   . ruby-mode)
-				("\\.glsl$" . glsl-mode))
-			  auto-mode-alist))
+				("\\.glsl$" . glsl-mode)
+				("\\.m$"    . objc-mode)
+				("\\.mm$"   . objc-mode)
+			  auto-mode-alist)))
 
 (add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
 (add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
@@ -204,3 +209,10 @@
 
 ;; describe-unbound-keys
 (load-library "unbound")
+
+(defun dos2unix ()
+   (interactive)
+   (beginning-of-buffer)
+   (while 
+       (search-forward "\r") 
+     (replace-match "")))
