@@ -13661,11 +13661,11 @@ Created by Dave Benjamin <ramen@ramenfest.com> Dec 23 2005."
        ((background-color . "#101048")
 		(background-mode . dark)
 		(border-color . "Grey")
-		(cursor-color . "Grey")
+		(cursor-color . "dim gray") ; Grey
 		(foreground-color . "Grey")
 		(mouse-color . "Grey"))
        ((Man-overstrike-face . woman-bold-face)
-	(Man-underline-face . woman-italic-face))
+		(Man-underline-face . woman-italic-face))
        (default ((t (nil))))
        (bold ((t (nil))))
        (bold-italic ((t (:foreground "beige"))))
