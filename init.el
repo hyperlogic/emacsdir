@@ -1,5 +1,8 @@
 ;; my little .emacs.el file
 
+;; show line & column in status
+(setq column-number-mode t)
+
 ;; color shell
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
@@ -11,14 +14,19 @@
 (setq load-path (cons "~/.emacs.d/" load-path))
 
 ;; turn off anti-aliasing
-(setq mac-allow-anti-aliasing nil)
+;(setq mac-allow-anti-aliasing nil)
 ;; Note: be sure to also enter the following into the shell
 ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
 
 ;; xcode font
-(set-face-attribute 'default nil :family "monaco" :height 100)
-(setq my-window-width 234)
-(setq my-window-height 65)
+;(set-face-attribute 'default nil :family "Monaco" :height 95)
+;(setq my-window-width 234)
+;(setq my-window-height 70)
+
+;; Textmate style text
+(set-face-attribute 'default nil :family "Monaco" :height 110)
+(setq my-window-width 200)
+(setq my-window-height 60)
 
 ;; large courier
 ;(set-face-attribute 'default nil :family "courier new" :height 130)
@@ -32,11 +40,16 @@
 
 ;; main frame
 (setq initial-frame-alist
-      `((title . "emacs")
-        (top . 0)
+      `((top . 0)
         (left . 0)
 		(width . ,my-window-width)
 		(height . ,my-window-height)))
+
+;; use command key as meta
+(setq mac-command-modifier 'meta)
+
+;; no highlighted text when selecting.
+(transient-mark-mode nil)
 
 ;; no startup message
 (setq inhibit-startup-message t)
@@ -51,8 +64,8 @@
 	  version-control t)
 
 ;; hide tool bar & menu
-(menu-bar-mode nil)
-(tool-bar-mode nil)
+(menu-bar-mode -1)
+(tool-bar-mode 0)
 
 ;; color-theme
 (setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
@@ -61,6 +74,10 @@
 (if window-system
 	(color-theme-ajt-no-bold-blue-sea)
     (color-theme-charcoal-black))
+
+;(color-theme-charcoal-black)
+(color-theme-ajt-no-bold-blue-sea)
+;(color-theme-high-contrast)
 
 ;; syntax highlighting for c++
 (setq c-basic-offset 4)
@@ -151,8 +168,8 @@
 ;; glsl-mode
 (load-library "glsl-mode")
 
-;; ruby-mode
-(load-library "ruby-mode")
+;; ruby-mode NOTE: now included in 23.1
+;;(load-library "ruby-mode")
 
 ;; assign modes to file extentions
 (setq auto-mode-alist
@@ -164,6 +181,7 @@
 				("\\.glsl$" . glsl-mode)
 				("\\.m$"    . objc-mode)
 				("\\.mm$"   . objc-mode)
+				("\\.el$"   . lisp-mode)
 			  auto-mode-alist)))
 
 (add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
