@@ -1,5 +1,9 @@
 ;; my little .emacs.el file
 
+;; which system are we running on.
+(setq uname (substring (shell-command-to-string "uname") 0 -1))
+(setq host (substring (shell-command-to-string "hostname") 0 -1))
+
 ;; color shell
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
@@ -10,31 +14,30 @@
 ;; add .emacs.d to load path
 (setq load-path (cons "~/.emacs.d/" load-path))
 
-;; turn off anti-aliasing
-(setq mac-allow-anti-aliasing nil)
-;; Note: be sure to also enter the following into the shell
-;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
+(if (string= "Darwin" uname)
+	(progn
+	  ;; turn off anti-aliasing
+	  (setq mac-allow-anti-aliasing nil)
+	  ;; Note: be sure to also enter the following into the shell
+	  ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
 
-;; xcode font
-(set-face-attribute 'default nil :family "monaco" :height 100)
-(setq my-window-width 234)
-(setq my-window-height 65)
-
-;; large courier
-;(set-face-attribute 'default nil :family "courier new" :height 130)
-;(setq my-window-width 176)
-;(setq my-window-height 57)
+	  ;; xcode font
+	  (set-face-attribute 'default nil :family "monaco" :height 100)
+	  (setq my-window-width 234)
+	  (setq my-window-height 65)))
 
 ;; windows
-;(set-face-attribute 'default nil :family "courier new" :height 130)
-;(setq my-window-width 176)
-;(setq my-window-height 64)
+(if (string= uname "MINGW32_NT-5.1")
+	(progn
+	  (set-face-attribute 'default nil :family "courier new" :height 100)
+	  (setq my-window-width 154)
+	  (setq my-window-height 60)))
 
 ;; main frame
 (setq initial-frame-alist
-      `((title . "emacs")
-        (top . 0)
-        (left . 0)
+	  `((title . "emacs")
+		(top . 0)
+		(left . 0)
 		(width . ,my-window-width)
 		(height . ,my-window-height)))
 
