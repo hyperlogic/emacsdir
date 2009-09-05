@@ -1,5 +1,9 @@
 ;; my little .emacs.el file
 
+;; which system are we running on.
+(setq uname (substring (shell-command-to-string "uname") 0 -1))
+(setq host (substring (shell-command-to-string "hostname") 0 -1))
+
 ;; show line & column in status
 (setq column-number-mode t)
 
@@ -13,30 +17,33 @@
 ;; add .emacs.d to load path
 (setq load-path (cons "~/.emacs.d/" load-path))
 
-;; turn off anti-aliasing
-;(setq mac-allow-anti-aliasing nil)
-;; Note: be sure to also enter the following into the shell
-;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
+(if (string= "Darwin" uname)
+	(progn
+	  ;; turn off anti-aliasing
+	  ;(setq mac-allow-anti-aliasing nil)
 
-;; xcode font
-;(set-face-attribute 'default nil :family "Monaco" :height 95)
-;(setq my-window-width 234)
-;(setq my-window-height 70)
+	  ;; Note: be sure to also enter the following into the shell
+	  ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
 
-;; Textmate style text
-(set-face-attribute 'default nil :family "Monaco" :height 110)
-(setq my-window-width 200)
-(setq my-window-height 60)
+	  ;; tiny xcode font
+	  ;(set-face-attribute 'default nil :family "monaco" :height 100)
+	  ;(setq my-window-width 234)
+	  ;(setq my-window-height 65)
 
-;; large courier
-;(set-face-attribute 'default nil :family "courier new" :height 130)
-;(setq my-window-width 176)
-;(setq my-window-height 57)
+	  ;; Textmate style text
+	  (set-face-attribute 'default nil :family "Monaco" :height 110)
+	  (setq my-window-width 200)
+	  (setq my-window-height 60)
+
+	  ;; use command key as meta
+	  (setq mac-command-modifier 'meta)))
 
 ;; windows
-;(set-face-attribute 'default nil :family "courier new" :height 130)
-;(setq my-window-width 176)
-;(setq my-window-height 64)
+(if (string= uname "MINGW32_NT-5.1")
+	(progn
+	  (set-face-attribute 'default nil :family "courier new" :height 100)
+	  (setq my-window-width 154)
+	  (setq my-window-height 60)))
 
 ;; main frame
 (setq initial-frame-alist
@@ -44,9 +51,6 @@
         (left . 0)
 		(width . ,my-window-width)
 		(height . ,my-window-height)))
-
-;; use command key as meta
-(setq mac-command-modifier 'meta)
 
 ;; no highlighted text when selecting.
 (transient-mark-mode nil)
