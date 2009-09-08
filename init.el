@@ -173,7 +173,8 @@
 (load-library "glsl-mode")
 
 ;; ruby-mode NOTE: now included in 23.1
-;;(load-library "ruby-mode")
+(when (< emacs-major-version 23)
+  (load-library "ruby-mode"))
 
 ;; assign modes to file extentions
 (setq auto-mode-alist
