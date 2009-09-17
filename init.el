@@ -17,6 +17,10 @@
 ;; add .emacs.d to load path
 (setq load-path (cons "~/.emacs.d/" load-path))
 
+;; revert buffers when they change on disk (except if they are modified)
+(setq revert-without-query '("."))
+
+;; macbook
 (if (string= "Darwin" uname)
 	(progn
 	  ;; turn off anti-aliasing
@@ -38,12 +42,26 @@
 	  ;; use command key as meta
 	  (setq mac-command-modifier 'meta)))
 
-;; windows
+;; windows (home)
 (if (string= uname "MINGW32_NT-5.1")
 	(progn
 	  (set-face-attribute 'default nil :family "courier new" :height 100)
 	  (setq my-window-width 154)
 	  (setq my-window-height 60)))
+
+;; windows (work)
+(if (string= host "RWCWRK_7001077")
+    (progn
+      ;; turn off line wrapping.
+      (set-default 'truncate-lines t)
+
+      ;; set window size
+      (set-face-attribute 'default nil :family "courier new" :height 80)
+      (setq my-window-width 222)
+      (setq my-window-height 81)
+
+      ;; set-up build
+      (setq compile-command "cd C:\\tras& easymake xenon_debug")))
 
 ;; main frame
 (setq initial-frame-alist
@@ -239,3 +257,8 @@
    (while 
        (search-forward "\r") 
      (replace-match "")))
+
+(defun ajt-load-init ()
+  "Load my init.el file into a buffer"
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
