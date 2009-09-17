@@ -258,7 +258,32 @@
        (search-forward "\r") 
      (replace-match "")))
 
+
 (defun ajt-load-init ()
   "Load my init.el file into a buffer"
   (interactive)
   (find-file "~/.emacs.d/init.el"))
+
+
+;;
+;; Open a Dired buffer in common TRAS directories
+;;
+(defun ajt-cdc-code ()
+  "Dired cdc code dir"
+  (interactive)
+  (find-file "C:/TRAS/cdc/runtime"))
+
+(defun ajt-game-code ()
+  "Dired game code dir"
+  (interactive)
+  (find-file "C:/TRAS/code/game"))
+
+(defun ajt-cdc-dtp ()
+  "Dired cdc dtp dir"
+  (interactive)
+  (find-file "C:/TRAS/cdc/dtp"))
+
+(defun ajt-dtp ()
+  "Dired dtp dir"
+  (interactive)
+  (find-file "C:/TRAS/dtp"))
