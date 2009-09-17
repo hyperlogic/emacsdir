@@ -40,7 +40,8 @@
 	  (setq my-window-height 60)
 
 	  ;; use command key as meta
-	  (setq mac-command-modifier 'meta)))
+	  (setq mac-command-modifier 'meta)
+	  (setq compile-command (concat "cd ~/code/lacquer/src/; rake debug"))))
 
 ;; windows (home)
 (if (string= uname "MINGW32_NT-5.1")
@@ -175,7 +176,7 @@
 
 ;; compile
 (global-set-key [f7] 'compile)
-(setq compile-command (concat "cd ~/code/lacquer/src/; rake debug"))
+
 
 ;; scrolling output
 (setq compilation-scroll-output t)
@@ -259,7 +260,7 @@
      (replace-match "")))
 
 
-(defun ajt-load-init ()
+(defun ajt-init ()
   "Load my init.el file into a buffer"
   (interactive)
   (find-file "~/.emacs.d/init.el"))
