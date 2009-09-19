@@ -13706,6 +13706,15 @@ Created by Dave Benjamin <ramen@ramenfest.com> Dec 23 2005."
        (eshell-ls-symlink-face ((t (:foreground "white"))))
        (eshell-ls-unreadable-face ((t (:foreground "dim gray"))))
        (eshell-prompt-face ((t (:foreground "light sky blue"))))
+
+	   (ebrowse-default-face ((t (nil))))
+	   (ebrowse-file-name-face ((t (nil))))
+	   (ebrowse-member-attribute-face ((t (:foreground "aquamarine"))))
+	   (ebrowse-member-class-face ((t (:foreground "sky blue"))))
+	   (ebrowse-progress-face ((t (:background "blue"))))
+	   (ebrowse-root-class-face ((t (:foreground "pale green"))))
+	   (ebrowse-tree-mark-face ((t (:foreground "pale turquise"))))
+
        (excerpt ((t (:italic t))))
        (fixed ((t (nil))))
        (flyspell-duplicate-face ((t (:foreground "Gold3" :underline t))))

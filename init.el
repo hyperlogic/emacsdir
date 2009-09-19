@@ -18,7 +18,7 @@
 (setq load-path (cons "~/.emacs.d/" load-path))
 
 ;; revert buffers when they change on disk (except if they are modified)
-(setq revert-without-query '("."))
+;; (setq revert-without-query '("."))
 
 ;; macbook
 (if (string= "Darwin" uname)
@@ -176,7 +176,7 @@
 
 ;; compile
 (global-set-key [f7] 'compile)
-
+(global-set-key [f9] 'compile)
 
 ;; scrolling output
 (setq compilation-scroll-output t)
@@ -197,15 +197,18 @@
 
 ;; assign modes to file extentions
 (setq auto-mode-alist
-      (append '(("\\.cpp$"  . c++-mode)
-				("\\.h$"    . c++-mode)
-				("\\.c$"    . c-mode)
-				("\\.txt$"  . text-mode)
-			    ("\\.rb$"   . ruby-mode)
+      (append '(("\\.cpp$" . c++-mode)
+				("\\.h$" . c++-mode)
+				("\\.c$" . c-mode)
+				("\\.txt$" . text-mode)
+			    ("\\.rb$" . ruby-mode)
 				("\\.glsl$" . glsl-mode)
-				("\\.m$"    . objc-mode)
-				("\\.mm$"   . objc-mode)
-				("\\.el$"   . lisp-mode)
+				("\\.m$" . objc-mode)
+				("\\.mm$" . objc-mode)
+				("\\.el$" . lisp-mode)
+				("\\.dtp$" . xml-mode)
+				("\\.dtpinc$" . xml-mode)
+				("\BROWSE$" . ebrowse-tree-mode)
 			  auto-mode-alist)))
 
 (add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
@@ -288,3 +291,9 @@
   "Dired dtp dir"
   (interactive)
   (find-file "C:/TRAS/dtp"))
+
+(defun ajt-browse ()
+  "open up ebrowser"
+  (interactive)
+  (find-file "C:/Documents and Settings/tthibault/ebrowse/BROWSE"))
+
