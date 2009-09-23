@@ -20,6 +20,9 @@
 ;; revert buffers when they change on disk (except if they are modified)
 ;; (setq revert-without-query '("."))
 
+;; automatically revert buffers if they change on disk
+(global-auto-revert-mode)
+
 ;; macbook
 (if (string= "Darwin" uname)
 	(progn
@@ -62,7 +65,38 @@
       (setq my-window-height 81)
 
       ;; set-up build
-      (setq compile-command "cd C:\\tras& easymake xenon_debug")))
+      (setq compile-command "cd C:\\tras& easymake xenon_debug")
+
+	  ;;
+	  ;; Open a Dired buffer in common TRAS directories
+	  ;;
+	  (defun ajt-cdc-code ()
+		"Dired cdc code dir"
+		(interactive)
+		(find-file "C:/TRAS/cdc/runtime"))
+
+	  (defun ajt-game-code ()
+		"Dired game code dir"
+		(interactive)
+		(find-file "C:/TRAS/code/game"))
+
+	  (defun ajt-cdc-dtp ()
+		"Dired cdc dtp dir"
+		(interactive)
+		(find-file "C:/TRAS/cdc/dtp"))
+
+	  (defun ajt-dtp ()
+		"Dired dtp dir"
+		(interactive)
+		(find-file "C:/TRAS/dtp"))
+
+	  (defun ajt-browse ()
+		"open up ebrowser"
+		(interactive)
+		(find-file "C:/Documents and Settings/tthibault/ebrowse/BROWSE"))
+
+	  ;; perforce commands
+	  (load-library "p4")))
 
 ;; main frame
 (setq initial-frame-alist
@@ -267,33 +301,4 @@
   "Load my init.el file into a buffer"
   (interactive)
   (find-file "~/.emacs.d/init.el"))
-
-
-;;
-;; Open a Dired buffer in common TRAS directories
-;;
-(defun ajt-cdc-code ()
-  "Dired cdc code dir"
-  (interactive)
-  (find-file "C:/TRAS/cdc/runtime"))
-
-(defun ajt-game-code ()
-  "Dired game code dir"
-  (interactive)
-  (find-file "C:/TRAS/code/game"))
-
-(defun ajt-cdc-dtp ()
-  "Dired cdc dtp dir"
-  (interactive)
-  (find-file "C:/TRAS/cdc/dtp"))
-
-(defun ajt-dtp ()
-  "Dired dtp dir"
-  (interactive)
-  (find-file "C:/TRAS/dtp"))
-
-(defun ajt-browse ()
-  "open up ebrowser"
-  (interactive)
-  (find-file "C:/Documents and Settings/tthibault/ebrowse/BROWSE"))
 
