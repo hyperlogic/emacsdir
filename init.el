@@ -67,36 +67,33 @@
       ;; set-up build
       (setq compile-command "cd C:\\tras& easymake xenon_debug")
 
-	  ;;
-	  ;; Open a Dired buffer in common TRAS directories
-	  ;;
-	  (defun ajt-cdc-code ()
+      ;;
+      ;; Open a Dired buffer in common TRAS directories
+      ;;
+      (defun ajt-cdc-code ()
 		"Dired cdc code dir"
 		(interactive)
 		(find-file "C:/TRAS/cdc/runtime"))
 
-	  (defun ajt-game-code ()
+      (defun ajt-game-code ()
 		"Dired game code dir"
 		(interactive)
 		(find-file "C:/TRAS/code/game"))
 
-	  (defun ajt-cdc-dtp ()
+      (defun ajt-cdc-dtp ()
 		"Dired cdc dtp dir"
 		(interactive)
 		(find-file "C:/TRAS/cdc/dtp"))
 
-	  (defun ajt-dtp ()
+      (defun ajt-dtp ()
 		"Dired dtp dir"
 		(interactive)
 		(find-file "C:/TRAS/dtp"))
 
-	  (defun ajt-browse ()
+      (defun ajt-browse ()
 		"open up ebrowser"
 		(interactive)
-		(find-file "C:/Documents and Settings/tthibault/ebrowse/BROWSE"))
-
-	  ;; perforce commands
-	  (load-library "p4")))
+		(find-file "C:/Documents and Settings/tthibault/ebrowse/BROWSE"))))
 
 ;; main frame
 (setq initial-frame-alist
