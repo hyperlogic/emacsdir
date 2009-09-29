@@ -1,4 +1,4 @@
-;; my little .emacs.el file
+\;; my little .emacs.el file
 
 ;; which system are we running on.
 (setq uname (substring (shell-command-to-string "uname") 0 -1))
@@ -233,6 +233,8 @@
 				("\\.c$" . c-mode)
 				("\\.txt$" . text-mode)
 			    ("\\.rb$" . ruby-mode)
+				("\\.dd$" . ruby-mode)  ; bbq data definition file
+				("\\.di$" . ruby-mode)  ; bbq data instance file
 				("\\.glsl$" . glsl-mode)
 				("\\.m$" . objc-mode)
 				("\\.mm$" . objc-mode)
