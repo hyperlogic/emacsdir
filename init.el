@@ -1,4 +1,4 @@
-\;; my little .emacs.el file
+;; my little .emacs.el file
 
 ;; which system are we running on.
 (setq uname (substring (shell-command-to-string "uname") 0 -1))
@@ -22,6 +22,11 @@
 
 ;; automatically revert buffers if they change on disk
 (global-auto-revert-mode)
+
+;; defaults
+(setq my-window-width 80)
+(setq my-window-height 25)
+
 
 ;; macbook
 (if (string= "Darwin" uname)
@@ -236,8 +241,9 @@
 				("\\.c$" . c-mode)
 				("\\.txt$" . text-mode)
 			    ("\\.rb$" . ruby-mode)
-				("\\.dd$" . ruby-mode)  ; bbq data definition file
-				("\\.di$" . ruby-mode)  ; bbq data instance file
+				("\\.dd$" . ruby-mode)   ; bbq data definition file
+				("\\.di$" . ruby-mode)   ; bbq data instance file
+				("\\.bin$" . hexl-mode)  ; binary blob
 				("\\.glsl$" . glsl-mode)
 				("\\.m$" . objc-mode)
 				("\\.mm$" . objc-mode)
