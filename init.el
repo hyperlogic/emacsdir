@@ -93,7 +93,10 @@
       (defun ajt-browse ()
 		"open up ebrowser"
 		(interactive)
-		(find-file "C:/Documents and Settings/tthibault/ebrowse/BROWSE"))))
+		(find-file "C:/Documents and Settings/tthibault/ebrowse/BROWSE"))
+
+	  ;; use TAGS file in these dirs.
+	  (setq tags-table-list '("~/.emacs.d/etags"))))
 
 ;; main frame
 (setq initial-frame-alist
