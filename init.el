@@ -43,9 +43,14 @@
 	  ;(setq my-window-height 65)
 
 	  ;; Textmate style text
-	  (set-face-attribute 'default nil :family "Monaco" :height 110)
+	  (set-face-attribute 'default nil :family "Monaco" :height 110)  
 	  (setq my-window-width 200)
 	  (setq my-window-height 60)
+
+	  ;; vt220
+	  ;(set-face-attribute 'default nil :family "Glass_TTY_VT220" :height 130)
+	  ;(setq my-window-width 200)
+	  ;(setq my-window-height 70)
 
 	  ;; use command key as meta
 	  (setq mac-command-modifier 'meta)
