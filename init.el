@@ -75,7 +75,7 @@
       (setq my-window-height 81)
 
       ;; set-up build
-      (setq compile-command "cd C:\\tras& easymake xenon_debug")
+      (setq compile-command "cd D:\\tras& easymake xenon_debug")
 
       ;;
       ;; Open a Dired buffer in common TRAS directories
@@ -83,27 +83,32 @@
       (defun ajt-cdc-code ()
 		"Dired cdc code dir"
 		(interactive)
-		(find-file "C:/TRAS/cdc/runtime"))
+		(find-file "D:/TRAS/cdc/runtime"))
 
       (defun ajt-game-code ()
 		"Dired game code dir"
 		(interactive)
-		(find-file "C:/TRAS/code/game"))
+		(find-file "D:/TRAS/code/game"))
 
       (defun ajt-cdc-dtp ()
 		"Dired cdc dtp dir"
 		(interactive)
-		(find-file "C:/TRAS/cdc/dtp"))
+		(find-file "D:/TRAS/cdc/dtp"))
 
       (defun ajt-dtp ()
 		"Dired dtp dir"
 		(interactive)
-		(find-file "C:/TRAS/dtp"))
+		(find-file "D:/TRAS/dtp"))
+
+	  (defun ajt-build-tags ()
+		(interactive)
+		(shell-command "cd %HOME%/.emacs.d/ebrowse/& ruby makefiles.rb")
+		(shell-command "cd %HOME%/.emacs.d/etags/& ruby makefiles.rb"))
 
       (defun ajt-browse ()
 		"open up ebrowser"
 		(interactive)
-		(find-file "C:/Documents and Settings/tthibault/ebrowse/BROWSE"))
+		(find-file "~/.emacs.d/ebrowse/BROWSE"))
 
 	  ;; use TAGS file in these dirs.
 	  (setq tags-table-list '("~/.emacs.d/etags"))))
