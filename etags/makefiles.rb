@@ -1,8 +1,8 @@
 
 # Builds emacs TAGS files from all the src files in the PATHS directory.
 
-PATHS = ['c:/TRAS/cdc/runtime',
-         'c:/TRAS/code/game']
+PATHS = ['D:/TRAS/cdc/runtime',
+         'D:/TRAS/code/game']
 
 # ends in .h or .cpp (case insensitive match)
 SRC_PATTERN = /\.[hH]\z|\.[cC][pP][pP]\z/

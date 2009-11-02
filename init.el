@@ -67,6 +67,9 @@
       ;; set-up build
       (setq compile-command "cd D:\\tras& easymake xenon_debug")
 
+	  ;; ispell not available on windows
+	  (setq-default ispell-program-name "aspell")
+
       ;;
       ;; Open a Dired buffer in common TRAS directories
       ;;
