@@ -105,13 +105,29 @@
 
 	  (defun ajt-build-tags ()
 		(interactive)
-		(shell-command "cd %HOME%/.emacs.d/ebrowse/& ruby makefiles.rb")
-		(shell-command "cd %HOME%/.emacs.d/etags/& ruby makefiles.rb"))
+		(shell-command "c:& cd %HOME%/.emacs.d/ebrowse/& ruby makefiles.rb")
+		(shell-command "c:& cd %HOME%/.emacs.d/etags/& ruby makefiles.rb"))
 
       (defun ajt-browse ()
 		"open up ebrowser"
 		(interactive)
 		(find-file "~/.emacs.d/ebrowse/BROWSE"))
+
+	  (defun ajt-dtp-search (arg)
+		"search for a regex in all dtp files"
+		(interactive "sgrep-regexp:")
+		(start-process-shell-command "my-process" "*dtp-search*"
+									 (concat "find d:/tras/cdc/dtp d:/tras/code/dtp ( -name \"*.dtp\" -o -name \"*.dtpinc\" ) -type f -print0 | xargs -0 -e grep -nH -e " arg))
+		(pop-to-buffer "*dtp-search*")
+		(compilation-mode))
+
+	  (defun ajt-code-search (arg)
+		"search for a regex in all code files"
+		(interactive "sgrep-regexp:")
+		(start-process-shell-command "my-process" "*code-search*"
+									 (concat "find d:/tras/cdc/runtime d:/tras/code/game/ ( -name \"*.cpp\" -o -name \"*.h\" ) -type f -print0 | xargs -0 -e grep -nH -e " arg))
+		(pop-to-buffer "*code-search*")
+		(compilation-mode))
 
 	  ;; use TAGS file in these dirs.
 	  (setq tags-table-list '("~/.emacs.d/etags"))))
@@ -229,6 +245,9 @@
 ;; compile
 (global-set-key [f7] 'compile)
 (global-set-key [f9] 'compile)
+
+;; kbd-macros
+(global-set-key [f1] 'call-last-kbd-macro)
 
 ;; scrolling output
 (setq compilation-scroll-output t)
