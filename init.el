@@ -23,6 +23,9 @@
 ;; automatically revert buffers if they change on disk
 (global-auto-revert-mode)
 
+;; dont jump around so much when scrolling.
+(setq scroll-step 10)
+
 ;; defaults
 (setq my-window-width 80)
 (setq my-window-height 25)
@@ -342,3 +345,17 @@
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 
+
+;; http://stackoverflow.com/questions/145291/smart-home-in-emacs
+(defun smart-beginning-of-line ()
+  "Move point to first non-whitespace character or beginning-of-line.
+
+Move point to the first non-whitespace character on this line.
+If point was already at that position, move point to beginning of line."
+  (interactive)
+  (let ((oldpos (point)))
+    (back-to-indentation)
+    (and (= oldpos (point))
+         (beginning-of-line))))
+
+(global-set-key "\C-a" 'smart-beginning-of-line)
