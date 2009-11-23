@@ -262,6 +262,9 @@
 ;; other-frame
 (global-set-key [f5] 'other-frame)
 
+;; prevent this from invoking suspend-frame, cause it's ANNOYING
+(global-set-key "\C-x\C-z" nil)
+
 ;; glsl-mode
 (load-library "glsl-mode")
 
