@@ -362,3 +362,26 @@ If point was already at that position, move point to beginning of line."
          (beginning-of-line))))
 
 (global-set-key "\C-a" 'smart-beginning-of-line)
+
+(defun ajt-header-swap ()
+  "Swap between .h & .cpp files"
+  (interactive)
+  (let* ((filename (buffer-file-name (current-buffer)))
+		 (ext (file-name-extension filename))
+		 (cpp (concat (file-name-sans-extension filename) ".cpp"))
+		 (hdr (concat (file-name-sans-extension filename) ".h")))
+	(cond
+	 ((and (string= ext "h") (file-exists-p cpp))
+	  (find-file cpp))
+	 ((and (string= ext "cpp") (file-exists-p hdr))
+	  (find-file hdr))
+	 ((string= ext "h")
+	  (error "could not find \"%s\"" cpp))
+	 ((string= ext "cpp")
+	  (error "could not find \"%s\"" h))
+	 ('t
+	  (error "not a .h or .cpp file")))))
+
+;; was mark-whole-buffer
+(global-set-key "\C-x\h" 'ajt-header-swap)
+		
