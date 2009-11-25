@@ -384,4 +384,10 @@ If point was already at that position, move point to beginning of line."
 
 ;; was mark-whole-buffer
 (global-set-key "\C-x\h" 'ajt-header-swap)
-		
+
+
+(defun ajt-p4-edit ()
+  "Checkout the current buffer"
+  (interactive)
+  (shell-command (format "p4 edit %s" (buffer-file-name (current-buffer)))))
+  
