@@ -18,7 +18,7 @@
 (setq load-path (cons "~/.emacs.d/" load-path))
 
 ;; revert buffers when they change on disk (except if they are modified)
-;; (setq revert-without-query '("."))
+(setq revert-without-query '("."))
 
 ;; automatically revert buffers if they change on disk
 (global-auto-revert-mode)
@@ -34,6 +34,11 @@
 ;; macbook
 (if (string= "Darwin" uname)
 	(progn
+
+	  ;; go stuff
+	  (add-to-list 'load-path "~/go/misc/emacs/" t)
+	  (require 'go-mode-load)
+
 	  ;; turn off anti-aliasing
 	  ;(setq mac-allow-anti-aliasing nil)
 
@@ -41,17 +46,17 @@
 	  ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
 
 	  ;; tiny xcode font
-	  ;(set-face-attribute 'default nil :family "monaco" :height 100)
+	  ;(set-face-attribute 'default nil :family "Monaco" :height 100)
 	  ;(setq my-window-width 234)
-	  ;(setq my-window-height 65)
+	  ;(setq my-window-height 70)
 
 	  ;; Textmate style text
-	  (set-face-attribute 'default nil :family "Monaco" :height 110)  
+	  (set-face-attribute 'default nil :family "Monaco" :height 130)
 	  (setq my-window-width 200)
 	  (setq my-window-height 60)
 
 	  ;; vt220
-	  ;(set-face-attribute 'default nil :family "Glass_TTY_VT220" :height 130)
+	  ;(set-face-attribute 'default nil :family "Glass_TTY_VT220" :height 200)
 	  ;(setq my-window-width 200)
 	  ;(setq my-window-height 70)
 
@@ -288,6 +293,7 @@
 				("\\.el$" . lisp-mode)
 				("\\.dtp$" . xml-mode)
 				("\\.dtpinc$" . xml-mode)
+				("\\.go$" . go-mode)
 				("\BROWSE$" . ebrowse-tree-mode)
 			  auto-mode-alist)))
 
