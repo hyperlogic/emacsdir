@@ -4,8 +4,8 @@
 PATHS = ['D:/TRAS/cdc/runtime',
          'D:/TRAS/code/game']
 
-# ends in .h or .cpp (case insensitive match)
-SRC_PATTERN = /\.[hH]\z|\.[cC][pP][pP]\z/
+# ends in .h, .cpp or .c (case insensitive match)
+SRC_PATTERN = /\.[hH]\z|\.[cC][pP][pP]\z|\.[cC]\z/
 
 OUTPUT_FILE = 'srcfiles.txt'
 
