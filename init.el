@@ -78,7 +78,7 @@
       (setq my-window-height 81)
 
       ;; set-up build
-      (setq compile-command "cd D:\\tras& easymake xenon_fastrelease -noopts")
+      (setq compile-command "cd D:\\tras& easymake xenon_debug")
 
 	  ;; ispell not available on windows
 	  (setq-default ispell-program-name "aspell")
