@@ -390,4 +390,22 @@ If point was already at that position, move point to beginning of line."
 
 ;; was mark-whole-buffer
 (global-set-key "\C-x\h" 'ajt-header-swap)
-		
+
+
+(defun ajt-p4-edit ()
+  "Checkout the current buffer"
+  (interactive)
+  (shell-command (format "p4 edit %s" (buffer-file-name (current-buffer))))
+  (revert-buffer))
+
+(defun ajt-chmod-writeable ()
+  "make current buffer rw-rw-rw-"
+  (interactive)
+  (chmod (buffer-file-name (current-buffer)) 666)
+  (revert-buffer))
+  
+(defun ajt-chmod-read-only ()
+  "make current buffer read-only r--r--r--"
+  (interactive)
+  (chmod (buffer-file-name (current-buffer)) 444)
+  (revert-buffer))
