@@ -51,7 +51,7 @@
 	  ;(setq my-window-height 70)
 
 	  ;; Textmate style text
-	  (set-face-attribute 'default nil :family "Monaco" :height 130)
+	  (set-face-attribute 'default nil :family "Monaco" :height 120)
 	  (setq my-window-width 200)
 	  (setq my-window-height 60)
 
