@@ -172,8 +172,9 @@
 	  version-control t)
 
 ;; hide tool bar & menu
+(when window-system
+  (tool-bar-mode -1))
 (menu-bar-mode -1)
-(tool-bar-mode 0)
 
 ;; color-theme
 (setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
