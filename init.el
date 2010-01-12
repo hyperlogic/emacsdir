@@ -40,7 +40,7 @@
 	  (require 'go-mode-load)
 
 	  ;; turn off anti-aliasing
-	  ;(setq mac-allow-anti-aliasing nil)
+	  (setq mac-allow-anti-aliasing t)
 
 	  ;; Note: be sure to also enter the following into the shell
 	  ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
@@ -48,12 +48,23 @@
 	  ;; tiny xcode font
 	  ;(set-face-attribute 'default nil :family "Monaco" :height 100)
 	  ;(setq my-window-width 234)
-	  ;(setq my-window-height 70)
+	  ;(setq my-window-height 71)
 
-	  ;; Textmate style text
+	  ;; Textmate style text (23.1)
 	  (set-face-attribute 'default nil :family "Monaco" :height 120)
 	  (setq my-window-width 200)
+	  (setq my-window-height 56)
+
+	  ;; New Snow Leopard Font...
+	  (set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 120)
+	  (setq my-window-width 200)
 	  (setq my-window-height 60)
+
+	  ;; HUGE for presentations
+	  ;(set-face-attribute 'default nil :family "Monaco" :height 220)
+	  ;(setq my-window-width 10)
+	  ;(setq my-window-height 10)
+
 
 	  ;; vt220
 	  ;(set-face-attribute 'default nil :family "Glass_TTY_VT220" :height 200)
@@ -147,8 +158,6 @@
 		(width . ,my-window-width)
 		(height . ,my-window-height)))
 
-;; no highlighted text when selecting.
-(transient-mark-mode nil)
 
 ;; no startup message
 (setq inhibit-startup-message t)
@@ -256,6 +265,9 @@
 
 ;; kbd-macros
 (global-set-key [f1] 'call-last-kbd-macro)
+(global-set-key [f2] 'start-kbd-macro)
+(global-set-key [f3] 'end-kbd-macro)
+
 
 ;; scrolling output
 (setq compilation-scroll-output t)
@@ -409,3 +421,6 @@ If point was already at that position, move point to beginning of line."
   (interactive)
   (chmod (buffer-file-name (current-buffer)) 444)
   (revert-buffer))
+
+;; no highlighted text when selecting.
+(transient-mark-mode nil)
