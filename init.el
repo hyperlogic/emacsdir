@@ -51,11 +51,11 @@
 	  ;(setq my-window-height 71)
 
 	  ;; Textmate style text (23.1)
-	  (set-face-attribute 'default nil :family "Monaco" :height 120)
-	  (setq my-window-width 200)
-	  (setq my-window-height 56)
+	  ;(set-face-attribute 'default nil :family "Monaco" :height 120)
+	  ;(setq my-window-width 200)
+	  ;(setq my-window-height 56)
 
-	  ;; New Snow Leopard Font...
+	  ;; Bitstream Vera Sans Mono 
 	  (set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 120)
 	  (setq my-window-width 200)
 	  (setq my-window-height 60)
