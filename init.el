@@ -73,9 +73,9 @@
       (set-default 'truncate-lines t)
 
       ;; set window size
-      (set-face-attribute 'default nil :family "courier new" :height 80)
-      (setq my-window-width 222)
-      (setq my-window-height 81)
+      (set-face-attribute 'default nil :family "consolas" :height 110)
+      (setq my-window-width 195)
+      (setq my-window-height 63)
 
       ;; set-up build
       (setq compile-command "cd D:\\tras& easymake xenon_debug")
@@ -132,6 +132,15 @@
 		(pop-to-buffer "*code-search*")
 		(compilation-mode))
 
+	  (defun ajt-graph-search (arg)
+		"search for a regex in all graph dat files"
+		(interactive "sgrep-regexp:")
+		(start-process-shell-command "my-process" "*code-search*"
+									 (concat "find d:/tras/area/ d:/tras/object/ d:/tras/design/ ( -name \"*.dat\" -o -name \"*.admd\" -o -name \"*.ags\" ) -type f -print0 | xargs -0 -e grep -nH -e " arg))
+		(pop-to-buffer "*code-search*")
+		(compilation-mode))
+	  
+
 	  ;; use TAGS file in these dirs.
 	  (setq tags-table-list '("~/.emacs.d/etags"))))
 
@@ -165,9 +174,6 @@
 (setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
 (require 'color-theme)
 (color-theme-initialize)
-(if window-system
-	(color-theme-ajt-no-bold-blue-sea)
-    (color-theme-charcoal-black))
 
 ;(color-theme-charcoal-black)
 (color-theme-ajt-no-bold-blue-sea)
@@ -251,6 +257,9 @@
 
 ;; kbd-macros
 (global-set-key [f1] 'call-last-kbd-macro)
+(global-set-key [f2] 'start-kbd-macro)
+(global-set-key [f3] 'end-kbd-macro)
+(global-set-key [f4] 'next-error)
 
 ;; scrolling output
 (setq compilation-scroll-output t)
@@ -403,3 +412,6 @@ If point was already at that position, move point to beginning of line."
   (interactive)
   (chmod (buffer-file-name (current-buffer)) 444)
   (revert-buffer))
+
+;; for twiki page editing M-x erin-mode
+(require 'erin)
