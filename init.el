@@ -441,7 +441,7 @@ If point was already at that position, move point to beginning of line."
   (revert-buffer))
 
 ;; for twiki page editing M-x erin-mode
-(require 'erin)
+;;(require 'erin)
 
 ;; no highlighted text when selecting.
 (transient-mark-mode nil)
