@@ -18,7 +18,7 @@
 (setq load-path (cons "~/.emacs.d/" load-path))
 
 ;; revert buffers when they change on disk (except if they are modified)
-;; (setq revert-without-query '("."))
+(setq revert-without-query '("."))
 
 ;; automatically revert buffers if they change on disk
 (global-auto-revert-mode)
@@ -34,24 +34,40 @@
 ;; macbook
 (if (string= "Darwin" uname)
 	(progn
+
+	  ;; go stuff
+	  (add-to-list 'load-path "~/go/misc/emacs/" t)
+	  (require 'go-mode-load)
+
 	  ;; turn off anti-aliasing
-	  ;(setq mac-allow-anti-aliasing nil)
+	  (setq mac-allow-anti-aliasing t)
 
 	  ;; Note: be sure to also enter the following into the shell
 	  ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
 
 	  ;; tiny xcode font
-	  ;(set-face-attribute 'default nil :family "monaco" :height 100)
+	  ;(set-face-attribute 'default nil :family "Monaco" :height 100)
 	  ;(setq my-window-width 234)
-	  ;(setq my-window-height 65)
+	  ;(setq my-window-height 71)
 
-	  ;; Textmate style text
-	  (set-face-attribute 'default nil :family "Monaco" :height 110)  
+	  ;; Textmate style text (23.1)
+	  ;(set-face-attribute 'default nil :family "Monaco" :height 120)
+	  ;(setq my-window-width 200)
+	  ;(setq my-window-height 56)
+
+	  ;; Bitstream Vera Sans Mono 
+	  (set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 120)
 	  (setq my-window-width 200)
 	  (setq my-window-height 60)
 
+	  ;; HUGE for presentations
+	  ;(set-face-attribute 'default nil :family "Monaco" :height 220)
+	  ;(setq my-window-width 10)
+	  ;(setq my-window-height 10)
+
+
 	  ;; vt220
-	  ;(set-face-attribute 'default nil :family "Glass_TTY_VT220" :height 130)
+	  ;(set-face-attribute 'default nil :family "Glass_TTY_VT220" :height 200)
 	  ;(setq my-window-width 200)
 	  ;(setq my-window-height 70)
 
@@ -151,8 +167,6 @@
 		(width . ,my-window-width)
 		(height . ,my-window-height)))
 
-;; no highlighted text when selecting.
-(transient-mark-mode nil)
 
 ;; no startup message
 (setq inhibit-startup-message t)
@@ -167,8 +181,9 @@
 	  version-control t)
 
 ;; hide tool bar & menu
+(when window-system
+  (tool-bar-mode -1))
 (menu-bar-mode -1)
-(tool-bar-mode 0)
 
 ;; color-theme
 (setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
@@ -297,6 +312,7 @@
 				("\\.el$" . lisp-mode)
 				("\\.dtp$" . xml-mode)
 				("\\.dtpinc$" . xml-mode)
+				("\\.go$" . go-mode)
 				("\BROWSE$" . ebrowse-tree-mode)
 			  auto-mode-alist)))
 
@@ -415,3 +431,7 @@ If point was already at that position, move point to beginning of line."
 
 ;; for twiki page editing M-x erin-mode
 (require 'erin)
+
+;; no highlighted text when selecting.
+(transient-mark-mode nil)
+

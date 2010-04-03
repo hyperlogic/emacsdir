@@ -13743,7 +13743,7 @@ Created by Dave Benjamin <ramen@ramenfest.com> Dec 23 2005."
        (makefile-space-face ((t (:background "hotpink"))))
        (menu ((t (:background "#101048" :foreground "Grey"))))
        (modeline ((t (:foreground "black" :background "slate blue"))))
-       (mode-line-inactive ((t (:background "dark slate blue" :foreground "black"))))
+       (mode-line-inactive ((t (:background "MidnightBlue" :foreground "black"))))
        (modeline-buffer-id ((t (:foreground "white" :background "slate blue"))))
        (modeline-mousable ((t (:foreground "light cyan" :background "slate blue"))))
        (modeline-mousable-minor-mode ((t (:foreground "light grey" :background "slate blue"))))
