@@ -1,4 +1,4 @@
-;; my little .emacs.el file
+;; my not so little .emacs.el file
 
 ;; which system are we running on.
 (setq uname (substring (shell-command-to-string "uname") 0 -1))
@@ -11,7 +11,7 @@
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-;; works with emacs client
+;; So I can use emacsclient to edit files from a terminal
 (server-start)
 
 ;; add .emacs.d to load path
@@ -26,12 +26,12 @@
 ;; dont jump around so much when scrolling.
 (setq scroll-step 10)
 
-;; defaults
+;; default window size
 (setq my-window-width 80)
 (setq my-window-height 25)
 
 
-;; macbook
+;; my macbook defaults
 (if (string= "Darwin" uname)
 	(progn
 
@@ -122,16 +122,19 @@
 		(interactive)
 		(find-file "D:/TRAS/dtp"))
 
+	  ;; build TAGS & BROWSE file for all game code
 	  (defun ajt-build-tags ()
 		(interactive)
 		(shell-command "c:& cd %HOME%/.emacs.d/ebrowse/& ruby makefiles.rb")
 		(shell-command "c:& cd %HOME%/.emacs.d/etags/& ruby makefiles.rb"))
 
+	  ;; run class browser
       (defun ajt-browse ()
 		"open up ebrowser"
 		(interactive)
 		(find-file "~/.emacs.d/ebrowse/BROWSE"))
 
+	  ;; Search all dtp directries with a regex
 	  (defun ajt-dtp-search (arg)
 		"search for a regex in all dtp files"
 		(interactive "sgrep-regexp:")
@@ -140,6 +143,7 @@
 		(pop-to-buffer "*dtp-search*")
 		(compilation-mode))
 
+	  ;; Search all code directories with a regex
 	  (defun ajt-code-search (arg)
 		"search for a regex in all code files"
 		(interactive "sgrep-regexp:")
@@ -162,6 +166,7 @@
 ;; no startup message
 (setq inhibit-startup-message t)
 
+;; prevent ~ emacs droppings.
 ;; Change backup behavior to save in a directory, not in a miscellany
 ;; of files all over the place.
 (setq backup-by-copying t
@@ -300,6 +305,10 @@
 				("\\.dd$" . ruby-mode)   ; bbq data definition file
 				("\\.di$" . ruby-mode)   ; bbq data instance file
 				("\\.bin$" . hexl-mode)  ; binary blob
+				("\\.xml$" . xml-mode)
+				("\\.html$" . html-mode) 
+				("\\.y$" . c-mode)       ; yacc/bison files
+				("\\.l$" . c-mode)       ; lex/flex files
 				("\\.glsl$" . glsl-mode)
 				("\\.m$" . objc-mode)
 				("\\.mm$" . objc-mode)
@@ -382,6 +391,8 @@ If point was already at that position, move point to beginning of line."
 
 (global-set-key "\C-a" 'smart-beginning-of-line)
 
+;; Swap between .h and .cpp files
+;; TODO: support for c, Objective-C & Objective-C++
 (defun ajt-header-swap ()
   "Swap between .h & .cpp files"
   (interactive)
@@ -404,7 +415,7 @@ If point was already at that position, move point to beginning of line."
 ;; was mark-whole-buffer
 (global-set-key "\C-x\h" 'ajt-header-swap)
 
-
+;; Perforce edit
 (defun ajt-p4-edit ()
   "Checkout the current buffer"
   (interactive)
