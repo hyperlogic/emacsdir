@@ -196,8 +196,13 @@
 (require 'color-theme)
 (color-theme-initialize)
 
+(cond ((window-system)
+	   (color-theme-ajt-no-bold-blue-sea))
+	  (t
+	   (color-theme-charcoal-black)))
+
 ;(color-theme-charcoal-black)
-(color-theme-ajt-no-bold-blue-sea)
+
 ;(require 'zenburn)
 ;(color-theme-zenburn)
 ;(color-theme-high-contrast)
