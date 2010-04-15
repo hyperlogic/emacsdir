@@ -30,7 +30,6 @@
 (setq my-window-width 80)
 (setq my-window-height 25)
 
-
 ;; my macbook defaults
 (if (string= "Darwin" uname)
 	(progn
@@ -40,6 +39,9 @@
 	  (require 'go-mode-load)
 
 	  ;; turn off anti-aliasing
+	  ;(setq mac-allow-anti-aliasing nil)
+
+	  ;; turn on anti-aliasing
 	  (setq mac-allow-anti-aliasing t)
 
 	  ;; Note: be sure to also enter the following into the shell
@@ -51,20 +53,19 @@
 	  ;(setq my-window-height 71)
 
 	  ;; Textmate style text (23.1)
-	  ;(set-face-attribute 'default nil :family "Monaco" :height 120)
-	  ;(setq my-window-width 200)
-	  ;(setq my-window-height 56)
+	  (set-face-attribute 'default nil :family "Monaco" :height 120)
+	  (setq my-window-width 200)
+	  (setq my-window-height 56)
 
 	  ;; Bitstream Vera Sans Mono 
-	  (set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 120)
-	  (setq my-window-width 200)
-	  (setq my-window-height 60)
+	  ;(set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 120)
+	  ;(setq my-window-width 200)
+	  ;(setq my-window-height 60)
 
 	  ;; HUGE for presentations
 	  ;(set-face-attribute 'default nil :family "Monaco" :height 220)
 	  ;(setq my-window-width 10)
 	  ;(setq my-window-height 10)
-
 
 	  ;; vt220
 	  ;(set-face-attribute 'default nil :family "Glass_TTY_VT220" :height 200)
@@ -197,6 +198,8 @@
 
 ;(color-theme-charcoal-black)
 (color-theme-ajt-no-bold-blue-sea)
+;(require 'zenburn)
+;(color-theme-zenburn)
 ;(color-theme-high-contrast)
 
 ;; syntax highlighting for c++
@@ -329,7 +332,7 @@
 (add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
 
 ;; irc chat
-;;(require 'erc)
+(require 'erc)
 
 ;; (setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
 ;;									 interpreter-mode-alist))
