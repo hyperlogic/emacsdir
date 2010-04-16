@@ -2,14 +2,10 @@
 
 ;; which system are we running on.
 (setq uname (substring (shell-command-to-string "uname") 0 -1))
-(setq host (substring (shell-command-to-string "hostname") 0 -1))
+(setq hostname (substring (shell-command-to-string "hostname") 0 -1))
 
 ;; show line & column in status
 (setq column-number-mode t)
-
-;; color shell
-(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 ;; So I can use emacsclient to edit files from a terminal
 (server-start)
@@ -24,13 +20,17 @@
 (global-auto-revert-mode)
 
 ;; dont jump around so much when scrolling.
-(setq scroll-step 10)
+;(setq scroll-step 10)
 
 ;; default window size
 (setq my-window-width 80)
 (setq my-window-height 25)
 
-;; my macbook defaults
+;; color shell
+;(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+;; bluesliver
 (if (string= "Darwin" uname)
 	(progn
 
@@ -58,7 +58,7 @@
 	  (setq my-window-height 56)
 
 	  ;; Bitstream Vera Sans Mono 
-	  ;(set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 120)
+	  ;(set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 130)
 	  ;(setq my-window-width 200)
 	  ;(setq my-window-height 60)
 
@@ -76,6 +76,11 @@
 	  (setq mac-command-modifier 'meta)
 	  (setq compile-command (concat "cd ~/code/lacquer/src/; rake debug"))))
 
+;; vivisect
+(if (string= "vivisect" hostname)
+    (progn
+      (set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 110)))
+
 ;; windows (home)
 (if (string= uname "MINGW32_NT-5.1")
 	(progn
@@ -84,7 +89,7 @@
 	  (setq my-window-height 60)))
 
 ;; windows (work)
-(if (string= host "RWCWRK_7001077")
+(if (string= hostname "RWCWRK_7001077")
     (progn
       ;; turn off line wrapping.
       (set-default 'truncate-lines t)
