@@ -72,7 +72,7 @@
 	  ;(setq my-window-height 71)
 
 	  ;; Textmate style text (23.1)
-	  (set-face-attribute 'default nil :family "Monaco" :height 120)
+	  (set-face-attribute 'default nil :family "Monaco" :height 110)
 	  (setq my-window-width 200)
 	  (setq my-window-height 56)
 
@@ -94,7 +94,9 @@
 ;; vivisect
 (if (string= "vivisect" hostname)
     (progn
-      (set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 110)))
+      (set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 85)
+	  (setq split-width-threshold 200)
+	  ))
 
 ;; windows (home)
 (if (string= uname "MINGW32_NT-5.1")
@@ -214,18 +216,13 @@
 ;; color-theme
 (setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
 (require 'color-theme)
+(load "ajt-color-themes.el")
 (color-theme-initialize)
 
 (cond ((window-system)
 	   (color-theme-ajt-no-bold-blue-sea))
 	  (t
 	   (color-theme-charcoal-black)))
-
-;(color-theme-charcoal-black)
-
-;(require 'zenburn)
-;(color-theme-zenburn)
-;(color-theme-high-contrast)
 
 ;; syntax highlighting for c++
 (setq c-basic-offset 4)
@@ -401,33 +398,30 @@
 ;; yaml-mode
 (load-library "yaml-mode")
 
+
+
 ;; assign modes to file extentions
 (setq auto-mode-alist
       (append '(("\\.cpp$" . c++-mode)
 				("\\.h$" . c++-mode)
 				("\\.c$" . c-mode)
-				("\\.txt$" . text-mode)
 			    ("\\.rb$" . ruby-mode)
 				("\\.dd$" . ruby-mode)   ; bbq data definition file
 				("\\.di$" . ruby-mode)   ; bbq data instance file
 				("\\.yaml$" . yaml-mode)
 				("\\.bin$" . hexl-mode)  ; binary blob
-				("\\.xml$" . xml-mode)
-				("\\.html$" . html-mode) 
 				("\\.y$" . c-mode)       ; yacc/bison files
 				("\\.l$" . c-mode)       ; lex/flex files
 				("\\.glsl$" . glsl-mode)
+				("\\.vert\\'" . glsl-mode)
+				("\\.frag\\'" . glsl-mode)
 				("\\.m$" . objc-mode)
 				("\\.mm$" . objc-mode)
-				("\\.el$" . lisp-mode)
 				("\\.dtp$" . xml-mode)
 				("\\.dtpinc$" . xml-mode)
 				("\\.go$" . go-mode)
-				("\BROWSE$" . ebrowse-tree-mode)
-			  auto-mode-alist)))
-
-(add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
-(add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
+				("\BROWSE$" . ebrowse-tree-mode))
+			  auto-mode-alist))
 
 ;; irc chat
 (require 'erc)
