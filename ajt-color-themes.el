@@ -118,13 +118,13 @@
   (let ((color-theme-is-cumulative t))
     (color-theme-blue-erc)
     (color-theme-install
-     '(color-theme-blue-sea
+     '(color-theme-ajt-no-bold-blue-sea
        ((background-color . "#101048")
 		(background-mode . dark)
 		(border-color . "Grey")
 		(cursor-color . "dim gray") ; Grey
-		(foreground-color . "Grey")
-		(mouse-color . "Grey"))
+		(foreground-color . "LightGrey")
+		(mouse-color . "White"))
        ((Man-overstrike-face . woman-bold-face)
 		(Man-underline-face . woman-italic-face))
        (default ((t (nil))))
@@ -230,4 +230,3 @@
        (woman-italic-face ((t (:foreground "deep sky blue"))))
        (woman-unknown-face ((t (:foreground "LightSalmon"))))
        (zmacs-region ((t (:background "DarkSlateBlue"))))))))
-

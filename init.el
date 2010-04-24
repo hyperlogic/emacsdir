@@ -94,7 +94,10 @@
 ;; vivisect
 (if (string= "vivisect" hostname)
     (progn
-      (set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 85)
+	  ;(set-face-attribute 'default nil :family "inconsolata" :height 105)
+	  (set-face-attribute 'default nil :family "courier" :height 87)
+
+	  ;; dont be splittin my windows up
 	  (setq split-width-threshold 200)
 	  ))
 
