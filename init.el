@@ -49,7 +49,9 @@
 ;(define-key nxml-mode-map (kbd "C-M-n") 'next-multiframe-window)
 ;(define-key nxml-mode-map (kbd "C-M-p") 'previous-multiframe-window)
 
+;;
 ;; bluesliver
+;;
 (if (string= "Darwin" uname)
 	(progn
 
@@ -91,7 +93,9 @@
 
 	  ))
 
+;;
 ;; vivisect
+;;
 (if (string= "vivisect" hostname)
     (progn
 	  ;(set-face-attribute 'default nil :family "inconsolata" :height 105)
@@ -99,16 +103,23 @@
 
 	  ;; dont be splittin my windows up
 	  (setq split-width-threshold 200)
+
+	  ;; put scroll bar on right
+	  (set-scroll-bar-mode 'right)
 	  ))
 
+;;
 ;; windows (home)
+;;
 (if (string= uname "MINGW32_NT-5.1")
 	(progn
 	  (set-face-attribute 'default nil :family "courier new" :height 100)
 	  (setq my-window-width 154)
 	  (setq my-window-height 60)))
 
+;;
 ;; windows (work)
+;;
 (if (string= hostname "RWCWRK_7001077")
     (progn
       ;; turn off line wrapping.
