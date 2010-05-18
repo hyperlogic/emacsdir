@@ -30,6 +30,10 @@
 ;(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
+;; use ctrl-meta n and p to move between windows i.e. buffers
+(global-set-key (kbd "C-M-n") 'next-multiframe-window)
+(global-set-key (kbd "C-M-p") 'previous-multiframe-window)
+
 ;; bluesliver
 (if (string= "Darwin" uname)
 	(progn
@@ -62,19 +66,15 @@
 	  ;(setq my-window-width 200)
 	  ;(setq my-window-height 60)
 
-	  ;; HUGE for presentations
-	  ;(set-face-attribute 'default nil :family "Monaco" :height 220)
-	  ;(setq my-window-width 10)
-	  ;(setq my-window-height 10)
-
-	  ;; vt220
-	  ;(set-face-attribute 'default nil :family "Glass_TTY_VT220" :height 200)
-	  ;(setq my-window-width 200)
-	  ;(setq my-window-height 70)
-
 	  ;; use command key as meta
 	  (setq mac-command-modifier 'meta)
-	  (setq compile-command (concat "cd ~/code/lacquer/src/; rake debug"))))
+	  (setq compile-command (concat "cd ~/code/lacquer/src/; rake debug"))
+
+	  ;; For CinemaDisplay, try to only have 4 buffers at once
+	  (setq split-width-threshold 400)
+	  (setq split-height-threshold 100)
+
+	  ))
 
 ;; vivisect
 (if (string= "vivisect" hostname)
