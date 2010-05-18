@@ -33,6 +33,9 @@
 ;; use ctrl-meta n and p to move between windows i.e. buffers
 (global-set-key (kbd "C-M-n") 'next-multiframe-window)
 (global-set-key (kbd "C-M-p") 'previous-multiframe-window)
+; ruby-mode shadows this global binding, so redefine it.
+(define-key ruby-mode-map (kbd "C-M-n") 'next-multiframe-window)
+(define-key ruby-mode-map (kbd "C-M-p") 'previous-multiframe-window)
 
 ;; bluesliver
 (if (string= "Darwin" uname)
