@@ -30,12 +30,24 @@
 ;(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
+;; ruby-mode NOTE: now included in 23.1
+(when (< emacs-major-version 23)
+  (load-library "ruby-mode"))
+
+;; FAIL!
+;;
 ;; use ctrl-meta n and p to move between windows i.e. buffers
-(global-set-key (kbd "C-M-n") 'next-multiframe-window)
-(global-set-key (kbd "C-M-p") 'previous-multiframe-window)
-; ruby-mode shadows this global binding, so redefine it.
-(define-key ruby-mode-map (kbd "C-M-n") 'next-multiframe-window)
-(define-key ruby-mode-map (kbd "C-M-p") 'previous-multiframe-window)
+;(global-set-key (kbd "C-M-n") 'next-multiframe-window)
+;(global-set-key (kbd "C-M-p") 'previous-multiframe-window)
+;
+;; can't use these at init *sigh*
+;
+;; ruby-mode shadows this global binding, so redefine it.
+;(define-key ruby-mode-map (kbd "C-M-n") 'next-multiframe-window)
+;(define-key ruby-mode-map (kbd "C-M-p") 'previous-multiframe-window)
+;; xml-mode has the same problem
+;(define-key nxml-mode-map (kbd "C-M-n") 'next-multiframe-window)
+;(define-key nxml-mode-map (kbd "C-M-p") 'previous-multiframe-window)
 
 ;; bluesliver
 (if (string= "Darwin" uname)
@@ -304,6 +316,34 @@
 (require 'ido)
 (ido-mode t)
 
+(defun ajt-lr-cmp (a b)
+  "Returns the lower-right most of the two windows a and b."
+  (if (eq b nil)
+	  a
+	(let* ((ae (window-edges a)) (be (window-edges b))
+		   (ax (nth 0 ae)) (ay (nth 1 ae))
+		   (bx (nth 0 be)) (by (nth 1 be)))
+	  (if (> ax bx)
+		  a
+		(if (< ax bx)
+			b
+		  (if (> ay by)
+			  a
+			(if (< ay by)
+				b
+			  a)))))))
+
+(defun ajt-lr-window (l)
+  "Returns the lower-right most window in the list"
+  (if (eq l nil)
+	  nil
+	(ajt-lr-cmp (car l) (ajt-lr-window (cdr l)))))
+
+;; When a display-buffer is called this function is used to determine which window to split.
+;; this override will use the lower right most window in the (window-list).
+(setq split-window-preferred-function 
+	  (lambda (x) (split-window (ajt-lr-window (window-list)))))
+
 ;; other-frame
 (global-set-key [f5] 'other-frame)
 
@@ -313,9 +353,8 @@
 ;; glsl-mode
 (load-library "glsl-mode")
 
-;; ruby-mode NOTE: now included in 23.1
-(when (< emacs-major-version 23)
-  (load-library "ruby-mode"))
+;; yaml-mode
+(load-library "yaml-mode")
 
 ;; assign modes to file extentions
 (setq auto-mode-alist
@@ -326,6 +365,7 @@
 			    ("\\.rb$" . ruby-mode)
 				("\\.dd$" . ruby-mode)   ; bbq data definition file
 				("\\.di$" . ruby-mode)   ; bbq data instance file
+				("\\.yaml$" . yaml-mode)
 				("\\.bin$" . hexl-mode)  ; binary blob
 				("\\.xml$" . xml-mode)
 				("\\.html$" . html-mode) 
