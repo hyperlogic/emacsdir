@@ -316,33 +316,78 @@
 (require 'ido)
 (ido-mode t)
 
+;; all windows should be pop-up.
+;; NOTE: specifically this allows the "*shell*" buffer to go through the normal display-buffer logic.
+;; which allows me to treat it specially below.
+(setq same-window-buffer-names nil)
+
+;;
+;; I frequently use compile, grep and shell windows.
+;; However during long sessions I find it annoying to have to shuffle and kill these windows all the time.
+;; In an attempt to prevent this I tag these windows as "special".
+;;
+;; When "special" buffers are displayed they should appear in the lower right side of the frame.
+;; Unless, there is already an existing "special" buffer being displayed, if so then use that window instead.
+;;
+
+;; list of "special" buffers, add new ones here.
+(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*"))
+
+;; Customize special-display-buffer-names, this will cause the ajt-special-display function to be called on these buffers
+;; instead of the standard display-buffer
+(setq ajt-special-display-buffer-names (mapcar (lambda (x) (cons x '(ajt-special-display))) ajt-special-buffers))
+(setq special-display-buffer-names ajt-special-display-buffer-names)
+
 (defun ajt-lr-cmp (a b)
   "Returns the lower-right most of the two windows a and b."
   (if (eq b nil)
 	  a
 	(let* ((ae (window-edges a)) (be (window-edges b))
-		   (ax (nth 0 ae)) (ay (nth 1 ae))
-		   (bx (nth 0 be)) (by (nth 1 be)))
-	  (if (> ax bx)
-		  a
-		(if (< ax bx)
-			b
-		  (if (> ay by)
-			  a
-			(if (< ay by)
-				b
-			  a)))))))
-
+		   (ax (nth 2 ae)) (ay (nth 3 ae))
+		   (bx (nth 2 be)) (by (nth 3 be)))
+	  (cond ((> ay by) a)
+			((< ay by) b)
+			((> ax bx) a)
+			((< ax bx) b)
+			(t b)))))
+			
 (defun ajt-lr-window (l)
   "Returns the lower-right most window in the list"
   (if (eq l nil)
 	  nil
 	(ajt-lr-cmp (car l) (ajt-lr-window (cdr l)))))
 
-;; When a display-buffer is called this function is used to determine which window to split.
-;; this override will use the lower right most window in the (window-list).
-(setq split-window-preferred-function 
-	  (lambda (x) (split-window (ajt-lr-window (window-list)))))
+;; TODO: pay attention to the split-height-threshold etc.
+(defun ajt-split-window-preferred-function (x)
+  "Always split the lower right most window"
+  (split-window (ajt-lr-window (window-list))))
+
+(defun ajt-special-display (buffer-or-name)
+  "If there is window with a special buffer already open, display the buffer in that window"
+  "Otherwise vertical split the lower right most window and display the buffer in the new bottom pane"
+  (let ((existing (get-window-with-predicate (lambda (w) (member (buffer-name (window-buffer w)) ajt-special-buffers)))))
+	(if existing
+		(progn
+		  (set-window-buffer existing buffer-or-name)
+		  existing)
+	  (progn
+		;; reuse the existing display-buffer logic, except 
+		;; remove the special-display-buffer-names so we don't get into an infinite recursion.
+		(setq special-display-buffer-names nil)
+		;; install a custom window splitter function which splits the lower-right window
+		(setq split-window-preferred-function #'ajt-split-window-preferred-function)
+
+		;; call display-buffer and store the result
+		(let ((result (display-buffer buffer-or-name)))
+
+		  ;; restore the original values
+		  (setq split-window-preferred-function #'split-window-sensibly)
+		  (setq special-display-buffer-names ajt-special-display-buffer-names)
+		  result)))))
+
+;;
+;; end special display
+;;
 
 ;; other-frame
 (global-set-key [f5] 'other-frame)
@@ -434,7 +479,7 @@
 
 
 (defun ajt-init ()
-  "Load my init.el file into a buffer"
+  "Load my init.el file into current buffer"
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 
