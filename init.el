@@ -418,31 +418,29 @@
 ;; yaml-mode
 (load-library "yaml-mode")
 
-
-
 ;; assign modes to file extentions
 (setq auto-mode-alist
-      (append '(("\\.cpp$" . c++-mode)
-				("\\.h$" . c++-mode)
-				("\\.c$" . c-mode)
-			    ("\\.rb$" . ruby-mode)
-				("\\.dd$" . ruby-mode)   ; bbq data definition file
-				("\\.di$" . ruby-mode)   ; bbq data instance file
-				("\\.yaml$" . yaml-mode)
-				("\\.bin$" . hexl-mode)  ; binary blob
-				("\\.y$" . c-mode)       ; yacc/bison files
-				("\\.l$" . c-mode)       ; lex/flex files
-				("\\.glsl$" . glsl-mode)
+      (append '(("\\.cpp\\'" . c++-mode)
+				("\\.h\\'" . c++-mode)
+				("\\.c\\'" . c-mode)
+			    ("\\.rb\\'" . ruby-mode)
+				("\\.dd\\'" . ruby-mode)   ; bbq data definition file
+				("\\.di\\'" . ruby-mode)   ; bbq data instance file
+				("\\.yaml\\'" . yaml-mode)
+				("\\.bin\\'" . hexl-mode)  ; binary blob
+				("\\.y\\'" . c-mode)       ; yacc/bison files
+				("\\.l\\'" . c-mode)       ; lex/flex files
+				("\\.glsl\\'" . glsl-mode)
 				("\\.vert\\'" . glsl-mode)
 				("\\.frag\\'" . glsl-mode)
-				("\\.m$" . objc-mode)
-				("\\.mm$" . objc-mode)
-				("\\.dtp$" . xml-mode)
-				("\\.dtpinc$" . xml-mode)
-				("\\.go$" . go-mode)
-				("\BROWSE$" . ebrowse-tree-mode)
-				("\\.lisp$" . common-lisp-mode)
-			  auto-mode-alist)))
+				("\\.m\\'" . objc-mode)
+				("\\.mm\\'" . objc-mode)
+				("\\.dtp\\'" . xml-mode)
+				("\\.dtpinc\\'" . xml-mode)
+				("\\.go\\'" . go-mode)
+				("BROWSE\\'" . ebrowse-tree-mode)
+				("\\.lisp\\'" . common-lisp-mode))
+			  auto-mode-alist))
 
 ;; irc chat
 (require 'erc)
