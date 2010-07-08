@@ -51,8 +51,7 @@
 
 ;;
 ;; bluesliver
-;;
-(if (string= "Darwin" uname)
+(if (string= "bluesilver.local" hostname)
 	(progn
 
 	  ;; go stuff
@@ -60,10 +59,10 @@
 	  (require 'go-mode-load)
 
 	  ;; turn off anti-aliasing
-	  ;(setq mac-allow-anti-aliasing nil)
+	  (setq mac-allow-anti-aliasing nil)
 
 	  ;; turn on anti-aliasing
-	  (setq mac-allow-anti-aliasing t)
+	  ;(setq mac-allow-anti-aliasing t)
 
 	  ;; Note: be sure to also enter the following into the shell
 	  ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
@@ -74,18 +73,24 @@
 	  ;(setq my-window-height 71)
 
 	  ;; Textmate style text (23.1)
-	  (set-face-attribute 'default nil :family "Monaco" :height 110)
-	  (setq my-window-width 200)
-	  (setq my-window-height 56)
+
+	  ;(set-face-attribute 'default nil :family "Monaco" :height 120)
+	  ;(setq my-window-width 200)
+	  ;(setq my-window-height 56)
 
 	  ;; Bitstream Vera Sans Mono 
 	  ;(set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 130)
 	  ;(setq my-window-width 200)
 	  ;(setq my-window-height 60)
 
+	  ;; Proggy clean
+	  (set-face-attribute 'default nil :family "ProggyCleanTTSZ" :height 160)
+	  (setq my-window-width 200)
+	  (setq my-window-height 60)
+
 	  ;; use command key as meta
 	  (setq mac-command-modifier 'meta)
-	  (setq compile-command (concat "cd ~/code/lacquer/src/; rake debug"))
+	  (setq compile-command (concat "cd ~/code/iphone/circull/; rake release"))
 
 	  ;; For CinemaDisplay, try to only have 4 buffers at once
 	  (setq split-width-threshold 400)
@@ -319,6 +324,7 @@
 (global-set-key [f2] 'start-kbd-macro)
 (global-set-key [f3] 'end-kbd-macro)
 (global-set-key [f4] 'next-error)
+(global-set-key [f5] 'ispell-word)
 
 ;; scrolling output
 (setq compilation-scroll-output t)
@@ -400,8 +406,8 @@
 ;; end special display
 ;;
 
-;; other-frame
-(global-set-key [f5] 'other-frame)
+;; other-frame (I don't really work with multiple monitors much anymore)
+;(global-set-key [f5] 'other-frame)
 
 ;; prevent this from invoking suspend-frame, cause it's ANNOYING
 (global-set-key "\C-x\C-z" nil)
@@ -434,8 +440,9 @@
 				("\\.dtp$" . xml-mode)
 				("\\.dtpinc$" . xml-mode)
 				("\\.go$" . go-mode)
-				("\BROWSE$" . ebrowse-tree-mode))
-			  auto-mode-alist))
+				("\BROWSE$" . ebrowse-tree-mode)
+				("\\.lisp$" . common-lisp-mode)
+			  auto-mode-alist)))
 
 ;; irc chat
 (require 'erc)
@@ -555,3 +562,10 @@ If point was already at that position, move point to beginning of line."
 ;; no highlighted text when selecting.
 (transient-mark-mode nil)
 
+;; slime for Clozure Lisp
+;(set-language-environment "utf-8")
+;(add-to-list 'load-path "~/install/slime-2010-07-01/")
+;(setq inferior-lisp-program "/opt/local/bin/ccl64 -K utf-8")
+;(require 'slime)
+;(setq slime-net-coding-system 'utf-8-unix)
+;(slime-setup '(slime-fancy))
