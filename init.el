@@ -59,10 +59,10 @@
 	  (require 'go-mode-load)
 
 	  ;; turn off anti-aliasing
-	  (setq mac-allow-anti-aliasing nil)
+	  ;(setq mac-allow-anti-aliasing nil)
 
 	  ;; turn on anti-aliasing
-	  ;(setq mac-allow-anti-aliasing t)
+	  (setq mac-allow-anti-aliasing t)
 
 	  ;; Note: be sure to also enter the following into the shell
 	  ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
@@ -73,10 +73,9 @@
 	  ;(setq my-window-height 71)
 
 	  ;; Textmate style text (23.1)
-
-	  ;(set-face-attribute 'default nil :family "Monaco" :height 120)
-	  ;(setq my-window-width 200)
-	  ;(setq my-window-height 56)
+	  (set-face-attribute 'default nil :family "Monaco" :height 120)
+	  (setq my-window-width 200)
+	  (setq my-window-height 56)
 
 	  ;; Bitstream Vera Sans Mono 
 	  ;(set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 130)
@@ -84,9 +83,9 @@
 	  ;(setq my-window-height 60)
 
 	  ;; Proggy clean
-	  (set-face-attribute 'default nil :family "ProggyCleanTTSZ" :height 160)
-	  (setq my-window-width 200)
-	  (setq my-window-height 60)
+	  ;(set-face-attribute 'default nil :family "ProggyCleanTTSZ" :height 160)
+	  ;(setq my-window-width 200)
+	  ;(setq my-window-height 60)
 
 	  ;; use command key as meta
 	  (setq mac-command-modifier 'meta)
