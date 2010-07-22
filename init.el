@@ -73,14 +73,14 @@
 	  ;(setq my-window-height 71)
 
 	  ;; Textmate style text (23.1)
-	  (set-face-attribute 'default nil :family "Monaco" :height 120)
-	  (setq my-window-width 200)
-	  (setq my-window-height 56)
-
-	  ;; Bitstream Vera Sans Mono 
-	  ;(set-face-attribute 'default nil :family "Bitstream Vera Sans Mono" :height 130)
+	  ;(set-face-attribute 'default nil :family "Monaco" :height 120)
 	  ;(setq my-window-width 200)
-	  ;(setq my-window-height 60)
+	  ;(setq my-window-height 56)
+
+	  ;; Menlo (modified Bitstream Vera Sans Mono)
+	  (set-face-attribute 'default nil :family "Menlo" :height 115)
+	  (setq my-window-width 200)
+	  (setq my-window-height 60)
 
 	  ;; Proggy clean
 	  ;(set-face-attribute 'default nil :family "ProggyCleanTTSZ" :height 160)
@@ -380,8 +380,11 @@
 
 ;; TODO: pay attention to the split-height-threshold etc.
 (defun ajt-split-window-preferred-function (x)
-  "Always split the lower right most window"
-  (split-window (ajt-lr-window (window-list))))
+  "Always split the lower right most window, unless there is only one window."
+  "In that case split it horizontaly"
+  (if (= (length (window-list)) 1)
+	  (split-window-horizontally)
+	(split-window (ajt-lr-window (window-list)))))
 
 (defun ajt-special-display (buffer-or-name)
   "If there is window with a special buffer already open, display the buffer in that window"
