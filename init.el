@@ -124,13 +124,13 @@
 ;;
 ;; windows (work)
 ;;
-(if (string= hostname "RWCWRK_7001077")
+(if (string= hostname "RWCWRK_7001233")
     (progn
       ;; turn off line wrapping.
       (set-default 'truncate-lines t)
 
       ;; set window size
-      (set-face-attribute 'default nil :family "consolas" :height 110)
+      (set-face-attribute 'default nil :family "courier new" :height 105)
       (setq my-window-width 195)
       (setq my-window-height 63)
 
@@ -201,9 +201,14 @@
 		(pop-to-buffer "*code-search*")
 		(compilation-mode))
 	  
-
 	  ;; use TAGS file in these dirs.
-	  (setq tags-table-list '("~/.emacs.d/etags"))))
+	  (setq tags-table-list '("~/.emacs.d/etags"))
+
+	  ;; For try to only have 4 buffers at once
+	  (setq split-width-threshold 400)
+	  (setq split-height-threshold 100)
+
+	  ))
 
 ;; main frame
 (setq initial-frame-alist
