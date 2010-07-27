@@ -7,7 +7,7 @@
 ;; show line & column in status
 (setq column-number-mode t)
 
-;; So I can use emacsclient to edit files from a terminal
+;; emacsclient can be used to edit files from a terminal
 (server-start)
 
 ;; add .emacs.d to load path
@@ -15,8 +15,6 @@
 
 ;; revert buffers when they change on disk (except if they are modified)
 (setq revert-without-query '("."))
-
-;; automatically revert buffers if they change on disk
 (global-auto-revert-mode)
 
 ;; dont jump around so much when scrolling.
@@ -27,7 +25,6 @@
 (setq my-window-height 25)
 
 ;; color shell
-;(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 ;; ruby-mode NOTE: now included in 23.1
@@ -40,7 +37,8 @@
 ;(global-set-key (kbd "C-M-n") 'next-multiframe-window)
 ;(global-set-key (kbd "C-M-p") 'previous-multiframe-window)
 ;
-;; can't use these at init *sigh*
+;; can't use these at init *sigh* 
+; (actually I think i can if i load them first instead of using autoload)
 ;
 ;; ruby-mode shadows this global binding, so redefine it.
 ;(define-key ruby-mode-map (kbd "C-M-n") 'next-multiframe-window)
@@ -49,11 +47,14 @@
 ;(define-key nxml-mode-map (kbd "C-M-n") 'next-multiframe-window)
 ;(define-key nxml-mode-map (kbd "C-M-p") 'previous-multiframe-window)
 
+;; turn off line wrapping.
+(set-default 'truncate-lines t)
+
 ;;
 ;; bluesliver
 (if (string= "bluesilver.local" hostname)
 	(progn
-
+      
 	  ;; go stuff
 	  (add-to-list 'load-path "~/go/misc/emacs/" t)
 	  (require 'go-mode-load)
@@ -73,14 +74,14 @@
 	  ;(setq my-window-height 71)
 
 	  ;; Textmate style text (23.1)
-	  ;(set-face-attribute 'default nil :family "Monaco" :height 120)
-	  ;(setq my-window-width 200)
-	  ;(setq my-window-height 56)
+	  (set-face-attribute 'default nil :family "Monaco" :height 120)
+	  (setq my-window-width 200)
+	  (setq my-window-height 56)
 
 	  ;; Menlo (modified Bitstream Vera Sans Mono)
-	  (set-face-attribute 'default nil :family "Menlo" :height 115)
-	  (setq my-window-width 200)
-	  (setq my-window-height 60)
+	  ;(set-face-attribute 'default nil :family "Menlo" :height 115)
+	  ;(setq my-window-width 200)
+	  ;(setq my-window-height 60)
 
 	  ;; Proggy clean
 	  ;(set-face-attribute 'default nil :family "ProggyCleanTTSZ" :height 160)
@@ -126,8 +127,6 @@
 ;;
 (if (string= hostname "RWCWRK_7001233")
     (progn
-      ;; turn off line wrapping.
-      (set-default 'truncate-lines t)
 
       ;; set window size
       (set-face-attribute 'default nil :family "courier new" :height 105)
