@@ -157,10 +157,10 @@
 		(interactive)
 		(find-file "D:/TRAS/cdc/dtp"))
 
-      (defun ajt-dtp ()
-		"Dired dtp dir"
+      (defun ajt-code-dtp ()
+		"Dired code dtp dir"
 		(interactive)
-		(find-file "D:/TRAS/dtp"))
+		(find-file "D:/TRAS/code/dtp"))
 
 	  ;; build TAGS & BROWSE file for all game code
 	  (defun ajt-build-tags ()
@@ -351,7 +351,7 @@
 ;;
 
 ;; list of "special" buffers, add new ones here.
-(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*"))
+(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*code-search*" "*dtp-search*"))
 
 ;; Customize special-display-buffer-names, this will cause the ajt-special-display function to be called on these buffers
 ;; instead of the standard display-buffer
