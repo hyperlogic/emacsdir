@@ -31,24 +31,22 @@
 (when (< emacs-major-version 23)
   (load-library "ruby-mode"))
 
-;; FAIL!
-;;
-;; use ctrl-meta n and p to move between windows i.e. buffers
-;(global-set-key (kbd "C-M-n") 'next-multiframe-window)
-;(global-set-key (kbd "C-M-p") 'previous-multiframe-window)
-;
-;; can't use these at init *sigh* 
-; (actually I think i can if i load them first instead of using autoload)
-;
-;; ruby-mode shadows this global binding, so redefine it.
-;(define-key ruby-mode-map (kbd "C-M-n") 'next-multiframe-window)
-;(define-key ruby-mode-map (kbd "C-M-p") 'previous-multiframe-window)
-;; xml-mode has the same problem
-;(define-key nxml-mode-map (kbd "C-M-n") 'next-multiframe-window)
-;(define-key nxml-mode-map (kbd "C-M-p") 'previous-multiframe-window)
-
 ;; turn off line wrapping.
 (set-default 'truncate-lines t)
+
+;; Pops up a grep process in a buffer named *ajt-grep*
+;; For example: 
+;;   (ajt-grep-find "main" '("d:/tras/cdc/runtime" "d:/tras/code/game") '("*.cpp" "*.h" "*.c")))
+;;
+(defun ajt-grep-find (search-term search-paths file-globs)
+  "Passes the string term to grep as the search term
+   search-paths is a list of directory strings to search in,
+   file-globs is a list of glob strings."
+  (let ((paths (mapconcat 'identity search-paths " "))
+		(extns (mapconcat (lambda (x) (concat "\"" x "\"")) file-globs " -o -name ")))
+	(start-process-shell-command "ajt-grep" "*ajt-grep*" (concat "find " paths " ( -name " extns " ) -type f -print0 | xargs -0 -e grep -nH -e " search-term))
+	(pop-to-buffer "*ajt-grep*")
+	(compilation-mode)))
 
 ;;
 ;; bluesliver
@@ -178,28 +176,26 @@
 	  (defun ajt-dtp-search (arg)
 		"search for a regex in all dtp files"
 		(interactive "sgrep-regexp:")
-		(start-process-shell-command "my-process" "*dtp-search*"
-									 (concat "find d:/tras/cdc/dtp d:/tras/code/dtp ( -name \"*.dtp\" -o -name \"*.dtpinc\" ) -type f -print0 | xargs -0 -e grep -nH -e " arg))
-		(pop-to-buffer "*dtp-search*")
-		(compilation-mode))
+		(ajt-grep-find arg '("d:/tras/cdc/dtp" "d:/tras/code/dtp") '("*.dtp" "*.dtpinc")))
 
 	  ;; Search all code directories with a regex
 	  (defun ajt-code-search (arg)
 		"search for a regex in all code files"
 		(interactive "sgrep-regexp:")
-		(start-process-shell-command "my-process" "*code-search*"
-									 (concat "find d:/tras/cdc/runtime d:/tras/code/game/ ( -name \"*.cpp\" -o -name \"*.h\" ) -type f -print0 | xargs -0 -e grep -nH -e " arg))
-		(pop-to-buffer "*code-search*")
-		(compilation-mode))
+		(ajt-grep-find arg '("d:/tras/cdc/runtime" "d:/tras/code/game") '("*.cpp" "*.h" "*.c")))
 
+	  ;; Search all action graphs (SLOW!)
 	  (defun ajt-graph-search (arg)
 		"search for a regex in all graph dat files"
 		(interactive "sgrep-regexp:")
-		(start-process-shell-command "my-process" "*code-search*"
-									 (concat "find d:/tras/area/ d:/tras/object/ d:/tras/design/ ( -name \"*.dat\" -o -name \"*.admd\" -o -name \"*.ags\" ) -type f -print0 | xargs -0 -e grep -nH -e " arg))
-		(pop-to-buffer "*code-search*")
-		(compilation-mode))
-	  
+		(ajt-grep-find arg '("d:/tras/area" "d:/tras/object" "d:/tras/design") '("*.dat" "*.admd" "*.ags")))
+
+	  ;; Search all object dat files (SLOW!)
+	  (defun ajt-object-search (arg)
+		"search for a regex in all object dat files"
+		(interactive "sgrep-regexp:")
+		(ajt-grep-find arg '("d:/tras/object") '("*.dat")))
+
 	  ;; use TAGS file in these dirs.
 	  (setq tags-table-list '("~/.emacs.d/etags"))
 
@@ -349,7 +345,7 @@
 ;;
 
 ;; list of "special" buffers, add new ones here.
-(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*code-search*" "*dtp-search*"))
+(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*ajt-grep*"))
 
 ;; Customize special-display-buffer-names, this will cause the ajt-special-display function to be called on these buffers
 ;; instead of the standard display-buffer
