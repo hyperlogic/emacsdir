@@ -116,7 +116,7 @@
 ;;
 ;; windows (home)
 ;;
-(if (string= uname "MINGW32_NT-5.1")
+(if (string= uname "MINGW32_NT-6.1")
 	(progn
 	  (set-face-attribute 'default nil :family "courier new" :height 100)
 	  (setq my-window-width 154)
