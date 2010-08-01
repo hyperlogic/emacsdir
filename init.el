@@ -318,16 +318,14 @@
 ;; M-$ doesn't work on Mac OS X so move to C-$ instead
 (global-set-key (kbd "C-$") 'ispell-word)
 
-;; compile
-(global-set-key [f7] 'compile)
-(global-set-key [f9] 'compile)
-
-;; kbd-macros
+;; function key bindings
 (global-set-key [f1] 'call-last-kbd-macro)
 (global-set-key [f2] 'start-kbd-macro)
 (global-set-key [f3] 'end-kbd-macro)
 (global-set-key [f4] 'next-error)
 (global-set-key [f5] 'ispell-word)
+(global-set-key [f6] 'grep-find)
+(global-set-key [f7] 'compile)
 
 ;; scrolling output
 (setq compilation-scroll-output t)
