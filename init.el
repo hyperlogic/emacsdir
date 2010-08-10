@@ -127,7 +127,8 @@
     (progn
 
       ;; set window size
-      (set-face-attribute 'default nil :family "courier new" :height 105)
+      ;(set-face-attribute 'default nil :family "courier new" :height 105)
+	  (set-face-attribute 'default nil :family "courier new" :height 90)
       (setq my-window-width 195)
       (setq my-window-height 63)
 
@@ -195,6 +196,12 @@
 		"search for a regex in all object dat files"
 		(interactive "sgrep-regexp:")
 		(ajt-grep-find arg '("d:/tras/object") '("*.dat")))
+
+	  ;; Search all script package files (SLOW!)
+	  (defun ajt-script-search (arg)
+		"search for a regex in all script package files"
+		(interactive "sgrep-regexp:")
+		(ajt-grep-find arg '("d:/tras/area" "d:/tras/object") '("*.package")))
 
 	  ;; use TAGS file in these dirs.
 	  (setq tags-table-list '("~/.emacs.d/etags"))
@@ -322,6 +329,8 @@
 (global-set-key [f5] 'ispell-word)
 (global-set-key [f6] 'grep-find)
 (global-set-key [f7] 'compile)
+(global-set-key [f8] 'ajt-code-search)
+(global-set-key [f9] 'ajt-dtp-search)
 
 ;; scrolling output
 (setq compilation-scroll-output t)
