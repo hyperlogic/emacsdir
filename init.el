@@ -39,9 +39,11 @@
 ;;   (ajt-grep-find "main" '("d:/tras/cdc/runtime" "d:/tras/code/game") '("*.cpp" "*.h" "*.c")))
 ;;
 (defun ajt-grep-find (search-term search-paths file-globs)
-  "Passes the string term to grep as the search term
-   search-paths is a list of directory strings to search in,
-   file-globs is a list of glob strings."
+  "Passes the string SEARCH-TERM to grep
+SEARCH-PATHS is a list of directory strings to search in,
+FILE-GLOBS is a list of glob strings.
+For example:  
+  (ajt-grep-find \"main\" '(\"d:/tras/cdc/runtime\" \"d:/tras/code/game\") '(\"*.cpp\" \"*.h\" \"*.c\")))"
   (let ((paths (mapconcat 'identity search-paths " "))
 		(extns (mapconcat (lambda (x) (concat "\"" x "\"")) file-globs " -o -name ")))
 	(start-process-shell-command "ajt-grep" "*ajt-grep*" (concat "find " paths " ( -name " extns " ) -type f -print0 | xargs -0 -e grep -nH -e " search-term))
@@ -133,7 +135,7 @@
       (setq my-window-height 63)
 
       ;; set-up build
-      (setq compile-command "cd D:\\tras& easymake xenon_debug")
+      (setq compile-command "cd D:\\tras& easymake xenon_release -noopts")
 
 	  ;; ispell not available on windows
 	  (setq-default ispell-program-name "aspell")
