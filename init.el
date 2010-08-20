@@ -298,6 +298,12 @@ For example:
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 (global-set-key "\C-x\m" 'execute-extended-command)
 
+
+;; forward-to-word
+(require 'misc)
+;(global-set-key "\M-f" 'forward-to-word)
+(global-set-key "\M-f" 'forward-same-syntax)
+
 ;; ham-handed undo
 ;;(global-set-key "\C-x\C-u" 'undo)
 
