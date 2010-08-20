@@ -294,6 +294,9 @@ For example:
 ;(global-set-key "\C-x\C-b" 'buffer-menu)
 ;(global-set-key "\C-l" 'buffer-menu)
 
+;; ibuffer is better then buffer-menu
+(global-set-key "\C-x\C-b" 'ibuffer)
+
 ;; alias M-x with C-x C-m for meta less environments.
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 (global-set-key "\C-x\m" 'execute-extended-command)
