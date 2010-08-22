@@ -438,6 +438,9 @@ For example:
 ;; yaml-mode
 (load-library "yaml-mode")
 
+;; lua-mode
+(require 'lua-mode)
+
 ;; assign modes to file extentions
 (setq auto-mode-alist
       (append '(("\\.cpp\\'" . c++-mode)
