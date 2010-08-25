@@ -205,6 +205,12 @@ For example:
 		(interactive "sgrep-regexp:")
 		(ajt-grep-find arg '("d:/tras/area" "d:/tras/object") '("*.package")))
 
+	  ;; Search all animation state machines and piplelines (SLOW!)
+	  (defun ajt-anim-graph-search (arg)
+		"search for a regex in all animation state machines and pipelines"
+		(interactive "sgrep-regexp:")
+		(ajt-grep-find arg '("d:/tras/animation/animgraph") '("*.animstate" "*.animpipe")))
+
 	  ;; use TAGS file in these dirs.
 	  (setq tags-table-list '("~/.emacs.d/etags"))
 
