@@ -231,6 +231,9 @@ For example:
 ;; no startup message
 (setq inhibit-startup-message t)
 
+;; Don't insert instructions in the *scratch* buffer
+(setq initial-scratch-message nil)
+
 ;; prevent ~ emacs droppings.
 ;; Change backup behavior to save in a directory, not in a miscellany
 ;; of files all over the place.
