@@ -27,6 +27,22 @@
 ;; color shell
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
+;; 't if buffer with name is open
+;; nil otherwise
+(defun ajt-buffer-open (name)
+  (loop for b in (buffer-list) do
+		(if (string-equal (buffer-name b) name)
+			(return 't))))
+
+;; ansi-term seems better then terminal-mode
+;; in that it lets me c-x o out of it.
+(defun ajt-term ()
+  (interactive)
+  (if (ajt-buffer-open "*ansi-term*")
+	  (progn
+		(switch-to-buffer-other-window "*ansi-term*"))
+	(ansi-term "/bin/bash")))
+
 ;; ruby-mode NOTE: now included in 23.1
 (when (< emacs-major-version 23)
   (load-library "ruby-mode"))
@@ -323,8 +339,9 @@ For example:
 (global-set-key "\C-z" 'undo)
 
 ;; short cut to shell
-(global-set-key "\C-c\s" 'shell)
-(global-set-key "\C-c\C-s" 'shell)
+(global-set-key "\C-c\s" 'ajt-term)
+(global-set-key "\C-c\C-s" 'ajt-term)
+(global-set-key "\C-c\<SPC>" 'ajt-term)
 
 ;; C-\ is indent-region
 ;(global-set-key "\M-C-i" 'indent-region)
@@ -374,7 +391,7 @@ For example:
 ;;
 
 ;; list of "special" buffers, add new ones here.
-(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*ajt-grep*"))
+(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*ajt-grep*" "*ansi-term*"))
 
 ;; Customize special-display-buffer-names, this will cause the ajt-special-display function to be called on these buffers
 ;; instead of the standard display-buffer
@@ -449,6 +466,7 @@ For example:
 
 ;; lua-mode
 (require 'lua-mode)
+(setq lua-indent-level 4)
 
 ;; assign modes to file extentions
 (setq auto-mode-alist
