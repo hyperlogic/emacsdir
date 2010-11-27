@@ -94,6 +94,9 @@ For example:
 	  (setq my-window-width 200)
 	  (setq my-window-height 56)
 
+	  ;; for tired eyes
+	  ;;(set-face-attribute 'default nil :family "Monaco" :height 140)
+
 	  ;; Menlo (modified Bitstream Vera Sans Mono)
 	  ;(set-face-attribute 'default nil :family "Menlo" :height 115)
 	  ;(setq my-window-width 200)
@@ -561,26 +564,37 @@ If point was already at that position, move point to beginning of line."
 
 (global-set-key "\C-a" 'smart-beginning-of-line)
 
-;; Swap between .h and .cpp files
-;; TODO: support for c, Objective-C & Objective-C++
+;; list of src files that can match a header file
+(setq ajt-src-ext-list `(".cpp" ".c" ".m" ".mm"))
+
+;; fn can return non-nil to stop iteration
+(defun ajt-for-each (fn lst)
+  (if (null lst)
+	  nil
+	(if (funcall fn (car lst))
+		't
+	  (for-each fn (cdr lst)))))
+
+(defun ajt-find-file-with-ext (basename ext)
+  (let ((full-filename (concat basename ext)))
+	(if (file-exists-p full-filename)
+		(progn (find-file full-filename) 't)
+	  nil)))
+
+;; Swap between .h and .cpp/.c/.m/.mm files
 (defun ajt-header-swap ()
   "Swap between .h & .cpp files"
   (interactive)
   (let* ((filename (buffer-file-name (current-buffer)))
 		 (ext (file-name-extension filename))
-		 (cpp (concat (file-name-sans-extension filename) ".cpp"))
-		 (hdr (concat (file-name-sans-extension filename) ".h")))
-	(cond
-	 ((and (string= ext "h") (file-exists-p cpp))
-	  (find-file cpp))
-	 ((and (string= ext "cpp") (file-exists-p hdr))
-	  (find-file hdr))
-	 ((string= ext "h")
-	  (error "could not find \"%s\"" cpp))
-	 ((string= ext "cpp")
-	  (error "could not find \"%s\"" h))
-	 ('t
-	  (error "not a .h or .cpp file")))))
+		 (basename (file-name-sans-extension filename)))
+	(if (string= ext "h") 
+		(if (ajt-for-each (lambda (ext) (ajt-find-file-with-ext basename ext)) ajt-src-ext-list)
+			't
+		  (error "could not find corresponding src file for \"%s\"" filename))
+	  (if (ajt-find-file-with-ext basename ".h")
+		  't
+		(error "could not find header file for \"%s\"" filename)))))
 
 ;; was mark-whole-buffer
 (global-set-key "\C-x\h" 'ajt-header-swap)
