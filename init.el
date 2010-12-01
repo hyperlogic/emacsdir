@@ -68,7 +68,7 @@ For example:
 
 ;;
 ;; bluesliver
-(if (string= "bluesilver.local" hostname)
+(if (string= "Darwin" uname)
 	(progn
       
 	  ;; go stuff
@@ -573,7 +573,7 @@ If point was already at that position, move point to beginning of line."
 	  nil
 	(if (funcall fn (car lst))
 		't
-	  (for-each fn (cdr lst)))))
+	  (ajt-for-each fn (cdr lst)))))
 
 (defun ajt-find-file-with-ext (basename ext)
   (let ((full-filename (concat basename ext)))
