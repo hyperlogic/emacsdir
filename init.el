@@ -31,17 +31,17 @@
 ;; nil otherwise
 (defun ajt-buffer-open (name)
   (loop for b in (buffer-list) do
-		(if (string-equal (buffer-name b) name)
-			(return 't))))
+        (if (string-equal (buffer-name b) name)
+            (return 't))))
 
 ;; ansi-term seems better then terminal-mode
 ;; in that it lets me c-x o out of it.
 (defun ajt-term ()
   (interactive)
   (if (ajt-buffer-open "*ansi-term*")
-	  (progn
-		(switch-to-buffer-other-window "*ansi-term*"))
-	(ansi-term "/bin/bash")))
+      (progn
+        (switch-to-buffer-other-window "*ansi-term*"))
+    (ansi-term "/bin/bash")))
 
 ;; ruby-mode NOTE: now included in 23.1
 (when (< emacs-major-version 23)
@@ -61,85 +61,85 @@ FILE-GLOBS is a list of glob strings.
 For example:  
   (ajt-grep-find \"main\" '(\"d:/tras/cdc/runtime\" \"d:/tras/code/game\") '(\"*.cpp\" \"*.h\" \"*.c\")))"
   (let ((paths (mapconcat 'identity search-paths " "))
-		(extns (mapconcat (lambda (x) (concat "\"" x "\"")) file-globs " -o -name ")))
-	(start-process-shell-command "ajt-grep" "*ajt-grep*" (concat "find " paths " ( -name " extns " ) -type f -print0 | xargs -0 -e grep -nH -e " search-term))
-	(pop-to-buffer "*ajt-grep*")
-	(compilation-mode)))
+        (extns (mapconcat (lambda (x) (concat "\"" x "\"")) file-globs " -o -name ")))
+    (start-process-shell-command "ajt-grep" "*ajt-grep*" (concat "find " paths " ( -name " extns " ) -type f -print0 | xargs -0 -e grep -nH -e " search-term))
+    (pop-to-buffer "*ajt-grep*")
+    (compilation-mode)))
 
 ;;
 ;; bluesliver
 (if (string= "Darwin" uname)
-	(progn
-      
-	  ;; go stuff
-	  (add-to-list 'load-path "~/go/misc/emacs/" t)
-	  (require 'go-mode-load)
+    (progn
 
-	  ;; turn off anti-aliasing
-	  ;(setq mac-allow-anti-aliasing nil)
+      ;; go stuff
+      (add-to-list 'load-path "~/go/misc/emacs/" t)
+      (require 'go-mode-load)
 
-	  ;; turn on anti-aliasing
-	  (setq mac-allow-anti-aliasing t)
+      ;; turn off anti-aliasing
+      ;(setq mac-allow-anti-aliasing nil)
 
-	  ;; Note: be sure to also enter the following into the shell
-	  ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
+      ;; turn on anti-aliasing
+      (setq mac-allow-anti-aliasing t)
 
-	  ;; tiny xcode font
-	  ;(set-face-attribute 'default nil :family "Monaco" :height 100)
-	  ;(setq my-window-width 234)
-	  ;(setq my-window-height 71)
+      ;; Note: be sure to also enter the following into the shell
+      ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
 
-	  ;; Textmate style text (23.1)
-	  (set-face-attribute 'default nil :family "Monaco" :height 120)
-	  (setq my-window-width 200)
-	  (setq my-window-height 56)
+      ;; tiny xcode font
+      ;(set-face-attribute 'default nil :family "Monaco" :height 100)
+      ;(setq my-window-width 234)
+      ;(setq my-window-height 71)
 
-	  ;; for tired eyes
-	  ;;(set-face-attribute 'default nil :family "Monaco" :height 140)
+      ;; Textmate style text (23.1)
+      (set-face-attribute 'default nil :family "Monaco" :height 120)
+      (setq my-window-width 200)
+      (setq my-window-height 56)
 
-	  ;; Menlo (modified Bitstream Vera Sans Mono)
-	  ;(set-face-attribute 'default nil :family "Menlo" :height 115)
-	  ;(setq my-window-width 200)
-	  ;(setq my-window-height 60)
+      ;; for tired eyes
+      ;;(set-face-attribute 'default nil :family "Monaco" :height 140)
 
-	  ;; Proggy clean
-	  ;(set-face-attribute 'default nil :family "ProggyCleanTTSZ" :height 160)
-	  ;(setq my-window-width 200)
-	  ;(setq my-window-height 60)
+      ;; Menlo (modified Bitstream Vera Sans Mono)
+      ;(set-face-attribute 'default nil :family "Menlo" :height 115)
+      ;(setq my-window-width 200)
+      ;(setq my-window-height 60)
 
-	  ;; use command key as meta
-	  (setq mac-command-modifier 'meta)
-	  (setq compile-command (concat "cd ~/code/iphone/circull/; rake release"))
+      ;; Proggy clean
+      ;(set-face-attribute 'default nil :family "ProggyCleanTTSZ" :height 160)
+      ;(setq my-window-width 200)
+      ;(setq my-window-height 60)
 
-	  ;; For CinemaDisplay, try to only have 4 buffers at once
-	  (setq split-width-threshold 400)
-	  (setq split-height-threshold 100)
+      ;; use command key as meta
+      (setq mac-command-modifier 'meta)
+      (setq compile-command (concat "cd ~/code/iphone/circull/; rake release"))
 
-	  ))
+      ;; For CinemaDisplay, try to only have 4 buffers at once
+      (setq split-width-threshold 400)
+      (setq split-height-threshold 100)
+
+      ))
 
 ;;
 ;; vivisect
 ;;
 (if (string= "vivisect" hostname)
     (progn
-	  ;(set-face-attribute 'default nil :family "inconsolata" :height 105)
-	  (set-face-attribute 'default nil :family "courier" :height 87)
+      ;(set-face-attribute 'default nil :family "inconsolata" :height 105)
+      (set-face-attribute 'default nil :family "courier" :height 87)
 
-	  ;; dont be splittin my windows up
-	  (setq split-width-threshold 200)
+      ;; dont be splittin my windows up
+      (setq split-width-threshold 200)
 
-	  ;; put scroll bar on right
-	  (set-scroll-bar-mode 'right)
-	  ))
+      ;; put scroll bar on right
+      (set-scroll-bar-mode 'right)
+      ))
 
 ;;
 ;; windows (home)
 ;;
 (if (string= uname "MINGW32_NT-6.1")
-	(progn
-	  (set-face-attribute 'default nil :family "courier new" :height 100)
-	  (setq my-window-width 154)
-	  (setq my-window-height 60)))
+    (progn
+      (set-face-attribute 'default nil :family "courier new" :height 100)
+      (setq my-window-width 154)
+      (setq my-window-height 60)))
 
 ;;
 ;; windows (work)
@@ -149,102 +149,102 @@ For example:
 
       ;; set window size
       ;(set-face-attribute 'default nil :family "courier new" :height 105)
-	  (set-face-attribute 'default nil :family "courier new" :height 90)
+      (set-face-attribute 'default nil :family "courier new" :height 90)
       (setq my-window-width 195)
       (setq my-window-height 63)
 
       ;; set-up build
       (setq compile-command "cd D:\\tras& easymake xenon_release -noopts")
 
-	  ;; ispell not available on windows
-	  (setq-default ispell-program-name "aspell")
+      ;; ispell not available on windows
+      (setq-default ispell-program-name "aspell")
 
       ;;
       ;; Open a Dired buffer in common TRAS directories
       ;;
       (defun ajt-cdc-code ()
-		"Dired cdc code dir"
-		(interactive)
-		(find-file "D:/TRAS/cdc/runtime"))
+        "Dired cdc code dir"
+        (interactive)
+        (find-file "D:/TRAS/cdc/runtime"))
 
       (defun ajt-game-code ()
-		"Dired game code dir"
-		(interactive)
-		(find-file "D:/TRAS/code/game"))
+        "Dired game code dir"
+        (interactive)
+        (find-file "D:/TRAS/code/game"))
 
       (defun ajt-cdc-dtp ()
-		"Dired cdc dtp dir"
-		(interactive)
-		(find-file "D:/TRAS/cdc/dtp"))
+        "Dired cdc dtp dir"
+        (interactive)
+        (find-file "D:/TRAS/cdc/dtp"))
 
       (defun ajt-code-dtp ()
-		"Dired code dtp dir"
-		(interactive)
-		(find-file "D:/TRAS/code/dtp"))
+        "Dired code dtp dir"
+        (interactive)
+        (find-file "D:/TRAS/code/dtp"))
 
-	  ;; build TAGS & BROWSE file for all game code
-	  (defun ajt-build-tags ()
-		(interactive)
-		(shell-command "c:& cd %HOME%/.emacs.d/ebrowse/& ruby makefiles.rb")
-		(shell-command "c:& cd %HOME%/.emacs.d/etags/& ruby makefiles.rb"))
+      ;; build TAGS & BROWSE file for all game code
+      (defun ajt-build-tags ()
+        (interactive)
+        (shell-command "c:& cd %HOME%/.emacs.d/ebrowse/& ruby makefiles.rb")
+        (shell-command "c:& cd %HOME%/.emacs.d/etags/& ruby makefiles.rb"))
 
-	  ;; run class browser
+      ;; run class browser
       (defun ajt-browse ()
-		"open up ebrowser"
-		(interactive)
-		(find-file "~/.emacs.d/ebrowse/BROWSE"))
+        "open up ebrowser"
+        (interactive)
+        (find-file "~/.emacs.d/ebrowse/BROWSE"))
 
-	  ;; Search all dtp directries with a regex
-	  (defun ajt-dtp-search (arg)
-		"search for a regex in all dtp files"
-		(interactive "sgrep-regexp:")
-		(ajt-grep-find arg '("d:/tras/cdc/dtp" "d:/tras/code/dtp") '("*.dtp" "*.dtpinc")))
+      ;; Search all dtp directries with a regex
+      (defun ajt-dtp-search (arg)
+        "search for a regex in all dtp files"
+        (interactive "sgrep-regexp:")
+        (ajt-grep-find arg '("d:/tras/cdc/dtp" "d:/tras/code/dtp") '("*.dtp" "*.dtpinc")))
 
-	  ;; Search all code directories with a regex
-	  (defun ajt-code-search (arg)
-		"search for a regex in all code files"
-		(interactive "sgrep-regexp:")
-		(ajt-grep-find arg '("d:/tras/cdc/runtime" "d:/tras/code/game") '("*.cpp" "*.h" "*.c")))
+      ;; Search all code directories with a regex
+      (defun ajt-code-search (arg)
+        "search for a regex in all code files"
+        (interactive "sgrep-regexp:")
+        (ajt-grep-find arg '("d:/tras/cdc/runtime" "d:/tras/code/game") '("*.cpp" "*.h" "*.c")))
 
-	  ;; Search all action graphs (SLOW!)
-	  (defun ajt-graph-search (arg)
-		"search for a regex in all graph dat files"
-		(interactive "sgrep-regexp:")
-		(ajt-grep-find arg '("d:/tras/area" "d:/tras/object" "d:/tras/design") '("*.dat" "*.admd" "*.ags")))
+      ;; Search all action graphs (SLOW!)
+      (defun ajt-graph-search (arg)
+        "search for a regex in all graph dat files"
+        (interactive "sgrep-regexp:")
+        (ajt-grep-find arg '("d:/tras/area" "d:/tras/object" "d:/tras/design") '("*.dat" "*.admd" "*.ags")))
 
-	  ;; Search all object dat files (SLOW!)
-	  (defun ajt-object-search (arg)
-		"search for a regex in all object dat files"
-		(interactive "sgrep-regexp:")
-		(ajt-grep-find arg '("d:/tras/object") '("*.dat")))
+      ;; Search all object dat files (SLOW!)
+      (defun ajt-object-search (arg)
+        "search for a regex in all object dat files"
+        (interactive "sgrep-regexp:")
+        (ajt-grep-find arg '("d:/tras/object") '("*.dat")))
 
-	  ;; Search all script package files (SLOW!)
-	  (defun ajt-script-search (arg)
-		"search for a regex in all script package files"
-		(interactive "sgrep-regexp:")
-		(ajt-grep-find arg '("d:/tras/area" "d:/tras/object") '("*.package")))
+      ;; Search all script package files (SLOW!)
+      (defun ajt-script-search (arg)
+        "search for a regex in all script package files"
+        (interactive "sgrep-regexp:")
+        (ajt-grep-find arg '("d:/tras/area" "d:/tras/object") '("*.package")))
 
-	  ;; Search all animation state machines and piplelines (SLOW!)
-	  (defun ajt-anim-graph-search (arg)
-		"search for a regex in all animation state machines and pipelines"
-		(interactive "sgrep-regexp:")
-		(ajt-grep-find arg '("d:/tras/animation/animgraph") '("*.animstate" "*.animpipe")))
+      ;; Search all animation state machines and piplelines (SLOW!)
+      (defun ajt-anim-graph-search (arg)
+        "search for a regex in all animation state machines and pipelines"
+        (interactive "sgrep-regexp:")
+        (ajt-grep-find arg '("d:/tras/animation/animgraph") '("*.animstate" "*.animpipe")))
 
-	  ;; use TAGS file in these dirs.
-	  (setq tags-table-list '("~/.emacs.d/etags"))
+      ;; use TAGS file in these dirs.
+      (setq tags-table-list '("~/.emacs.d/etags"))
 
-	  ;; For try to only have 4 buffers at once
-	  (setq split-width-threshold 400)
-	  (setq split-height-threshold 100)
+      ;; For try to only have 4 buffers at once
+      (setq split-width-threshold 400)
+      (setq split-height-threshold 100)
 
-	  ))
+      ))
 
 ;; main frame
 (setq initial-frame-alist
       `((top . 0)
         (left . 0)
-		(width . ,my-window-width)
-		(height . ,my-window-height)))
+        (width . ,my-window-width)
+        (height . ,my-window-height)))
 
 
 ;; no startup message
@@ -257,11 +257,11 @@ For example:
 ;; Change backup behavior to save in a directory, not in a miscellany
 ;; of files all over the place.
 (setq backup-by-copying t
-	  backup-directory-alist '(("." . "~/.emacs.d/backups"))
-	  delete-old-versions t
-	  kept-new-versions 6
-	  kept-old-versions 2
-	  version-control t)
+      backup-directory-alist '(("." . "~/.emacs.d/backups"))
+      delete-old-versions t
+      kept-new-versions 6
+      kept-old-versions 2
+      version-control t)
 
 ;; hide tool bar & menu
 (when window-system
@@ -275,9 +275,12 @@ For example:
 (color-theme-initialize)
 
 (cond ((window-system)
-	   (color-theme-ajt-no-bold-blue-sea))
-	  (t
-	   (color-theme-charcoal-black)))
+       (color-theme-ajt-no-bold-blue-sea))
+      (t
+       (color-theme-charcoal-black)))
+
+;; don't use tabs to indent.
+(setq-default indent-tabs-mode nil)
 
 ;; syntax highlighting for c++
 (setq c-basic-offset 4)
@@ -292,7 +295,7 @@ For example:
   "create a new scratch buffer to work in. (could be *scratch* - *scratchX*)"
   (interactive)
   (let ((n 0)
-		bufname)
+        bufname)
     (while (progn
     (setq bufname (concat "*scratch"
   (if (= n 0) "" (int-to-string n))
@@ -404,52 +407,52 @@ For example:
 (defun ajt-lr-cmp (a b)
   "Returns the lower-right most of the two windows a and b."
   (if (eq b nil)
-	  a
-	(let* ((ae (window-edges a)) (be (window-edges b))
-		   (ax (nth 2 ae)) (ay (nth 3 ae))
-		   (bx (nth 2 be)) (by (nth 3 be)))
-	  (cond ((> ay by) a)
-			((< ay by) b)
-			((> ax bx) a)
-			((< ax bx) b)
-			(t b)))))
-			
+      a
+    (let* ((ae (window-edges a)) (be (window-edges b))
+           (ax (nth 2 ae)) (ay (nth 3 ae))
+           (bx (nth 2 be)) (by (nth 3 be)))
+      (cond ((> ay by) a)
+            ((< ay by) b)
+            ((> ax bx) a)
+            ((< ax bx) b)
+            (t b)))))
+            
 (defun ajt-lr-window (l)
   "Returns the lower-right most window in the list"
   (if (eq l nil)
-	  nil
-	(ajt-lr-cmp (car l) (ajt-lr-window (cdr l)))))
+      nil
+    (ajt-lr-cmp (car l) (ajt-lr-window (cdr l)))))
 
 ;; TODO: pay attention to the split-height-threshold etc.
 (defun ajt-split-window-preferred-function (x)
   "Always split the lower right most window, unless there is only one window."
   "In that case split it horizontaly"
   (if (= (length (window-list)) 1)
-	  (split-window-horizontally)
-	(split-window (ajt-lr-window (window-list)))))
+      (split-window-horizontally)
+    (split-window (ajt-lr-window (window-list)))))
 
 (defun ajt-special-display (buffer-or-name)
   "If there is window with a special buffer already open, display the buffer in that window"
   "Otherwise vertical split the lower right most window and display the buffer in the new bottom pane"
   (let ((existing (get-window-with-predicate (lambda (w) (member (buffer-name (window-buffer w)) ajt-special-buffers)))))
-	(if existing
-		(progn
-		  (set-window-buffer existing buffer-or-name)
-		  existing)
-	  (progn
-		;; reuse the existing display-buffer logic, except 
-		;; remove the special-display-buffer-names so we don't get into an infinite recursion.
-		(setq special-display-buffer-names nil)
-		;; install a custom window splitter function which splits the lower-right window
-		(setq split-window-preferred-function #'ajt-split-window-preferred-function)
+    (if existing
+        (progn
+          (set-window-buffer existing buffer-or-name)
+          existing)
+      (progn
+        ;; reuse the existing display-buffer logic, except 
+        ;; remove the special-display-buffer-names so we don't get into an infinite recursion.
+        (setq special-display-buffer-names nil)
+        ;; install a custom window splitter function which splits the lower-right window
+        (setq split-window-preferred-function #'ajt-split-window-preferred-function)
 
-		;; call display-buffer and store the result
-		(let ((result (display-buffer buffer-or-name)))
+        ;; call display-buffer and store the result
+        (let ((result (display-buffer buffer-or-name)))
 
-		  ;; restore the original values
-		  (setq split-window-preferred-function #'split-window-sensibly)
-		  (setq special-display-buffer-names ajt-special-display-buffer-names)
-		  result)))))
+          ;; restore the original values
+          (setq split-window-preferred-function #'split-window-sensibly)
+          (setq special-display-buffer-names ajt-special-display-buffer-names)
+          result)))))
 
 ;;
 ;; end special display
@@ -474,32 +477,32 @@ For example:
 ;; assign modes to file extentions
 (setq auto-mode-alist
       (append '(("\\.cpp\\'" . c++-mode)
-				("\\.h\\'" . c++-mode)
-				("\\.c\\'" . c-mode)
-			    ("\\.rb\\'" . ruby-mode)
-				("\\.dd\\'" . ruby-mode)   ; bbq data definition file
-				("\\.di\\'" . ruby-mode)   ; bbq data instance file
-				("\\.yaml\\'" . yaml-mode)
-				("\\.bin\\'" . hexl-mode)  ; binary blob
-				("\\.y\\'" . c-mode)       ; yacc/bison files
-				("\\.l\\'" . c-mode)       ; lex/flex files
-				("\\.glsl\\'" . glsl-mode)
-				("\\.vert\\'" . glsl-mode)
-				("\\.frag\\'" . glsl-mode)
-				("\\.m\\'" . objc-mode)
-				("\\.mm\\'" . objc-mode)
-				("\\.dtp\\'" . xml-mode)
-				("\\.dtpinc\\'" . xml-mode)
-				("\\.go\\'" . go-mode)
-				("BROWSE\\'" . ebrowse-tree-mode)
-				("\\.lisp\\'" . common-lisp-mode))
-			  auto-mode-alist))
+                ("\\.h\\'" . c++-mode)
+                ("\\.c\\'" . c-mode)
+                ("\\.rb\\'" . ruby-mode)
+                ("\\.dd\\'" . ruby-mode)   ; bbq data definition file
+                ("\\.di\\'" . ruby-mode)   ; bbq data instance file
+                ("\\.yaml\\'" . yaml-mode)
+                ("\\.bin\\'" . hexl-mode)  ; binary blob
+                ("\\.y\\'" . c-mode)       ; yacc/bison files
+                ("\\.l\\'" . c-mode)       ; lex/flex files
+                ("\\.glsl\\'" . glsl-mode)
+                ("\\.vert\\'" . glsl-mode)
+                ("\\.frag\\'" . glsl-mode)
+                ("\\.m\\'" . objc-mode)
+                ("\\.mm\\'" . objc-mode)
+                ("\\.dtp\\'" . xml-mode)
+                ("\\.dtpinc\\'" . xml-mode)
+                ("\\.go\\'" . go-mode)
+                ("BROWSE\\'" . ebrowse-tree-mode)
+                ("\\.lisp\\'" . common-lisp-mode))
+              auto-mode-alist))
 
 ;; irc chat
 (require 'erc)
 
 ;; (setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
-;;									 interpreter-mode-alist))
+;;                                   interpreter-mode-alist))
 
 (autoload 'run-ruby "inf-ruby" "Run an inferior Ruby process")
 (autoload 'inf-ruby-keys "inf-ruby" "Set local key defs for inf-ruby in ruby-mode")
@@ -570,31 +573,31 @@ If point was already at that position, move point to beginning of line."
 ;; fn can return non-nil to stop iteration
 (defun ajt-for-each (fn lst)
   (if (null lst)
-	  nil
-	(if (funcall fn (car lst))
-		't
-	  (ajt-for-each fn (cdr lst)))))
+      nil
+    (if (funcall fn (car lst))
+        't
+      (ajt-for-each fn (cdr lst)))))
 
 (defun ajt-find-file-with-ext (basename ext)
   (let ((full-filename (concat basename ext)))
-	(if (file-exists-p full-filename)
-		(progn (find-file full-filename) 't)
-	  nil)))
+    (if (file-exists-p full-filename)
+        (progn (find-file full-filename) 't)
+      nil)))
 
 ;; Swap between .h and .cpp/.c/.m/.mm files
 (defun ajt-header-swap ()
   "Swap between .h & .cpp files"
   (interactive)
   (let* ((filename (buffer-file-name (current-buffer)))
-		 (ext (file-name-extension filename))
-		 (basename (file-name-sans-extension filename)))
-	(if (string= ext "h") 
-		(if (ajt-for-each (lambda (ext) (ajt-find-file-with-ext basename ext)) ajt-src-ext-list)
-			't
-		  (error "could not find corresponding src file for \"%s\"" filename))
-	  (if (ajt-find-file-with-ext basename ".h")
-		  't
-		(error "could not find header file for \"%s\"" filename)))))
+         (ext (file-name-extension filename))
+         (basename (file-name-sans-extension filename)))
+    (if (string= ext "h")
+        (if (ajt-for-each (lambda (ext) (ajt-find-file-with-ext basename ext)) ajt-src-ext-list)
+            't
+          (error "could not find corresponding src file for \"%s\"" filename))
+      (if (ajt-find-file-with-ext basename ".h")
+          't
+        (error "could not find header file for \"%s\"" filename)))))
 
 ;; was mark-whole-buffer
 (global-set-key "\C-x\h" 'ajt-header-swap)
@@ -611,7 +614,7 @@ If point was already at that position, move point to beginning of line."
   (interactive)
   (chmod (buffer-file-name (current-buffer)) 666)
   (revert-buffer))
-  
+
 (defun ajt-chmod-read-only ()
   "make current buffer read-only r--r--r--"
   (interactive)
