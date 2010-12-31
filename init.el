@@ -88,22 +88,23 @@ For example:
       ;(set-face-attribute 'default nil :family "Monaco" :height 100)
       ;(setq my-window-width 234)
       ;(setq my-window-height 71)
+      ;(setq-default line-spacing 2) ; so the bottoms of ] and } don't get cut off
 
       ;; Textmate style text (23.1)
-      (set-face-attribute 'default nil :family "Monaco" :height 120)
-      (setq my-window-width 200)
-      (setq my-window-height 56)
+      ;(set-face-attribute 'default nil :family "Monaco" :height 110)
+      ;(setq my-window-width 200)
+      ;(setq my-window-height 56)
 
       ;; for tired eyes
-      ;;(set-face-attribute 'default nil :family "Monaco" :height 140)
+      ;(set-face-attribute 'default nil :family "Monaco" :height 140)
 
       ;; Menlo (modified Bitstream Vera Sans Mono)
-      ;(set-face-attribute 'default nil :family "Menlo" :height 115)
-      ;(setq my-window-width 200)
-      ;(setq my-window-height 60)
+      (set-face-attribute 'default nil :family "Menlo" :height 115)
+      (setq my-window-width 200)
+      (setq my-window-height 60)
 
       ;; Proggy clean
-      ;(set-face-attribute 'default nil :family "ProggyCleanTTSZ" :height 160)
+      ;(set-face-attribute 'default nil :family "ProggyCleanTTSZ" :height 155)
       ;(setq my-window-width 200)
       ;(setq my-window-height 60)
 
@@ -489,6 +490,8 @@ For example:
                 ("\\.glsl\\'" . glsl-mode)
                 ("\\.vert\\'" . glsl-mode)
                 ("\\.frag\\'" . glsl-mode)
+                ("\\.vsh\\'" . glsl-mode)
+                ("\\.fsh\\'" . glsl-mode)
                 ("\\.m\\'" . objc-mode)
                 ("\\.mm\\'" . objc-mode)
                 ("\\.dtp\\'" . xml-mode)
@@ -634,3 +637,9 @@ If point was already at that position, move point to beginning of line."
 ;(require 'slime)
 ;(setq slime-net-coding-system 'utf-8-unix)
 ;(slime-setup '(slime-fancy))
+
+;; forth mode
+(autoload 'forth-mode "gforth.el")
+(autoload 'forth-block-mode "gforth.el")
+(add-to-list 'auto-mode-alist '("\\.fs$" . forth-mode))
+(add-to-list 'auto-mode-alist '("\\.fth$" . forth-mode))
