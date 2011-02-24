@@ -572,6 +572,7 @@ If point was already at that position, move point to beginning of line."
 
 ;; list of src files that can match a header file
 (setq ajt-src-ext-list `(".cpp" ".c" ".m" ".mm"))
+(setq ajt-hdr-ext-list `(".h" ".hpp"))
 
 ;; fn can return non-nil to stop iteration
 (defun ajt-for-each (fn lst)
@@ -581,24 +582,29 @@ If point was already at that position, move point to beginning of line."
         't
       (ajt-for-each fn (cdr lst)))))
 
+;; if file exists open it and return 't, otherwise return nil
 (defun ajt-find-file-with-ext (basename ext)
   (let ((full-filename (concat basename ext)))
     (if (file-exists-p full-filename)
         (progn (find-file full-filename) 't)
       nil)))
 
-;; Swap between .h and .cpp/.c/.m/.mm files
+;; Swap between .h/.hpp and .cpp/.c/.m/.mm files
 (defun ajt-header-swap ()
   "Swap between .h & .cpp files"
   (interactive)
   (let* ((filename (buffer-file-name (current-buffer)))
          (ext (file-name-extension filename))
          (basename (file-name-sans-extension filename)))
-    (if (string= ext "h")
+
+    ;; if current-buffer is a header
+    (if (member (concat "." ext) ajt-hdr-ext-list)
+        ;; try to open corresponding src file
         (if (ajt-for-each (lambda (ext) (ajt-find-file-with-ext basename ext)) ajt-src-ext-list)
             't
           (error "could not find corresponding src file for \"%s\"" filename))
-      (if (ajt-find-file-with-ext basename ".h")
+      ;; try to open corresponding header file
+      (if (ajt-for-each (lambda (ext) (ajt-find-file-with-ext basename ext)) ajt-hdr-ext-list)
           't
         (error "could not find header file for \"%s\"" filename)))))
 
