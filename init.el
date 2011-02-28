@@ -34,14 +34,18 @@
         (if (string-equal (buffer-name b) name)
             (return 't))))
 
-;; ansi-term seems better then terminal-mode
-;; in that it lets me c-x o out of it.
 (defun ajt-term ()
   (interactive)
-  (if (ajt-buffer-open "*ansi-term*")
+
+  ;; (if (ajt-buffer-open "*ansi-term*")
+  ;;     (progn
+  ;;       (switch-to-buffer-other-window "*ansi-term*"))
+  ;;   (ansi-term "/bin/bash")))
+
+  (if (ajt-buffer-open "*shell*")
       (progn
-        (switch-to-buffer-other-window "*ansi-term*"))
-    (ansi-term "/bin/bash")))
+        (switch-to-buffer-other-window "*shell*"))
+    (shell)))
 
 ;; ruby-mode NOTE: now included in 23.1
 (when (< emacs-major-version 23)
@@ -91,17 +95,17 @@ For example:
       ;(setq-default line-spacing 2) ; so the bottoms of ] and } don't get cut off
 
       ;; Textmate style text (23.1)
-      ;(set-face-attribute 'default nil :family "Monaco" :height 110)
-      ;(setq my-window-width 200)
-      ;(setq my-window-height 56)
+      (set-face-attribute 'default nil :family "Monaco" :height 120)
+      (setq my-window-width 200)
+      (setq my-window-height 56)
 
       ;; for tired eyes
       ;(set-face-attribute 'default nil :family "Monaco" :height 140)
 
       ;; Menlo (modified Bitstream Vera Sans Mono)
-      (set-face-attribute 'default nil :family "Menlo" :height 115)
-      (setq my-window-width 200)
-      (setq my-window-height 60)
+      ;(set-face-attribute 'default nil :family "Menlo" :height 115)
+      ;(setq my-window-width 200)
+      ;(setq my-window-height 60)
 
       ;; Proggy clean
       ;(set-face-attribute 'default nil :family "ProggyCleanTTSZ" :height 155)
@@ -114,7 +118,7 @@ For example:
 
       ;; For CinemaDisplay, try to only have 4 buffers at once
       (setq split-width-threshold 400)
-      (setq split-height-threshold 100)
+      (setq split-height-threshold 200)
 
       ))
 
