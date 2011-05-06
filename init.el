@@ -114,7 +114,7 @@ For example:
 
       ;; use command key as meta
       (setq mac-command-modifier 'meta)
-      (setq compile-command (concat "cd ~/code/iphone/circull/; rake release"))
+      (setq compile-command (concat "cd ~/code/lavender/; rake debug"))
 
       ;; For CinemaDisplay, try to only have 4 buffers at once
       (setq split-width-threshold 400)
@@ -279,7 +279,7 @@ For example:
 (load "ajt-color-themes.el")
 (color-theme-initialize)
 
-(cond ((window-system)
+(cond (window-system
        (color-theme-ajt-no-bold-blue-sea))
       (t
        (color-theme-charcoal-black)))
@@ -337,7 +337,6 @@ For example:
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 (global-set-key "\C-x\m" 'execute-extended-command)
 
-
 ;; forward-to-word
 (require 'misc)
 ;(global-set-key "\M-f" 'forward-to-word)
@@ -362,12 +361,10 @@ For example:
 
 ;; ham-handed other-window
 (global-set-key "\C-x\C-o" 'other-window)
+(global-set-key "\C-o" 'other-window)
 
 ;; ham-handed find-file
 (global-set-key "\C-xf" 'find-file)
-
-;; M-$ doesn't work on Mac OS X so move to C-$ instead
-(global-set-key (kbd "C-$") 'ispell-word)
 
 ;; function key bindings
 (global-set-key [f1] 'call-last-kbd-macro)
@@ -487,6 +484,7 @@ For example:
                 ("\\.rb\\'" . ruby-mode)
                 ("\\.dd\\'" . ruby-mode)   ; bbq data definition file
                 ("\\.di\\'" . ruby-mode)   ; bbq data instance file
+                ("[rR]akefile" . ruby-mode)
                 ("\\.yaml\\'" . yaml-mode)
                 ("\\.bin\\'" . hexl-mode)  ; binary blob
                 ("\\.y\\'" . c-mode)       ; yacc/bison files
@@ -574,9 +572,9 @@ If point was already at that position, move point to beginning of line."
 
 (global-set-key "\C-a" 'smart-beginning-of-line)
 
-;; list of src files that can match a header file
-(setq ajt-src-ext-list `(".cpp" ".c" ".m" ".mm"))
-(setq ajt-hdr-ext-list `(".h" ".hpp"))
+;; list of header and soruce file extentions
+(setq ajt-hdr-ext-list `(".h" ".hpp" ".vsh"))
+(setq ajt-src-ext-list `(".cpp" ".c" ".m" ".mm" ".fsh"))
 
 ;; fn can return non-nil to stop iteration
 (defun ajt-for-each (fn lst)
@@ -653,3 +651,9 @@ If point was already at that position, move point to beginning of line."
 (autoload 'forth-block-mode "gforth.el")
 (add-to-list 'auto-mode-alist '("\\.fs$" . forth-mode))
 (add-to-list 'auto-mode-alist '("\\.fth$" . forth-mode))
+
+;; markdown mode
+(autoload 'markdown-mode "markdown-mode.el")
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
+
