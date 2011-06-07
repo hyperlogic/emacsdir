@@ -54,9 +54,9 @@
 ;; turn off line wrapping.
 (set-default 'truncate-lines t)
 
+
+;;
 ;; Pops up a grep process in a buffer named *ajt-grep*
-;; For example: 
-;;   (ajt-grep-find "main" '("d:/tras/cdc/runtime" "d:/tras/code/game") '("*.cpp" "*.h" "*.c")))
 ;;
 (defun ajt-grep-find (search-term search-paths file-globs)
   "Passes the string SEARCH-TERM to grep
@@ -64,9 +64,15 @@ SEARCH-PATHS is a list of directory strings to search in,
 FILE-GLOBS is a list of glob strings.
 For example:  
   (ajt-grep-find \"main\" '(\"d:/tras/cdc/runtime\" \"d:/tras/code/game\") '(\"*.cpp\" \"*.h\" \"*.c\")))"
-  (let ((paths (mapconcat 'identity search-paths " "))
-        (extns (mapconcat (lambda (x) (concat "\"" x "\"")) file-globs " -o -name ")))
-    (start-process-shell-command "ajt-grep" "*ajt-grep*" (concat "find " paths " ( -name " extns " ) -type f -print0 | xargs -0 -e grep -nH -e " search-term))
+  (let* ((paths (mapconcat 'identity search-paths " "))
+         (extns (mapconcat (lambda (x) (concat "\"" x "\"")) file-globs " -o -name "))
+         (cmd (concat "find " paths " \\( -name " extns " \\) -type f -exec grep -nH -e " search-term " {} /dev/null \\;")))
+
+    ;; echo the cmd line to the *Message* log
+    (message cmd)
+
+    ;; exec command in a new process
+    (start-process-shell-command "ajt-grep" "*ajt-grep*" cmd)
     (pop-to-buffer "*ajt-grep*")
     (compilation-mode)))
 
@@ -76,8 +82,8 @@ For example:
     (progn
 
       ;; go stuff
-      (add-to-list 'load-path "~/go/misc/emacs/" t)
-      (require 'go-mode-load)
+;      (add-to-list 'load-path "~/go/misc/emacs/" t)
+;      (require 'go-mode-load)
 
       ;; turn off anti-aliasing
       ;(setq mac-allow-anti-aliasing nil)
@@ -120,6 +126,12 @@ For example:
       (setq split-width-threshold 400)
       (setq split-height-threshold 200)
 
+      ;; Search all code directories with a regex
+      (defun ajt-code-search (arg)
+        "search for a regex in all code files"
+        (interactive "sgrep-regexp:")
+        ;(ajt-grep-find arg '("~/../anthonythibault/code/lavender/src" "~/../anthonythibault/code/lavender/lua") '("*.cpp" "*.h" "*.c" "*.lua")))
+        (ajt-grep-find arg '("/Volumes/crypt/d2/cdc/runtime" "/Volumes/crypt/d2/game") '("*.cpp" "*.h" "*.c")))
       ))
 
 ;;
@@ -617,7 +629,8 @@ If point was already at that position, move point to beginning of line."
 (defun ajt-p4-edit ()
   "Checkout the current buffer"
   (interactive)
-  (shell-command (format "p4 edit %s" (buffer-file-name (current-buffer))))
+  (let ((cmd (format "/usr/local/bin/p4 -p rwcp4d02.eidos.com:1666 -c tthibault_laptop edit %s" (buffer-file-name (current-buffer)))))
+    (shell-command cmd))
   (revert-buffer))
 
 (defun ajt-chmod-writeable ()
