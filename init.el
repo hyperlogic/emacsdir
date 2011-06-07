@@ -355,7 +355,7 @@ For example:
 
 ;; C-\ is indent-region
 ;(global-set-key "\M-C-i" 'indent-region)
-;(global-set-key [C-c C-c] 'comment-region)
+;(global-set-key [C-c C-c] 'comment-or-uncomment-region)
 ;(global-set-key [C-c C-u] 'uncomment-region)
 ;(global-set-key "\M-s" 'grep-find)
 
