@@ -119,7 +119,7 @@
     (color-theme-blue-erc)
     (color-theme-install
      '(color-theme-ajt-no-bold-blue-sea
-       ((background-color . "#101048")
+       ((background-color . "#050540")
 		(background-mode . dark)
 		(border-color . "Grey")
 		(cursor-color . "dim gray") ; Grey
@@ -191,7 +191,7 @@
        (font-lock-type-face ((t (:foreground "sky blue"))))
        (font-lock-variable-name-face ((t (:foreground "turquoise"))))
        (font-lock-warning-face ((t (:foreground "Red"))))
-       (fringe ((t (:background "#101048"))))
+       (fringe ((t (:background "#050540"))))
        (header-line ((t (:background "#002" :foreground "cornflower blue"))))
        (highlight ((t (:background "dark slate blue" :foreground "light blue"))))
        (highline-face ((t (:background "DeepSkyBlue4"))))
@@ -202,7 +202,7 @@
        (isearch ((t (:background "slate blue"))))
        (italic ((t (:foreground "sky blue"))))
        (makefile-space-face ((t (:background "hotpink"))))
-       (menu ((t (:background "#101048" :foreground "Grey"))))
+       (menu ((t (:background "#050540" :foreground "Grey"))))
        (modeline ((t (:foreground "black" :background "slate blue"))))
        (mode-line-inactive ((t (:background "MidnightBlue" :foreground "black"))))
        (modeline-buffer-id ((t (:foreground "white" :background "slate blue"))))
@@ -218,7 +218,7 @@
        (speedbar-highlight-face ((t (:background "dark slate blue" :foreground "wheat"))))
        (speedbar-selected-face ((t (:foreground "seashell1" :underline t))))
        (speedbar-tag-face ((t (:foreground "antique white"))))
-       (tool-bar ((t (:background "#101048" :foreground "Grey" :box (:line-width 1 :style released-button)))))
+       (tool-bar ((t (:background "#050540" :foreground "Grey" :box (:line-width 1 :style released-button)))))
        (underline ((t (:underline t))))
        (widget-button-face ((t (nil))))
        (widget-button-pressed-face ((t (:foreground "red"))))
