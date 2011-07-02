@@ -390,15 +390,24 @@ For example:
 (global-set-key [f8] 'ajt-code-search)
 (global-set-key [f9] 'ajt-dtp-search)
 
-;; modify kill-word
-(defun ajt-delete-word ()
+;; ajt-kill-word
+(defun ajt-delete-word (&optional num)
   "Delete from point to beginning of next word"
   (interactive)
-  (let ((start (point)))
-    (forward-same-syntax 1)
-    (re-search-forward "[\s[:space:]\n]*")
+  (let ((n (or num 1))
+        (start (point)))
+    (ajt-forward-word n)
     (delete-region start (point))))
 (global-set-key "\M-d" 'ajt-delete-word)
+
+;; ajt-forward-word
+(defun ajt-forward-word (&optional num)
+  "Move to beginning of next word"
+  (interactive)
+  (let ((n (or num 1)))
+    (forward-same-syntax n)
+    (re-search-forward "[\s[:space:]\n]*")))
+(global-set-key "\M-f" 'ajt-forward-word)
 
 ;; scrolling output
 (setq compilation-scroll-output t)
