@@ -77,7 +77,8 @@ For example:
     (compilation-mode)))
 
 ;;
-;; bluesliver
+;; bluesliver - home laptop
+;;
 (if (string= "Darwin" uname)
     (progn
 
@@ -135,7 +136,7 @@ For example:
       ))
 
 ;;
-;; vivisect
+;; vivisect - arch home pc
 ;;
 (if (string= "vivisect" hostname)
     (progn
@@ -159,7 +160,7 @@ For example:
       (setq my-window-height 60)))
 
 ;;
-;; windows (work)
+;; windows (work) - crystal dynamics
 ;;
 (if (string= hostname "RWCWRK_7001233")
     (progn
@@ -389,6 +390,16 @@ For example:
 (global-set-key [f8] 'ajt-code-search)
 (global-set-key [f9] 'ajt-dtp-search)
 
+;; modify kill-word
+(defun ajt-delete-word ()
+  "Delete from point to beginning of next word"
+  (interactive)
+  (let ((start (point)))
+    (forward-same-syntax 1)
+    (re-search-forward "[\s[:space:]\n]*")
+    (delete-region start (point))))
+(global-set-key "\M-d" 'ajt-delete-word)
+
 ;; scrolling output
 (setq compilation-scroll-output t)
 
@@ -484,6 +495,9 @@ For example:
 ;; yaml-mode
 (load-library "yaml-mode")
 
+;; js2-mode
+;;(load-library "js2")
+
 ;; lua-mode
 (require 'lua-mode)
 (setq lua-indent-level 4)
@@ -506,6 +520,7 @@ For example:
                 ("\\.frag\\'" . glsl-mode)
                 ("\\.vsh\\'" . glsl-mode)
                 ("\\.fsh\\'" . glsl-mode)
+                ("\\.js\\'" . js-mode)
                 ("\\.m\\'" . objc-mode)
                 ("\\.mm\\'" . objc-mode)
                 ("\\.dtp\\'" . xml-mode)
