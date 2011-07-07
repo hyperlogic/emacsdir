@@ -127,12 +127,15 @@ For example:
       (setq split-width-threshold 400)
       (setq split-height-threshold 200)
 
-      ;; Search all code directories with a regex
-      (defun ajt-code-search (arg)
-        "search for a regex in all code files"
-        (interactive "sgrep-regexp:")
-        ;(ajt-grep-find arg '("~/../anthonythibault/code/lavender/src" "~/../anthonythibault/code/lavender/lua") '("*.cpp" "*.h" "*.c" "*.lua")))
-        (ajt-grep-find arg '("/Volumes/crypt/d2/cdc/runtime" "/Volumes/crypt/d2/game") '("*.cpp" "*.h" "*.c")))
+      ;; work @ ngmoco:)
+      (if (string= "Anthony-Thibault_MacBook-Pro.local" hostname)
+          (progn
+            ;; Search ngcore directories with a regex
+            (defun ajt-code-search (arg)
+              "Search for a regex in all ngCore files"
+              (interactive "sgrep-regexp:")
+              (ajt-grep-find arg '("~/WebGame/") '("*.js")))))
+
       ))
 
 ;;
