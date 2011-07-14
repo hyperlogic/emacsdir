@@ -130,12 +130,33 @@ For example:
       ;; work @ ngmoco:)
       (if (string= "Anthony-Thibault_MacBook-Pro.local" hostname)
           (progn
-            ;; Search ngcore directories with a regex
-            (defun ajt-code-search (arg)
-              "Search for a regex in all ngCore files"
-              (interactive "sgrep-regexp:")
-              (ajt-grep-find arg '("~/WebGame/") '("*.js")))))
 
+            ;; uhh, only useful when screen is maximized
+            ;(ns-toggle-fullscreen)
+
+            ;; ngmoco uses tabs! omg
+            (setq-default indent-tabs-mode 't)
+
+            ;; use aspell
+            (setq-default ispell-program-name "aspell")
+
+            ;; javascript search with regex
+            (defun ajt-js-search (arg)
+              "Search for a regex in all ngCore javascript files"
+              (interactive "sngcore-js:")
+              (ajt-grep-find arg '("~/WebGame/") '("*.js")))
+
+            ;; cpp search with regex
+            (defun ajt-cpp-search (arg)
+              "Search for a regex in all ngCore cpp files"
+              (interactive "sngcore-cpp:")
+              (ajt-grep-find arg '("~/WebGame/") '("*.cc" "*.cpp" "*.h")))
+
+            ;; key bindings
+            (global-set-key [f8] 'ajt-js-search)
+            (global-set-key [f9] 'ajt-cpp-search)
+
+            ))
       ))
 
 ;;
@@ -301,6 +322,7 @@ For example:
        (color-theme-charcoal-black)))
 
 ;; don't use tabs to indent.
+;; NOTE: overridden for ngmoco
 (setq-default indent-tabs-mode nil)
 
 ;; syntax highlighting for c++
@@ -390,8 +412,6 @@ For example:
 (global-set-key [f5] 'ispell-word)
 (global-set-key [f6] 'grep-find)
 (global-set-key [f7] 'compile)
-(global-set-key [f8] 'ajt-code-search)
-(global-set-key [f9] 'ajt-dtp-search)
 
 ;; ajt-kill-word
 (defun ajt-delete-word (&optional num)
@@ -508,7 +528,9 @@ For example:
 (load-library "yaml-mode")
 
 ;; js2-mode
-;;(load-library "js2")
+;; NOTE: needs to be byte compiled first
+;; emacs --batch --eval '(byte-compile-file "~/.emacs.d/js2.el")'
+;(load-library "js2")
 
 ;; lua-mode
 (require 'lua-mode)
@@ -539,7 +561,11 @@ For example:
                 ("\\.dtpinc\\'" . xml-mode)
                 ("\\.go\\'" . go-mode)
                 ("BROWSE\\'" . ebrowse-tree-mode)
-                ("\\.lisp\\'" . common-lisp-mode))
+                ("\\.lisp\\'" . common-lisp-mode)
+                ("\\.json\\'" . js-mode)
+                ("\\.jake\\'" . js-mode)
+                ("[jJ]akefile" . js-mode)
+                (".boot[Cc]onfig" . js-mode))
               auto-mode-alist))
 
 ;; irc chat
