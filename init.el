@@ -125,7 +125,7 @@ For example:
 
       ;; For CinemaDisplay, try to only have 4 buffers at once
       (setq split-width-threshold 400)
-      (setq split-height-threshold 200)
+      (setq split-height-threshold 100)
 
       ;; work @ ngmoco:)
       (if (string= "Anthony-Thibault_MacBook-Pro.local" hostname)
@@ -480,13 +480,19 @@ For example:
       nil
     (ajt-lr-cmp (car l) (ajt-lr-window (cdr l)))))
 
-;; TODO: pay attention to the split-height-threshold etc.
+(setq ajt-split-height-threshold 75)
+
 (defun ajt-split-window-preferred-function (x)
   "Always split the lower right most window, unless there is only one window."
   "In that case split it horizontaly"
   (if (= (length (window-list)) 1)
       (split-window-horizontally)
-    (split-window (ajt-lr-window (window-list)))))
+    (let* ((lr-window (ajt-lr-window (window-list)))
+           (edges (window-edges lr-window))
+           (height (- (nth 3 edges) (nth 1 edges))))
+      (if (> height ajt-split-height-threshold)
+          (split-window lr-window)
+        lr-window))))
 
 (defun ajt-special-display (buffer-or-name)
   "If there is window with a special buffer already open, display the buffer in that window"
@@ -500,6 +506,7 @@ For example:
         ;; reuse the existing display-buffer logic, except 
         ;; remove the special-display-buffer-names so we don't get into an infinite recursion.
         (setq special-display-buffer-names nil)
+
         ;; install a custom window splitter function which splits the lower-right window
         (setq split-window-preferred-function #'ajt-split-window-preferred-function)
 
