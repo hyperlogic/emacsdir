@@ -54,6 +54,9 @@
 ;; turn off line wrapping.
 (set-default 'truncate-lines t)
 
+;; by default use spaces to indent.
+;; NOTE: overridden for ngmoco
+(setq-default indent-tabs-mode nil)
 
 ;;
 ;; Pops up a grep process in a buffer named *ajt-grep*
@@ -155,6 +158,8 @@ For example:
             ;; key bindings
             (global-set-key [f8] 'ajt-js-search)
             (global-set-key [f9] 'ajt-cpp-search)
+
+            (setq compile-command (concat "cd ~/WebGame/NGBoot/; ~/bin/synjs"))
 
             ))
       ))
@@ -320,10 +325,6 @@ For example:
        (color-theme-ajt-no-bold-blue-sea))
       (t
        (color-theme-charcoal-black)))
-
-;; don't use tabs to indent.
-;; NOTE: overridden for ngmoco
-(setq-default indent-tabs-mode nil)
 
 ;; syntax highlighting for c++
 (setq c-basic-offset 4)
