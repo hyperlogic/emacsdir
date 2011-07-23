@@ -58,6 +58,10 @@
 ;; NOTE: overridden for ngmoco
 (setq-default indent-tabs-mode nil)
 
+;; hightlight current line
+(global-hl-line-mode)
+(set-face-background 'hl-line "#001070")
+
 ;;
 ;; Pops up a grep process in a buffer named *ajt-grep*
 ;;
@@ -153,13 +157,13 @@ For example:
             (defun ajt-cpp-search (arg)
               "Search for a regex in all ngCore cpp files"
               (interactive "sngcore-cpp:")
-              (ajt-grep-find arg '("~/WebGame/") '("*.cc" "*.cpp" "*.h")))
+              (ajt-grep-find arg '("~/WebGame/") '("*.cc" "*.cpp" "*.h" "*.mm" "*.m")))
 
             ;; key bindings
             (global-set-key [f8] 'ajt-js-search)
             (global-set-key [f9] 'ajt-cpp-search)
 
-            (setq compile-command (concat "cd ~/WebGame/NGBoot/; ~/bin/synjs"))
+            (setq compile-command (concat "cd ~/WebGame/; make afast"))
 
             ))
       ))
@@ -573,7 +577,8 @@ For example:
                 ("\\.json\\'" . js-mode)
                 ("\\.jake\\'" . js-mode)
                 ("[jJ]akefile" . js-mode)
-                (".boot[Cc]onfig" . js-mode))
+                (".boot[Cc]onfig" . js-mode)
+                ("COMMIT_EDITMSG" . flyspell-mode))
               auto-mode-alist))
 
 ;; irc chat
