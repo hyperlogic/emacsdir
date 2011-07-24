@@ -132,7 +132,7 @@ For example:
 
       ;; For CinemaDisplay, try to only have 4 buffers at once
       (setq split-width-threshold 400)
-      (setq split-height-threshold 100)
+      (setq split-height-threshold 200)
 
       ;; work @ ngmoco:)
       (if (string= "Anthony-Thibault_MacBook-Pro.local" hostname)
