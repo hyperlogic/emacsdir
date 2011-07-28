@@ -154,6 +154,11 @@
        (dired-face-flagged ((t (:foreground "tomato"))))
        (dired-face-marked ((t (:foreground "light salmon"))))
        (dired-face-executable ((t (:foreground "green yellow"))))
+
+	   ; diff-mode
+	   (diff-added-face ((t (:foreground "green"))))
+	   (diff-removed-face ((t (:foreground "red"))))
+
        (eshell-ls-archive-face ((t (:foreground "medium purple"))))
        (eshell-ls-backup-face ((t (:foreground "dim gray"))))
        (eshell-ls-clutter-face ((t (:foreground "dim gray"))))

@@ -59,8 +59,8 @@
 (setq-default indent-tabs-mode nil)
 
 ;; hightlight current line
-(global-hl-line-mode)
-(set-face-background 'hl-line "#001070")
+;(global-hl-line-mode)
+;(set-face-background 'hl-line "#001070")
 
 ;;
 ;; Pops up a grep process in a buffer named *ajt-grep*
