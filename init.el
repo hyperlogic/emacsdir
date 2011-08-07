@@ -737,5 +737,3 @@ If point was already at that position, move point to beginning of line."
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 
-(error 'poop')
-
