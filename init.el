@@ -58,9 +58,10 @@
 ;; NOTE: overridden for ngmoco
 (setq-default indent-tabs-mode nil)
 
-;; hightlight current line
-;(global-hl-line-mode)
-;(set-face-background 'hl-line "#001070")
+;; highlight curent line NOTE: better then hl-line mode
+(require 'highlight-current-line)
+(highlight-current-line-on t)
+(set-face-background 'highlight-current-line-face "#001060")
 
 ;;
 ;; Pops up a grep process in a buffer named *ajt-grep*
@@ -735,4 +736,6 @@ If point was already at that position, move point to beginning of line."
 (autoload 'markdown-mode "markdown-mode.el")
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
+
+(error 'poop')
 
