@@ -27,6 +27,9 @@
 ;; color shell
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
+;; Show trailing whitespace.
+;(setq-default show-trailing-whitespace t)
+
 ;; 't if buffer with name is open
 ;; nil otherwise
 (defun ajt-buffer-open (name)
