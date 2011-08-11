@@ -37,18 +37,18 @@
         (if (string-equal (buffer-name b) name)
             (return 't))))
 
+(setq-default ajt-use-ansi-term 't)
 (defun ajt-term ()
   (interactive)
-
-  ;; (if (ajt-buffer-open "*ansi-term*")
-  ;;     (progn
-  ;;       (switch-to-buffer-other-window "*ansi-term*"))
-  ;;   (ansi-term "/bin/bash")))
-
-  (if (ajt-buffer-open "*shell*")
-      (progn
-        (switch-to-buffer-other-window "*shell*"))
-    (shell)))
+  (if ajt-use-ansi-term
+	  (if (ajt-buffer-open "*ansi-term*")
+		  (progn
+			(switch-to-buffer-other-window "*ansi-term*"))
+		(ansi-term "/bin/bash"))
+	(if (ajt-buffer-open "*shell*")
+		(progn
+		  (switch-to-buffer-other-window "*shell*"))
+	  (shell))))
 
 ;; ruby-mode NOTE: now included in 23.1
 (when (< emacs-major-version 23)
@@ -64,7 +64,7 @@
 ;; highlight curent line NOTE: better then hl-line mode
 (require 'highlight-current-line)
 (highlight-current-line-on t)
-(set-face-background 'highlight-current-line-face "#001060")
+(set-face-background 'highlight-current-line-face "#101040")
 
 ;;
 ;; Pops up a grep process in a buffer named *ajt-grep*
@@ -151,21 +151,28 @@ For example:
             ;; use aspell
             (setq-default ispell-program-name "aspell")
 
-            ;; javascript search with regex
+            ;; WebGame javascript search with regex
             (defun ajt-js-search (arg)
               "Search for a regex in all ngCore javascript files"
               (interactive "sngcore-js:")
               (ajt-grep-find arg '("~/WebGame/") '("*.js")))
 
-            ;; cpp search with regex
+            ;; WebGame cpp search with regex
             (defun ajt-cpp-search (arg)
               "Search for a regex in all ngCore cpp files"
               (interactive "sngcore-cpp:")
               (ajt-grep-find arg '("~/WebGame/") '("*.cc" "*.cpp" "*.h" "*.mm" "*.m")))
 
+			;; WebGame java search with regex
+			(defun ajt-java-search (arg)
+			  "Search for a regex in all ngCore java files"
+			  (interactive "sngcore-java:")
+			  (ajt-grep-find arg '("~/WebGame/") '("*.java")))
+
             ;; key bindings
             (global-set-key [f8] 'ajt-js-search)
             (global-set-key [f9] 'ajt-cpp-search)
+			(global-set-key [f10] 'ajt-java-search)
 
             (setq compile-command (concat "cd ~/WebGame/; make afast"))
 
