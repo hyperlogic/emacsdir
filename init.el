@@ -1,3 +1,4 @@
+;; Holy shit I'm editing this file on github.
 ;; my not so little .emacs.el file
 
 ;; which system are we running on.
