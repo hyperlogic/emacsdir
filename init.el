@@ -139,7 +139,8 @@ For example:
       (setq split-height-threshold 200)
 
       ;; work @ ngmoco:)
-      (if (string= "Anthony-Thibault_MacBook-Pro.local" hostname)
+      (if (or (string= "Anthony-Thibault_MacBook-Pro.local" hostname)
+              (string= "dhcp-101.corp.ngmoco.com" hostname))
           (progn
 
             ;; uhh, only useful when screen is maximized
@@ -174,7 +175,7 @@ For example:
             (global-set-key [f9] 'ajt-cpp-search)
 			(global-set-key [f10] 'ajt-java-search)
 
-            (setq compile-command (concat "cd ~/WebGame/; make afast"))
+            (setq compile-command (concat "cd ~/WebGame/; make afast; make arun game=Samples/ajt/RenderTargetTest"))
 
             ))
       ))
