@@ -70,23 +70,69 @@
 ;;
 ;; Pops up a grep process in a buffer named *ajt-grep*
 ;;
-(defun ajt-grep-find (search-term search-paths file-globs)
+(defun ajt-grep-find-shell-cmd (cmd)
+  ;; echo the cmd line to the *Message* log
+  (message cmd)
+
+  ;; exec command in a new process
+  (start-process-shell-command "ajt-grep" "*ajt-grep*" cmd)
+  (pop-to-buffer "*ajt-grep*")
+  (compilation-mode))
+
+(defun ajt-filter-include-patterns (patterns)
+  (remq nil (mapcar (lambda (x) (if (string-equal (substring x 0 1) "!") nil x)) patterns)))
+
+(defun ajt-concat-include-patterns (type patterns)
+  (let ((include-patterns (ajt-filter-include-patterns patterns)))
+	(if include-patterns
+		(concat "\\( " (mapconcat (lambda (x) (concat type " \"" x "\"")) include-patterns " -or ") " \\) ")
+	  "")))
+
+(defun ajt-filter-exclude-patterns (patterns)
+  (remq nil (mapcar (lambda (x) (if (string-equal (substring x 0 1) "!") (substring x 1) nil)) patterns)))
+
+(defun ajt-concat-exclude-patterns (type patterns)
+  (let ((exclude-patterns (ajt-filter-exclude-patterns patterns)))
+	(if exclude-patterns
+		(concat "-not \\( " (mapconcat (lambda (x) (concat type " \"" x "\"")) exclude-patterns " -or ") " \\) ")
+	  "")))
+
+;;
+;; Custom grep search
+;;
+(defun ajt-grep-find (search-term path-patterns name-patterns)
   "Passes the string SEARCH-TERM to grep
-SEARCH-PATHS is a list of directory strings to search in,
-FILE-GLOBS is a list of glob strings.
+SEARCH-TERM regex to search for (passed to grep)
+PATH-PATTERNS is a list of find style patterns that must match full path.  If pattern starts with a ! character then it can be used to exclude a path.
+NAME-PATTERNS is a list of find style patterns that must match base filename.  If pattern starts with a ! character then it can be used to exclude a file.
 For example:  
   (ajt-grep-find \"main\" '(\"d:/tras/cdc/runtime\" \"d:/tras/code/game\") '(\"*.cpp\" \"*.h\" \"*.c\")))"
-  (let* ((paths (mapconcat 'identity search-paths " "))
-         (extns (mapconcat (lambda (x) (concat "\"" x "\"")) file-globs " -o -name "))
-         (cmd (concat "find " paths " \\( -name " extns " \\) -type f -exec grep -nH -e " search-term " {} /dev/null \\;")))
 
-    ;; echo the cmd line to the *Message* log
-    (message cmd)
+  (let* ((path-include-string (mapconcat 'identity (ajt-filter-include-patterns path-patterns) " "))
+		 (path-exclude-string (ajt-concat-exclude-patterns "-path" path-patterns))
+		 (name-include-string (ajt-concat-include-patterns "-name" name-patterns))
+		 (name-exclude-string (ajt-concat-exclude-patterns "-name" name-patterns))
+		 (cmd (make-string 0 ?x)))
 
-    ;; exec command in a new process
-    (start-process-shell-command "ajt-grep" "*ajt-grep*" cmd)
-    (pop-to-buffer "*ajt-grep*")
-    (compilation-mode)))
+	(setq cmd (concat cmd "find " path-include-string))
+	(when (not (string-equal path-exclude-string ""))
+	  (setq cmd (concat cmd " " path-exclude-string)))
+	(when (not (string-equal name-include-string ""))
+	  (setq cmd (concat cmd " -and " name-include-string)))
+	(when (not (string-equal name-exclude-string ""))
+	  (setq cmd (concat cmd " -and " name-exclude-string)))
+
+	(setq cmd (concat cmd " -type f -exec grep -nH -e " search-term " {} /dev/null \\;"))
+
+	;; send cmd to *Messages*
+	(message cmd)
+
+	;(message (format "path-include-patterns = %S" path-include-string))
+	;(message (format "path-exclude-patterns = %S" path-exclude-string))
+	;(message (format "name-include-patterns = %S" name-include-string))
+	;(message (format "name-exclude-patterns = %S" name-exclude-string))
+
+	(ajt-grep-find-shell-cmd cmd)))
 
 ;;
 ;; bluesliver - home laptop
@@ -157,19 +203,19 @@ For example:
             (defun ajt-js-search (arg)
               "Search for a regex in all ngCore javascript files"
               (interactive "sngcore-js:")
-              (ajt-grep-find arg '("~/WebGame/") '("*.js")))
+              (ajt-grep-find arg '("~/WebGame") '("*.js" "!application.js")))
 
             ;; WebGame cpp search with regex
             (defun ajt-cpp-search (arg)
               "Search for a regex in all ngCore cpp files"
               (interactive "sngcore-cpp:")
-              (ajt-grep-find arg '("~/WebGame/") '("*.cc" "*.cpp" "*.h" "*.mm" "*.m")))
+              (ajt-grep-find arg '("~/WebGame" "!/Users/athibault/WebGame/android/jni/utils/v8/*") '("*.cc" "*.cpp" "*.h" "*.mm" "*.m")))
 
 			;; WebGame java search with regex
 			(defun ajt-java-search (arg)
 			  "Search for a regex in all ngCore java files"
 			  (interactive "sngcore-java:")
-			  (ajt-grep-find arg '("~/WebGame/") '("*.java")))
+			  (ajt-grep-find arg '("~/WebGame/") '("*.java"))
 
             ;; key bindings
             (global-set-key [f8] 'ajt-js-search)
