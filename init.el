@@ -211,11 +211,11 @@ For example:
               (interactive "sngcore-cpp:")
               (ajt-grep-find arg '("~/WebGame" "!/Users/athibault/WebGame/android/jni/utils/v8/*") '("*.cc" "*.cpp" "*.h" "*.mm" "*.m")))
 
-			;; WebGame java search with regex
-			(defun ajt-java-search (arg)
-			  "Search for a regex in all ngCore java files"
-			  (interactive "sngcore-java:")
-			  (ajt-grep-find arg '("~/WebGame/") '("*.java"))
+            ;; WebGame java search with regex
+            (defun ajt-java-search (arg)
+              "Search for a regex in all ngCore java files"
+              (interactive "sngcore-java:")
+              (ajt-grep-find arg '("~/WebGame/") '("*.java")))
 
             ;; key bindings
             (global-set-key [f8] 'ajt-js-search)
