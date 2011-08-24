@@ -5,8 +5,14 @@
 (setq uname (substring (shell-command-to-string "uname") 0 -1))
 (setq hostname (substring (shell-command-to-string "hostname") 0 -1))
 
-;; show line & column in status
+;; show line & column in modeline
 (setq column-number-mode t)
+
+;; show filesize and % in modeline
+(size-indication-mode 1)
+
+;; show time in modeline
+(display-time-mode 1)
 
 ;; emacsclient can be used to edit files from a terminal
 (server-start)
@@ -190,6 +196,10 @@ For example:
               (string= "dhcp-101.corp.ngmoco.com" hostname))
           (progn
 
+			(setq mac-allow-anti-aliasing nil)
+			(set-face-attribute 'default nil :family "Monaco" :height 100)
+			(setq-default line-spacing 0) ; so the bottoms of ] and } don't get cut off
+
             ;; uhh, only useful when screen is maximized
             ;(ns-toggle-fullscreen)
 
@@ -215,7 +225,7 @@ For example:
             (defun ajt-java-search (arg)
               "Search for a regex in all ngCore java files"
               (interactive "sngcore-java:")
-              (ajt-grep-find arg '("~/WebGame/") '("*.java")))
+              (ajt-grep-find arg '("~/WebGame") '("*.java")))
 
             ;; key bindings
             (global-set-key [f8] 'ajt-js-search)
@@ -224,6 +234,19 @@ For example:
 
             (setq compile-command (concat "cd ~/WebGame/; make afast; make arun game=Samples/ajt/RenderTargetTest"))
 
+			;; make tags
+			(defun ajt-make-tags ()
+			  "Make TAGS"
+			  (interactive)
+			  (ajt-grep-find-shell-cmd "etagsGen.rb ~/WebGame/TAGS ~/WebGame"))
+
+			;; use TAGS file in these dirs.
+			(setq tags-table-list '("~/WebGame"))
+
+			;; omfg
+			(setq load-path (cons "~/.emacs.d/nyan-mode" load-path))
+			(load-library "nyan-mode")
+			(nyan-mode)
             ))
       ))
 
@@ -377,6 +400,12 @@ For example:
 (when window-system
   (tool-bar-mode -1))
 (menu-bar-mode -1)
+
+;; no scroll bars
+(scroll-bar-mode -1)
+
+;; hide gutters
+(fringe-mode 0)
 
 ;; color-theme
 (setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
