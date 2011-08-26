@@ -405,7 +405,7 @@ For example:
 (scroll-bar-mode -1)
 
 ;; hide gutters
-(fringe-mode 0)
+;(fringe-mode nil)
 
 ;; color-theme
 (setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
