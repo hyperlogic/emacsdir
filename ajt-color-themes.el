@@ -155,6 +155,8 @@
        (dired-face-marked ((t (:foreground "light salmon"))))
        (dired-face-executable ((t (:foreground "green yellow"))))
 
+	   (vertical-border ((t (:foreground "MidnightBlue"))))
+
 	   ; diff-mode
 	   (diff-added-face ((t (:foreground "green"))))
 	   (diff-removed-face ((t (:foreground "red"))))
@@ -180,7 +182,7 @@
 	   (ebrowse-progress-face ((t (:background "blue"))))
 	   (ebrowse-root-class-face ((t (:foreground "pale green"))))
 	   (ebrowse-tree-mark-face ((t (:foreground "pale turquise"))))
-
+	   
        (excerpt ((t (:italic t))))
        (fixed ((t (nil))))
        (flyspell-duplicate-face ((t (:foreground "Gold3" :underline t))))
