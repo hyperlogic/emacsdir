@@ -23,6 +23,7 @@
 ;; revert buffers when they change on disk (except if they are modified)
 (setq revert-without-query '("."))
 (global-auto-revert-mode)
+(setq auto-revert-verbose nil) ;; stfu
 
 ;; dont jump around so much when scrolling.
 ;(setq scroll-step 10)
@@ -35,7 +36,7 @@
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 ;; Show trailing whitespace.
-;(setq-default show-trailing-whitespace t)
+(setq-default show-trailing-whitespace t)
 
 ;; 't if buffer with name is open
 ;; nil otherwise
@@ -71,6 +72,7 @@
 ;; highlight curent line NOTE: better then hl-line mode
 (require 'highlight-current-line)
 (highlight-current-line-on t)
+;; TODO: move this into color theme.
 (set-face-background 'highlight-current-line-face "#101040")
 
 ;;
@@ -196,9 +198,9 @@ For example:
               (string= "dhcp-101.corp.ngmoco.com" hostname))
           (progn
 
-			(setq mac-allow-anti-aliasing nil)
-			(set-face-attribute 'default nil :family "Monaco" :height 100)
-			(setq-default line-spacing 0) ; so the bottoms of ] and } don't get cut off
+			(setq mac-allow-anti-aliasing t)
+			(set-face-attribute 'default nil :family "Monaco" :height 115)
+			;(setq-default line-spacing 0) ; so the bottoms of ] and } don't get cut off
 
             ;; uhh, only useful when screen is maximized
             ;(ns-toggle-fullscreen)
@@ -227,10 +229,42 @@ For example:
               (interactive "sngcore-java:")
               (ajt-grep-find arg '("~/WebGame") '("*.java")))
 
+			;; launch gamejs
+			(defun ajt-arun ()
+			  (interactive)
+			  (save-some-buffers)
+			  (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
+			  (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
+			  (pop-to-buffer "*ajt-logcat*"))
+
+			;(load-library "emacs-android")
+
+			(defun ajt-logcat ()
+			  (pop-to-buffer "*ajt-logcat*")
+			  (shell-command "adb logcat&" "*ajt-logcat*"))
+
+            (defun ajt-narwhal ()
+              (interactive)
+			  (if (get-buffer "*ajt-narwhal*") (kill-buffer (get-buffer "*ajt-narwhal*")))
+			  (message "stopping game")
+			  (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
+			  (message "building narwhal...")
+              (if (not (equal 0 (shell-command "cd ~/WebGame/submodules/narwhal/Bundles/MobageBoot/; make dev" "*ajt-narwhal*")))
+				  (progn
+					(pop-to-buffer "*ajt-narwhal*")
+					(compilation-mode)
+					(error "narwhal build failed"))
+				(kill-buffer "*ajt-narwhal*"))
+			  (message "starting game")
+			  (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
+			  (pop-to-buffer "*ajt-logcat*"))
+
+
             ;; key bindings
             (global-set-key [f8] 'ajt-js-search)
             (global-set-key [f9] 'ajt-cpp-search)
 			(global-set-key [f10] 'ajt-java-search)
+			(global-set-key [f11] 'ajt-narwhal)
 
             (setq compile-command (concat "cd ~/WebGame/; make afast; make arun game=Samples/ajt/RenderTargetTest"))
 
@@ -243,12 +277,18 @@ For example:
 			;; use TAGS file in these dirs.
 			(setq tags-table-list '("~/WebGame"))
 
-			;; omfg
+			;; it was cute, for 5 seconds.
 			(setq load-path (cons "~/.emacs.d/nyan-mode" load-path))
 			(load-library "nyan-mode")
-			(nyan-mode)
+			;(nyan-mode)
+
+
             ))
       ))
+
+(if (not (equal 0 (shell-command "true")))
+	(message "ERRORS!")
+  (message "NO ERRORS!"))
 
 ;;
 ;; vivisect - arch home pc
@@ -473,8 +513,9 @@ For example:
 ;(global-set-key "\M-f" 'forward-to-word)
 (global-set-key "\M-f" 'forward-same-syntax)
 
-;; ham-handed undo
-;;(global-set-key "\C-x\C-u" 'undo)
+;; ham-handed kill-buffer
+(global-set-key "\C-x\k" 'kill-buffer)
+(global-set-key "\C-x\C-k" 'kill-buffer)
 
 ;; cause C-x C-u is just too hard
 (global-set-key "\C-z" 'undo)
@@ -547,7 +588,7 @@ For example:
 ;;
 
 ;; list of "special" buffers, add new ones here.
-(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*ajt-grep*" "*ansi-term*"))
+(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*ajt-grep*" "*ansi-term*" "*ajt-logcat*"))
 
 ;; Customize special-display-buffer-names, this will cause the ajt-special-display function to be called on these buffers
 ;; instead of the standard display-buffer
@@ -573,7 +614,7 @@ For example:
       nil
     (ajt-lr-cmp (car l) (ajt-lr-window (cdr l)))))
 
-(defun ajt-split-window-thirds()
+(defun ajt-split-window-trirds()
  "Split window into thirds"
  (interactive)
  (if (= 1 (length (window-list)))
