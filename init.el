@@ -142,6 +142,15 @@ For example:
 
 	(ajt-grep-find-shell-cmd cmd)))
 
+
+;; invoke git-blame on current buffer.
+(defun ajt-blame ()
+  (interactive)
+  (let ((line (line-number-at-pos)))
+	(shell-command (concat "git blame " (buffer-file-name)) "*ajt-blame*")
+	(pop-to-buffer "*ajt-blame*")
+	(goto-line line)))
+
 ;;
 ;; bluesliver - home laptop
 ;;
@@ -200,9 +209,12 @@ For example:
 
 			(setq mac-allow-anti-aliasing t)
 			(set-face-attribute 'default nil :family "Monaco" :height 115)
-			;(setq-default line-spacing 0) ; so the bottoms of ] and } don't get cut off
+			;(setq-default line-spacing 0) ; so the bottoms of ] and } don't get cut off FIXED: on emacs 23.3
 
-            ;; uhh, only useful when screen is maximized
+			;; Menlo (modified Bitstream Vera Sans Mono)
+			(set-face-attribute 'default nil :family "Menlo" :height 115)
+
+            ;; Only useful when screen is maximized, and only works on a patched emacs (from Homebrew)
             ;(ns-toggle-fullscreen)
 
             ;; ngmoco uses tabs! omg
@@ -227,7 +239,7 @@ For example:
             (defun ajt-java-search (arg)
               "Search for a regex in all ngCore java files"
               (interactive "sngcore-java:")
-              (ajt-grep-find arg '("~/WebGame") '("*.java")))
+              (ajt-grep-find arg '("~/WebGame/android/") '("*.java")))
 
 			;; launch gamejs
 			(defun ajt-arun ()
@@ -237,11 +249,18 @@ For example:
 			  (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
 			  (pop-to-buffer "*ajt-logcat*"))
 
-			;(load-library "emacs-android")
-
 			(defun ajt-logcat ()
-			  (pop-to-buffer "*ajt-logcat*")
-			  (shell-command "adb logcat&" "*ajt-logcat*"))
+			  (interactive)
+			  (shell-command "adb logcat&" "*ajt-logcat*")
+			  (pop-to-buffer "*ajt-logcat*"))
+			  ;(ajt-logcat-mode))
+
+			;; TODO: broken, i keep getting
+			;; error in process filter: Wrong type argument: markerp, nil
+			(define-generic-mode ajt-logcat-mode
+			  () () '(("^V/.*$" . font-lock-comment-face)
+					  ("^W/.*$" . font-lock-constant-face)
+					  ("^E/.*$" . font-lock-warning-face)) () ())
 
             (defun ajt-narwhal ()
               (interactive)
@@ -257,7 +276,9 @@ For example:
 				(kill-buffer "*ajt-narwhal*"))
 			  (message "starting game")
 			  (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
-			  (pop-to-buffer "*ajt-logcat*"))
+			  (pop-to-buffer "*ajt-logcat*")
+			  ;(ajt-logcat-mode)
+			  )
 
 
             ;; key bindings
@@ -282,14 +303,8 @@ For example:
 			(load-library "nyan-mode")
 			;(nyan-mode)
 
-
             ))
       ))
-
-(if (not (equal 0 (shell-command "true")))
-	(message "ERRORS!")
-  (message "NO ERRORS!"))
-
 ;;
 ;; vivisect - arch home pc
 ;;
@@ -525,6 +540,14 @@ For example:
 (global-set-key "\C-c\C-s" 'ajt-term)
 (global-set-key "\C-c\<SPC>" 'ajt-term)
 
+(defun set-ajt-term-bindings ()
+  (local-set-key "\C-c\s" 'ajt-term)
+  (local-set-key "\C-c\C-s" 'ajt-term)
+  (local-set-key "\C-c\<SPC>" 'ajt-term))
+
+;; make ajt-term work in shell-mode
+(add-hook 'shell-mode-hook 'set-ajt-term-bindings)
+
 ;; C-\ is indent-region
 ;(global-set-key "\M-C-i" 'indent-region)
 ;(global-set-key [C-c C-c] 'comment-or-uncomment-region)
@@ -588,7 +611,7 @@ For example:
 ;;
 
 ;; list of "special" buffers, add new ones here.
-(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*ajt-grep*" "*ansi-term*" "*ajt-logcat*"))
+(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*ajt-grep*" "*ansi-term*" "*ajt-logcat*" "*ajt-blame*"))
 
 ;; Customize special-display-buffer-names, this will cause the ajt-special-display function to be called on these buffers
 ;; instead of the standard display-buffer
@@ -607,7 +630,7 @@ For example:
             ((> ax bx) a)
             ((< ax bx) b)
             (t b)))))
-            
+
 (defun ajt-lr-window (l)
   "Returns the lower-right most window in the list"
   (if (eq l nil)
