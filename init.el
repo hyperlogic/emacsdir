@@ -151,6 +151,14 @@ For example:
 	(pop-to-buffer "*ajt-blame*")
 	(goto-line line)))
 
+;; invoke git-log on current buffer.
+(defun ajt-log ()
+  (interactive)
+  (let ((line (line-number-at-pos)))
+	(shell-command (concat "git log " (buffer-file-name)) "*ajt-log*")
+	(pop-to-buffer "*ajt-log*")
+	(goto-line line)))
+
 ;;
 ;; bluesliver - home laptop
 ;;
@@ -611,7 +619,7 @@ For example:
 ;;
 
 ;; list of "special" buffers, add new ones here.
-(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*ajt-grep*" "*ansi-term*" "*ajt-logcat*" "*ajt-blame*"))
+(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*ajt-grep*" "*ansi-term*" "*ajt-logcat*" "*ajt-blame*" "*ajt-log*"))
 
 ;; Customize special-display-buffer-names, this will cause the ajt-special-display function to be called on these buffers
 ;; instead of the standard display-buffer
