@@ -42,8 +42,14 @@
        (dired-face-flagged ((t (:foreground "tomato"))))
        (dired-face-marked ((t (:foreground "light salmon"))))
        (dired-face-executable ((t (:foreground "green yellow"))))
+	   (highlight-currentline-face ((t (:forground "#101040"))))
 
 	   (vertical-border ((t (:foreground "MidnightBlue"))))
+
+	   ;(set-face-background 'highlight-current-line-face "#101040")
+
+	   (highlight-current-line-face ((t (:background "#101040"))))
+
 
 	   ; diff-mode
 	   (diff-added-face ((t (:foreground "green"))))
