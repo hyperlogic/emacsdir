@@ -1,4 +1,3 @@
-;; Holy shit I'm editing this file on github.
 ;; my not so little .emacs.el file
 
 ;; which system are we running on.
@@ -37,6 +36,8 @@
 
 ;; Show trailing whitespace.
 (setq-default show-trailing-whitespace t)
+
+(add-hook 'term-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 
 ;; 't if buffer with name is open
 ;; nil otherwise
@@ -315,9 +316,8 @@ For example:
 			;(nyan-mode)
 
 			; better percent indicator in modeline
-;			(load-library "sml-modeline")
-;			(sml-modeline)
-
+			;(load-library "sml-modeline")
+			;(sml-modeline-mode)
 
 			(add-to-list 'load-path "~/.emacs.d/zenburn-emacs" t)
 			(require 'color-theme-zenburn)
