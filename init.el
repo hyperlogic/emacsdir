@@ -50,14 +50,14 @@
 (defun ajt-term ()
   (interactive)
   (if ajt-use-ansi-term
-	  (if (ajt-buffer-open "*ansi-term*")
-		  (progn
-			(switch-to-buffer-other-window "*ansi-term*"))
-		(ansi-term "/bin/bash"))
-	(if (ajt-buffer-open "*shell*")
-		(progn
-		  (switch-to-buffer-other-window "*shell*"))
-	  (shell))))
+      (if (ajt-buffer-open "*ansi-term*")
+          (progn
+            (switch-to-buffer-other-window "*ansi-term*"))
+        (ansi-term "/bin/bash"))
+    (if (ajt-buffer-open "*shell*")
+        (progn
+          (switch-to-buffer-other-window "*shell*"))
+      (shell))))
 
 ;; ruby-mode NOTE: now included in 23.1
 (when (< emacs-major-version 23)
@@ -95,18 +95,18 @@
 
 (defun ajt-concat-include-patterns (type patterns)
   (let ((include-patterns (ajt-filter-include-patterns patterns)))
-	(if include-patterns
-		(concat "\\( " (mapconcat (lambda (x) (concat type " \"" x "\"")) include-patterns " -or ") " \\) ")
-	  "")))
+    (if include-patterns
+        (concat "\\( " (mapconcat (lambda (x) (concat type " \"" x "\"")) include-patterns " -or ") " \\) ")
+      "")))
 
 (defun ajt-filter-exclude-patterns (patterns)
   (remq nil (mapcar (lambda (x) (if (string-equal (substring x 0 1) "!") (substring x 1) nil)) patterns)))
 
 (defun ajt-concat-exclude-patterns (type patterns)
   (let ((exclude-patterns (ajt-filter-exclude-patterns patterns)))
-	(if exclude-patterns
-		(concat "-not \\( " (mapconcat (lambda (x) (concat type " \"" x "\"")) exclude-patterns " -or ") " \\) ")
-	  "")))
+    (if exclude-patterns
+        (concat "-not \\( " (mapconcat (lambda (x) (concat type " \"" x "\"")) exclude-patterns " -or ") " \\) ")
+      "")))
 
 ;;
 ;; Custom grep search
@@ -120,47 +120,47 @@ For example:
   (ajt-grep-find \"main\" '(\"d:/tras/cdc/runtime\" \"d:/tras/code/game\") '(\"*.cpp\" \"*.h\" \"*.c\")))"
 
   (let* ((path-include-string (mapconcat 'identity (ajt-filter-include-patterns path-patterns) " "))
-		 (path-exclude-string (ajt-concat-exclude-patterns "-path" path-patterns))
-		 (name-include-string (ajt-concat-include-patterns "-name" name-patterns))
-		 (name-exclude-string (ajt-concat-exclude-patterns "-name" name-patterns))
-		 (cmd (make-string 0 ?x)))
+         (path-exclude-string (ajt-concat-exclude-patterns "-path" path-patterns))
+         (name-include-string (ajt-concat-include-patterns "-name" name-patterns))
+         (name-exclude-string (ajt-concat-exclude-patterns "-name" name-patterns))
+         (cmd (make-string 0 ?x)))
 
-	(setq cmd (concat cmd "find " path-include-string))
-	(when (not (string-equal path-exclude-string ""))
-	  (setq cmd (concat cmd " " path-exclude-string)))
-	(when (not (string-equal name-include-string ""))
-	  (setq cmd (concat cmd " -and " name-include-string)))
-	(when (not (string-equal name-exclude-string ""))
-	  (setq cmd (concat cmd " -and " name-exclude-string)))
+    (setq cmd (concat cmd "find " path-include-string))
+    (when (not (string-equal path-exclude-string ""))
+      (setq cmd (concat cmd " " path-exclude-string)))
+    (when (not (string-equal name-include-string ""))
+      (setq cmd (concat cmd " -and " name-include-string)))
+    (when (not (string-equal name-exclude-string ""))
+      (setq cmd (concat cmd " -and " name-exclude-string)))
 
-	(setq cmd (concat cmd " -type f -exec grep -nH -e " search-term " {} /dev/null \\;"))
+    (setq cmd (concat cmd " -type f -exec grep -nH -e " search-term " {} /dev/null \\;"))
 
-	;; send cmd to *Messages*
-	(message cmd)
+    ;; send cmd to *Messages*
+    (message cmd)
 
-	;(message (format "path-include-patterns = %S" path-include-string))
-	;(message (format "path-exclude-patterns = %S" path-exclude-string))
-	;(message (format "name-include-patterns = %S" name-include-string))
-	;(message (format "name-exclude-patterns = %S" name-exclude-string))
+    ;(message (format "path-include-patterns = %S" path-include-string))
+    ;(message (format "path-exclude-patterns = %S" path-exclude-string))
+    ;(message (format "name-include-patterns = %S" name-include-string))
+    ;(message (format "name-exclude-patterns = %S" name-exclude-string))
 
-	(ajt-grep-find-shell-cmd cmd)))
+    (ajt-grep-find-shell-cmd cmd)))
 
 
 ;; invoke git-blame on current buffer.
 (defun ajt-blame ()
   (interactive)
   (let ((line (line-number-at-pos)))
-	(shell-command (concat "git blame " (buffer-file-name)) "*ajt-blame*")
-	(pop-to-buffer "*ajt-blame*")
-	(goto-line line)))
+    (shell-command (concat "git blame " (buffer-file-name)) "*ajt-blame*")
+    (pop-to-buffer "*ajt-blame*")
+    (goto-line line)))
 
 ;; invoke git-log on current buffer.
 (defun ajt-log ()
   (interactive)
   (let ((line (line-number-at-pos)))
-	(shell-command (concat "git log " (buffer-file-name)) "*ajt-log*")
-	(pop-to-buffer "*ajt-log*")
-	(goto-line line)))
+    (shell-command (concat "git log " (buffer-file-name)) "*ajt-log*")
+    (pop-to-buffer "*ajt-log*")
+    (goto-line line)))
 
 ;;
 ;; bluesliver - home laptop
@@ -218,12 +218,12 @@ For example:
               (string= "dhcp-101.corp.ngmoco.com" hostname))
           (progn
 
-			(setq mac-allow-anti-aliasing 't)
+            (setq mac-allow-anti-aliasing 't)
 
-			;; Menlo (modified Bitstream Vera Sans Mono)
-			;(set-face-attribute 'default nil :family "Menlo" :height 115)
-			(set-face-attribute 'default nil :family "Monaco" :height 115)
-			;(set-face-attribute 'default nil :family "Inconsolata" :height 125)
+            ;; Menlo (modified Bitstream Vera Sans Mono)
+            ;(set-face-attribute 'default nil :family "Menlo" :height 115)
+            (set-face-attribute 'default nil :family "Monaco" :height 115)
+            ;(set-face-attribute 'default nil :family "Inconsolata" :height 125)
 
             ;; Only useful when screen is maximized, and only works on a patched emacs (from Homebrew)
             ;(ns-toggle-fullscreen)
@@ -252,76 +252,76 @@ For example:
               (interactive "sngcore-java:")
               (ajt-grep-find arg '("~/WebGame/android") '("*.java")))
 
-			;; launch gamejs
-			(defun ajt-arun ()
-			  (interactive)
-			  (save-some-buffers)
-			  (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
-			  (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
-			  ;(pop-to-buffer "*ajt-logcat*")
-			  )
+            ;; launch gamejs
+            (defun ajt-arun ()
+              (interactive)
+              (save-some-buffers)
+              (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
+              (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
+              ;(pop-to-buffer "*ajt-logcat*")
+              )
 
-			(defun ajt-logcat ()
-			  (interactive)
-			  (shell-command "adb logcat&" "*ajt-logcat*")
-			  (pop-to-buffer "*ajt-logcat*"))
-			  ;(ajt-logcat-mode))
+            (defun ajt-logcat ()
+              (interactive)
+              (shell-command "adb logcat&" "*ajt-logcat*")
+              (pop-to-buffer "*ajt-logcat*"))
+              ;(ajt-logcat-mode))
 
-			;; TODO: broken, i keep getting
-			;; error in process filter: Wrong type argument: markerp, nil
-			(define-generic-mode ajt-logcat-mode
-			  () () '(("^V/.*$" . font-lock-comment-face)
-					  ("^W/.*$" . font-lock-constant-face)
-					  ("^E/.*$" . font-lock-warning-face)) () ())
+            ;; TODO: broken, i keep getting
+            ;; error in process filter: Wrong type argument: markerp, nil
+            (define-generic-mode ajt-logcat-mode
+              () () '(("^V/.*$" . font-lock-comment-face)
+                      ("^W/.*$" . font-lock-constant-face)
+                      ("^E/.*$" . font-lock-warning-face)) () ())
 
             (defun ajt-narwhal ()
               (interactive)
-			  (if (get-buffer "*ajt-narwhal*") (kill-buffer (get-buffer "*ajt-narwhal*")))
-			  (message "stopping game")
-			  (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
-			  (message "building narwhal...")
+              (if (get-buffer "*ajt-narwhal*") (kill-buffer (get-buffer "*ajt-narwhal*")))
+              (message "stopping game")
+              (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
+              (message "building narwhal...")
               (if (not (equal 0 (shell-command "cd ~/WebGame/submodules/narwhal/Bundles/MobageBoot/; make dev" "*ajt-narwhal*")))
-				  (progn
-					(pop-to-buffer "*ajt-narwhal*")
-					(compilation-mode)
-					(error "narwhal build failed"))
-				(kill-buffer "*ajt-narwhal*"))
-			  (message "starting game")
-			  (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
-			  ;(pop-to-buffer "*ajt-logcat*")
-			  ;(ajt-logcat-mode)
-			  )
+                  (progn
+                    (pop-to-buffer "*ajt-narwhal*")
+                    (compilation-mode)
+                    (error "narwhal build failed"))
+                (kill-buffer "*ajt-narwhal*"))
+              (message "starting game")
+              (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
+              ;(pop-to-buffer "*ajt-logcat*")
+              ;(ajt-logcat-mode)
+              )
 
 
             ;; key bindings
             (global-set-key [f8] 'ajt-js-search)
             (global-set-key [f9] 'ajt-cpp-search)
-			(global-set-key [f10] 'ajt-java-search)
-			(global-set-key [f11] 'ajt-narwhal)
+            (global-set-key [f10] 'ajt-java-search)
+            (global-set-key [f11] 'ajt-narwhal)
 
             (setq compile-command (concat "cd ~/WebGame/; make afast; make arun game=Samples/ajt/RenderTargetTest"))
 
-			;; make tags
-			(defun ajt-make-tags ()
-			  "Make TAGS"
-			  (interactive)
-			  (ajt-grep-find-shell-cmd "etagsGen.rb ~/WebGame/TAGS ~/WebGame"))
+            ;; make tags
+            (defun ajt-make-tags ()
+              "Make TAGS"
+              (interactive)
+              (ajt-grep-find-shell-cmd "etagsGen.rb ~/WebGame/TAGS ~/WebGame"))
 
-			;; use TAGS file in these dirs.
-			(setq tags-table-list '("~/WebGame"))
+            ;; use TAGS file in these dirs.
+            (setq tags-table-list '("~/WebGame"))
 
-			;; it was cute, for 5 seconds.
-			;(setq load-path (cons "~/.emacs.d/nyan-mode" load-path))
-			;(load-library "nyan-mode")
-			;(nyan-mode)
+            ;; it was cute, for 5 seconds.
+            ;(setq load-path (cons "~/.emacs.d/nyan-mode" load-path))
+            ;(load-library "nyan-mode")
+            ;(nyan-mode)
 
-			; better percent indicator in modeline
-			;(load-library "sml-modeline")
-			;(sml-modeline-mode)
+            ; better percent indicator in modeline
+            ;(load-library "sml-modeline")
+            ;(sml-modeline-mode)
 
-			(add-to-list 'load-path "~/.emacs.d/zenburn-emacs" t)
-			(require 'color-theme-zenburn)
-			(color-theme-zenburn)
+            (add-to-list 'load-path "~/.emacs.d/zenburn-emacs" t)
+            (require 'color-theme-zenburn)
+            (color-theme-zenburn)
 
             ))
       ))
@@ -662,8 +662,8 @@ For example:
  (interactive)
  (if (= 1 (length (window-list)))
      (let* ((width (third (window-edges (car (window-list))))))
-	   (split-window-horizontally (/ width -3))
-	   (split-window-horizontally (/ width -3)))))
+       (split-window-horizontally (/ width -3))
+       (split-window-horizontally (/ width -3)))))
 
 (setq ajt-split-height-threshold 75)
 
