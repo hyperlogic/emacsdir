@@ -72,8 +72,10 @@
 ;; highlight curent line NOTE: better then hl-line mode
 (require 'highlight-current-line)
 (highlight-current-line-on t)
-;; TODO: move this into color theme.
-(set-face-background 'highlight-current-line-face "#101040")
+
+;; turn off line highlighting on ansi-term
+(setq highlight-current-line-ignore-regexp
+      (concat highlight-current-line-ignore-regexp "\\|\\*ansi-term\\*"))
 
 ;;
 ;; Pops up a grep process in a buffer named *ajt-grep*
@@ -215,12 +217,12 @@ For example:
               (string= "dhcp-101.corp.ngmoco.com" hostname))
           (progn
 
-			(setq mac-allow-anti-aliasing t)
-			(set-face-attribute 'default nil :family "Monaco" :height 115)
-			;(setq-default line-spacing 0) ; so the bottoms of ] and } don't get cut off FIXED: on emacs 23.3
+			(setq mac-allow-anti-aliasing 't)
 
 			;; Menlo (modified Bitstream Vera Sans Mono)
-			(set-face-attribute 'default nil :family "Menlo" :height 115)
+			;(set-face-attribute 'default nil :family "Menlo" :height 115)
+			(set-face-attribute 'default nil :family "Monaco" :height 115)
+			;(set-face-attribute 'default nil :family "Inconsolata" :height 125)
 
             ;; Only useful when screen is maximized, and only works on a patched emacs (from Homebrew)
             ;(ns-toggle-fullscreen)
@@ -247,7 +249,7 @@ For example:
             (defun ajt-java-search (arg)
               "Search for a regex in all ngCore java files"
               (interactive "sngcore-java:")
-              (ajt-grep-find arg '("~/WebGame/android/") '("*.java")))
+              (ajt-grep-find arg '("~/WebGame/android") '("*.java")))
 
 			;; launch gamejs
 			(defun ajt-arun ()
@@ -255,7 +257,8 @@ For example:
 			  (save-some-buffers)
 			  (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
 			  (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
-			  (pop-to-buffer "*ajt-logcat*"))
+			  ;(pop-to-buffer "*ajt-logcat*")
+			  )
 
 			(defun ajt-logcat ()
 			  (interactive)
@@ -284,7 +287,7 @@ For example:
 				(kill-buffer "*ajt-narwhal*"))
 			  (message "starting game")
 			  (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
-			  (pop-to-buffer "*ajt-logcat*")
+			  ;(pop-to-buffer "*ajt-logcat*")
 			  ;(ajt-logcat-mode)
 			  )
 
@@ -307,9 +310,18 @@ For example:
 			(setq tags-table-list '("~/WebGame"))
 
 			;; it was cute, for 5 seconds.
-			(setq load-path (cons "~/.emacs.d/nyan-mode" load-path))
-			(load-library "nyan-mode")
+			;(setq load-path (cons "~/.emacs.d/nyan-mode" load-path))
+			;(load-library "nyan-mode")
 			;(nyan-mode)
+
+			; better percent indicator in modeline
+;			(load-library "sml-modeline")
+;			(sml-modeline)
+
+
+			(add-to-list 'load-path "~/.emacs.d/zenburn-emacs" t)
+			(require 'color-theme-zenburn)
+			(color-theme-zenburn)
 
             ))
       ))
@@ -473,13 +485,13 @@ For example:
 ;; color-theme
 (setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
 (require 'color-theme)
-(load "ajt-color-themes.el")
-(color-theme-initialize)
+;; (load "ajt-color-themes.el")
+;; (color-theme-initialize)
 
-(cond (window-system
-       (color-theme-ajt-no-bold-blue-sea))
-      (t
-       (color-theme-charcoal-black)))
+;; (cond (window-system
+;;        (color-theme-ajt-no-bold-blue-sea))
+;;       (t
+;;        (color-theme-charcoal-black)))
 
 ;; syntax highlighting for c++
 (setq c-basic-offset 4)
