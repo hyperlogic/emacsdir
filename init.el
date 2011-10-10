@@ -37,7 +37,9 @@
 ;; Show trailing whitespace.
 (setq-default show-trailing-whitespace t)
 
+;; disable trailing whitespace for some modes
 (add-hook 'term-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
+(add-hook 'compilation-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 
 ;; 't if buffer with name is open
 ;; nil otherwise
@@ -116,7 +118,7 @@
 SEARCH-TERM regex to search for (passed to grep)
 PATH-PATTERNS is a list of find style patterns that must match full path.  If pattern starts with a ! character then it can be used to exclude a path.
 NAME-PATTERNS is a list of find style patterns that must match base filename.  If pattern starts with a ! character then it can be used to exclude a file.
-For example:  
+For example:
   (ajt-grep-find \"main\" '(\"d:/tras/cdc/runtime\" \"d:/tras/code/game\") '(\"*.cpp\" \"*.h\" \"*.c\")))"
 
   (let* ((path-include-string (mapconcat 'identity (ajt-filter-include-patterns path-patterns) " "))
@@ -228,8 +230,11 @@ For example:
             ;; Only useful when screen is maximized, and only works on a patched emacs (from Homebrew)
             ;(ns-toggle-fullscreen)
 
-            ;; ngmoco uses tabs! omg
+            ;; ngmoco uses tabs!
             (setq-default indent-tabs-mode 't)
+
+            ;; this file should be spaces, tho
+            (setq indent-tabs-mode nil)
 
             ;; use aspell
             (setq-default ispell-program-name "aspell")
@@ -274,6 +279,24 @@ For example:
                       ("^W/.*$" . font-lock-constant-face)
                       ("^E/.*$" . font-lock-warning-face)) () ())
 
+            (defun ajt-ngboot ()
+              (interactive)
+              (if (get-buffer "*ajt-ngboot*") (kill-buffer (get-buffer "*ajt-ngboot*")))
+              (message "stopping game")
+              (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
+              (message "building ngboot...")
+              (if (not (equal 0 (shell-command "cd ~/WebGame/NGBoot/; make jake" "*ajt-ngboot*")))
+                  (progn
+                    (pop-to-buffer "*ajt-ngboot*")
+                    (compilation-mode)
+                    (error "ngboot build failed"))
+                (kill-buffer "*ajt-ngboot*"))
+              (message "starting game")
+              (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
+              ;(pop-to-buffer "*ajt-logcat*")
+              ;(ajt-logcat-mode)
+              )
+
             (defun ajt-narwhal ()
               (interactive)
               (if (get-buffer "*ajt-narwhal*") (kill-buffer (get-buffer "*ajt-narwhal*")))
@@ -297,7 +320,7 @@ For example:
             (global-set-key [f8] 'ajt-js-search)
             (global-set-key [f9] 'ajt-cpp-search)
             (global-set-key [f10] 'ajt-java-search)
-            (global-set-key [f11] 'ajt-narwhal)
+            (global-set-key [f11] 'ajt-ngboot)
 
             (setq compile-command (concat "cd ~/WebGame/; make afast; make arun game=Samples/ajt/RenderTargetTest"))
 
@@ -516,15 +539,15 @@ For example:
     (switch-to-buffer (get-buffer-create bufname))
     (if (= n 1) (lisp-interaction-mode))))
 
-(defun scroll-down-keep-cursor () 
+(defun scroll-down-keep-cursor ()
    "Scroll the text one line down while keeping the cursor"
-   (interactive) 
-   (scroll-down 1)) 
+   (interactive)
+   (scroll-down 1))
 
-(defun scroll-up-keep-cursor () 
+(defun scroll-up-keep-cursor ()
    "Scroll the text one line up while keeping the cursor"
-   (interactive) 
-   (scroll-up 1)) 
+   (interactive)
+   (scroll-up 1))
 
 ;(global-set-key "\M-p" 'scroll-down-keep-cursor)
 ;(global-set-key "\M-n" 'scroll-up-keep-cursor)
@@ -688,7 +711,7 @@ For example:
           (set-window-buffer existing buffer-or-name)
           existing)
       (progn
-        ;; reuse the existing display-buffer logic, except 
+        ;; reuse the existing display-buffer logic, except
         ;; remove the special-display-buffer-names so we don't get into an infinite recursion.
         (setq special-display-buffer-names nil)
 
@@ -805,8 +828,8 @@ For example:
 (defun dos2unix ()
    (interactive)
    (beginning-of-buffer)
-   (while 
-       (search-forward "\r") 
+   (while
+       (search-forward "\r")
      (replace-match "")))
 
 
