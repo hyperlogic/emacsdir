@@ -54,6 +54,7 @@
 ;; colors with +x are lighter, colors with -x are darker
 (defvar zenburn-fg "#dcdccc")
 (defvar zenburn-fg-1 "#656555")
+(defvar zenburn-bg-2 "#000000")
 (defvar zenburn-bg-1 "#1b1b1b")
 (defvar zenburn-bg-_5 "#232323")
 (defvar zenburn-bg "#2f2f2f")
@@ -102,7 +103,7 @@
      ((foreground-color . ,zenburn-fg)
       (background-color . ,zenburn-bg)
       (background-mode . dark)
-      (cursor-color . ,zenburn-fg))
+      (cursor-color . ,zenburn-bg-2))
 
      ;;; define some reusable zenburn faces that we can inherit from afterwards
      (zenburn-strong-1-face ((t (:foreground ,zenburn-yellow :weight bold))))
