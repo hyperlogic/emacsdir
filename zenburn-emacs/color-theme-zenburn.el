@@ -104,7 +104,7 @@
      ((foreground-color . ,zenburn-fg)
       (background-color . ,zenburn-bg)
       (background-mode . dark)
-      (cursor-color . ,zenburn-white))
+      (cursor-color . ,zenburn-blue-2))
 
      ;;; define some reusable zenburn faces that we can inherit from afterwards
      (zenburn-strong-1-face ((t (:foreground ,zenburn-yellow :weight bold))))
