@@ -152,7 +152,7 @@ For example:
 (defun ajt-blame ()
   (interactive)
   (let ((line (line-number-at-pos)))
-    (shell-command (concat "git blame " (buffer-file-name)) "*ajt-blame*")
+    (shell-command (concat "git blame -w" (buffer-file-name)) "*ajt-blame*")
     (pop-to-buffer "*ajt-blame*")
     (goto-line line)))
 
@@ -270,6 +270,7 @@ For example:
               (interactive)
               (shell-command "adb logcat&" "*ajt-logcat*")
               (pop-to-buffer "*ajt-logcat*"))
+              ;(text-mode))
               ;(ajt-logcat-mode))
 
             ;; TODO: broken, i keep getting

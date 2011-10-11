@@ -85,6 +85,7 @@
 (defvar zenburn-blue-4 "#4c7073")
 (defvar zenburn-blue-5 "#366060")
 (defvar zenburn-magenta "#dc8cc3")
+(defvar zenburn-white "#ffffff")
 
 (eval-after-load 'term
   '(setq ansi-term-color-vector
@@ -103,7 +104,7 @@
      ((foreground-color . ,zenburn-fg)
       (background-color . ,zenburn-bg)
       (background-mode . dark)
-      (cursor-color . ,zenburn-bg-2))
+      (cursor-color . ,zenburn-white))
 
      ;;; define some reusable zenburn faces that we can inherit from afterwards
      (zenburn-strong-1-face ((t (:foreground ,zenburn-yellow :weight bold))))
