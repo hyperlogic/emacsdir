@@ -152,7 +152,7 @@ For example:
 (defun ajt-blame ()
   (interactive)
   (let ((line (line-number-at-pos)))
-    (shell-command (concat "git blame -w" (buffer-file-name)) "*ajt-blame*")
+    (shell-command (concat "git blame -w " (buffer-file-name)) "*ajt-blame*")
     (pop-to-buffer "*ajt-blame*")
     (goto-line line)))
 
@@ -304,7 +304,7 @@ For example:
               (message "stopping game")
               (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
               (message "building narwhal...")
-              (if (not (equal 0 (shell-command "cd ~/WebGame/submodules/narwhal/Bundles/MobageBoot/; make dev" "*ajt-narwhal*")))
+              (if (not (equal 0 (shell-command "cd ~/WebGame/submodules/narwhal/Bundles/MobageBoot/; make" "*ajt-narwhal*")))
                   (progn
                     (pop-to-buffer "*ajt-narwhal*")
                     (compilation-mode)
@@ -321,7 +321,7 @@ For example:
             (global-set-key [f8] 'ajt-js-search)
             (global-set-key [f9] 'ajt-cpp-search)
             (global-set-key [f10] 'ajt-java-search)
-            (global-set-key [f11] 'ajt-ngboot)
+            (global-set-key [f11] 'ajt-narwhal)
 
             (setq compile-command (concat "cd ~/WebGame/; make afast; make arun game=Samples/ajt/RenderTargetTest"))
 
