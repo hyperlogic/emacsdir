@@ -74,7 +74,8 @@
 
 ;; highlight curent line NOTE: better then hl-line mode
 (require 'highlight-current-line)
-(highlight-current-line-on t)
+(if window-system
+    (highlight-current-line-on t))
 
 ;; turn off line highlighting on ansi-term
 (setq highlight-current-line-ignore-regexp
@@ -343,10 +344,6 @@ For example:
             ;(load-library "sml-modeline")
             ;(sml-modeline-mode)
 
-            (add-to-list 'load-path "~/.emacs.d/zenburn-emacs" t)
-            (require 'color-theme-zenburn)
-            (color-theme-zenburn)
-
             ))
       ))
 ;;
@@ -509,13 +506,15 @@ For example:
 ;; color-theme
 (setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
 (require 'color-theme)
-;; (load "ajt-color-themes.el")
-;; (color-theme-initialize)
 
-;; (cond (window-system
-;;        (color-theme-ajt-no-bold-blue-sea))
-;;       (t
-;;        (color-theme-charcoal-black)))
+(add-to-list 'load-path "~/.emacs.d/zenburn-emacs" t)
+(require 'color-theme-zenburn)
+(color-theme-initialize)
+
+;; (load "ajt-color-themes.el")
+;; (color-theme-ajt-no-bold-blue-sea)
+(if window-system
+    (color-theme-zenburn))
 
 ;; syntax highlighting for c++
 (setq c-basic-offset 4)
