@@ -330,7 +330,7 @@ For example:
             (defun ajt-make-tags ()
               "Make TAGS"
               (interactive)
-              (ajt-grep-find-shell-cmd "etagsGen.rb ~/WebGame/TAGS ~/WebGame"))
+              (ajt-grep-find-shell-cmd "etagsGen.rb ~/WebGame/TAGS ~/WebGame \!~/WebGame/android/jni/utils/v8 \!~/WebGame/NGGameTech/export"))
 
             ;; use TAGS file in these dirs.
             (setq tags-table-list '("~/WebGame"))
