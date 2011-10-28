@@ -223,10 +223,10 @@ For example:
 
             (setq mac-allow-anti-aliasing 't)
 
-            ;; Menlo (modified Bitstream Vera Sans Mono)
+            (set-face-attribute 'default nil :family "Monaco" :height 120)
             ;(set-face-attribute 'default nil :family "Menlo" :height 115)
-            (set-face-attribute 'default nil :family "Monaco" :height 115)
             ;(set-face-attribute 'default nil :family "Inconsolata" :height 125)
+            ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 135)
 
             ;; Only useful when screen is maximized, and only works on a patched emacs (from Homebrew)
             ;(ns-toggle-fullscreen)
@@ -283,6 +283,7 @@ For example:
 
             (defun ajt-ngboot ()
               (interactive)
+              (save-some-buffers)
               (if (get-buffer "*ajt-ngboot*") (kill-buffer (get-buffer "*ajt-ngboot*")))
               (message "stopping game")
               (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
@@ -301,6 +302,7 @@ For example:
 
             (defun ajt-narwhal ()
               (interactive)
+              (save-some-buffers)
               (if (get-buffer "*ajt-narwhal*") (kill-buffer (get-buffer "*ajt-narwhal*")))
               (message "stopping game")
               (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
@@ -313,7 +315,7 @@ For example:
                 (kill-buffer "*ajt-narwhal*"))
               (message "starting game")
               (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
-              ;(pop-to-buffer "*ajt-logcat*")
+              (pop-to-buffer "*ajt-logcat*")
               ;(ajt-logcat-mode)
               )
 
@@ -334,6 +336,14 @@ For example:
 
             ;; use TAGS file in these dirs.
             (setq tags-table-list '("~/WebGame"))
+
+            ;; mark "application.js" as read only.
+            (defun ajt-application-js-as-read-only ()
+              (if (string-equal (buffer-name (current-buffer)) "application.js")
+                  (setq buffer-read-only t)))
+            (add-hook 'find-file-hook 'ajt-application-js-as-read-only)
+
+            ;; ndk-gdb --launch=com.ngmoco.gamejs.activity.GameJSActivity
 
             ;; it was cute, for 5 seconds.
             ;(setq load-path (cons "~/.emacs.d/nyan-mode" load-path))
