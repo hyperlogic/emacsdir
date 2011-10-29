@@ -1,8 +1,20 @@
 ;; my not so little .emacs.el file
 
+;; TODO: move into modules.
+;; header-swap
+;; grep
+;; bluesilver config
+;; ngmoco config
+;; crystal dynamics config
+;; special buffer stuff
+;; smart-beginning of line
+
 ;; which system are we running on.
 (setq uname (substring (shell-command-to-string "uname") 0 -1))
 (setq hostname (substring (shell-command-to-string "hostname") 0 -1))
+
+;; add .emacs.d to load path
+(setq load-path (cons "~/.emacs.d/" load-path))
 
 ;; show line & column in modeline
 (setq column-number-mode t)
@@ -16,16 +28,10 @@
 ;; emacsclient can be used to edit files from a terminal
 (server-start)
 
-;; add .emacs.d to load path
-(setq load-path (cons "~/.emacs.d/" load-path))
-
 ;; revert buffers when they change on disk (except if they are modified)
 (setq revert-without-query '("."))
 (global-auto-revert-mode)
 (setq auto-revert-verbose nil) ;; stfu
-
-;; dont jump around so much when scrolling.
-;(setq scroll-step 10)
 
 ;; default window size
 (setq my-window-width 80)
@@ -601,7 +607,6 @@ For example:
 ;; make ajt-term work in shell-mode
 (add-hook 'shell-mode-hook 'set-ajt-term-bindings)
 
-;; C-\ is indent-region
 (global-set-key "\C-\\" 'comment-or-uncomment-region)
 
 ;; ham-handed other-window
