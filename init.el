@@ -222,17 +222,18 @@ For example:
       (setq split-width-threshold 400)
       (setq split-height-threshold 200)
 
+
       ;; work @ ngmoco:)
       (if (or (string= "Anthony-Thibault_MacBook-Pro.local" hostname)
-              (string= "dhcp-101.corp.ngmoco.com" hostname))
+              (string-match ".*corp\.ngmoco\.com$" hostname))
           (progn
 
             (setq mac-allow-anti-aliasing 't)
 
-            (set-face-attribute 'default nil :family "Monaco" :height 120)
+            (set-face-attribute 'default nil :family "Monaco" :height 100)
             ;(set-face-attribute 'default nil :family "Menlo" :height 115)
             ;(set-face-attribute 'default nil :family "Inconsolata" :height 125)
-            ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 135)
+            ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 120)
 
             ;; Only useful when screen is maximized, and only works on a patched emacs (from Homebrew)
             ;(ns-toggle-fullscreen)
@@ -250,7 +251,7 @@ For example:
             (defun ajt-js-search (arg)
               "Search for a regex in all ngCore javascript files"
               (interactive "sngcore-js:")
-              (ajt-grep-find arg '("~/WebGame") '("*.js" "!application.js")))
+              (ajt-grep-find arg '("~/WebGame" "!/Users/athibault/WebGame/Flash/*") '("*.js" "!application.js")))
 
             ;; WebGame cpp search with regex
             (defun ajt-cpp-search (arg)
@@ -692,7 +693,7 @@ For example:
       nil
     (ajt-lr-cmp (car l) (ajt-lr-window (cdr l)))))
 
-(defun ajt-split-window-trirds()
+(defun ajt-split-window-thirds()
  "Split window into thirds"
  (interactive)
  (if (= 1 (length (window-list)))
