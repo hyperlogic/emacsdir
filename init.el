@@ -37,13 +37,8 @@
 (setq my-window-width 80)
 (setq my-window-height 25)
 
-;; color shell
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-;; Show trailing whitespace.
+;; Show trailing whitespace, except for term-mode and compilation-mode
 (setq-default show-trailing-whitespace t)
-
-;; disable trailing whitespace for some modes
 (add-hook 'term-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 (add-hook 'compilation-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 
@@ -230,7 +225,8 @@ For example:
 
             (setq mac-allow-anti-aliasing 't)
 
-            (set-face-attribute 'default nil :family "Monaco" :height 100)
+            ;(set-face-attribute 'default nil :family "Monaco" :height 100)
+			(set-face-attribute 'default nil :family "Monaco" :height 120)
             ;(set-face-attribute 'default nil :family "Menlo" :height 115)
             ;(set-face-attribute 'default nil :family "Inconsolata" :height 125)
             ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 120)
@@ -247,6 +243,13 @@ For example:
             ;; use aspell
             (setq-default ispell-program-name "aspell")
 
+            ;; older branches still use android sdkr12
+            (setq use-sdkr12 nil)
+            (if use-sdkr12
+                (setenv "PATH" (concat (getenv "PATH") ":/Users/athibault/WebGame/android/DevKits/sdkr12/platform-tools")))
+
+			(setenv "PATH" (concat (getenv "PATH") ":~/WebGame/submodules/coreTools/android-ndk-r6"))
+
             ;; WebGame javascript search with regex
             (defun ajt-js-search (arg)
               "Search for a regex in all ngCore javascript files"
@@ -257,7 +260,7 @@ For example:
             (defun ajt-cpp-search (arg)
               "Search for a regex in all ngCore cpp files"
               (interactive "sngcore-cpp:")
-              (ajt-grep-find arg '("~/WebGame" "!/Users/athibault/WebGame/android/jni/utils/v8/*") '("*.cc" "*.cpp" "*.h" "*.mm" "*.m")))
+              (ajt-grep-find arg '("~/WebGame" "!/Users/athibault/WebGame/android/jni/utils/v8/*" "!/Users/athibault/WebGame/NGGameTech/export") '("*.cc" "*.cpp" "*.h" "*.mm" "*.m")))
 
             ;; WebGame java search with regex
             (defun ajt-java-search (arg)
@@ -304,7 +307,6 @@ For example:
               (message "starting game")
               (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
               (pop-to-buffer "*ajt-logcat*")
-              ;(ajt-logcat-mode)
               )
 
             (defun ajt-narwhal ()
@@ -651,6 +653,7 @@ For example:
 ;; ido find-file & buffer switching is awesome
 (require 'ido)
 (ido-mode t)
+(setq ido-enable-flex-matching t)
 
 ;; all windows should be pop-up.
 ;; NOTE: specifically this allows the "*shell*" buffer to go through the normal display-buffer logic.
