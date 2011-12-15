@@ -219,8 +219,8 @@ For example:
 
 
       ;; work @ ngmoco:)
-      (if (or (string= "Anthony-Thibault_MacBook-Pro.local" hostname)
-              (string-match ".*corp\.ngmoco\.com$" hostname))
+      (if (or (string= "anthony-thibault_macbook-pro.local" (downcase hostname))
+              (string-match ".*corp\.ngmoco\.com$" (downcase hostname)))
           (progn
 
             (setq mac-allow-anti-aliasing 't)
@@ -517,7 +517,8 @@ For example:
 (menu-bar-mode -1)
 
 ;; no scroll bars
-(scroll-bar-mode -1)
+(if window-system
+	(scroll-bar-mode -1))
 
 ;; hide gutters
 ;(fringe-mode nil)
