@@ -70,6 +70,8 @@
 (defvar zenburn-yellow "#f0dfaf")
 (defvar zenburn-yellow-1 "#e0cf9f")
 (defvar zenburn-yellow-2 "#d0bf8f")
+(defvar zenburn-green-3 "#0f2f0f")
+(defvar zenburn-green-2 "#3f5f3f")
 (defvar zenburn-green-1 "#5f7f5f")
 (defvar zenburn-green "#7f9f7f")
 (defvar zenburn-green+1 "#8fb28f")
@@ -149,10 +151,10 @@
      (menu ((t (:foreground ,zenburn-fg :background ,zenburn-bg))))
      (minibuffer-prompt ((t (:foreground ,zenburn-yellow))))
      (mode-line
-      ((t (:foreground ,zenburn-green+1 :background ,zenburn-bg-1))))
+      ((t (:foreground ,zenburn-green+1 :background ,zenburn-bg-1 :box (:line-width 1 :color ,zenburn-bg+1)))))
      (mode-line-buffer-id ((t (:inherit zenburn-strong-1-face))))
      (mode-line-inactive
-      ((t (:foreground ,zenburn-green-1  :background ,zenburn-bg-1))))
+      ((t (:foreground ,zenburn-green-1  :background ,zenburn-bg-1 :box (:line-width 1 :color ,zenburn-bg-1)))))
      (region ((t (:background ,zenburn-bg-1))))
      (secondary-selection ((t (:background ,zenburn-bg+2))))
      (trailing-whitespace ((t (:background ,zenburn-bg-_5))))
