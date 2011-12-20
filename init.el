@@ -223,6 +223,9 @@ For example:
               (string-match ".*corp\.ngmoco\.com$" (downcase hostname)))
           (progn
 
+			(require 'magit)
+			;(setq magit-repo-dirs nil)
+
             (setq mac-allow-anti-aliasing 't)
 
             ;(set-face-attribute 'default nil :family "Monaco" :height 100)
@@ -530,6 +533,12 @@ For example:
 (add-to-list 'load-path "~/.emacs.d/zenburn-emacs" t)
 (require 'color-theme-zenburn)
 (color-theme-initialize)
+
+;; try out solarized
+;(add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized" t)
+;(require 'color-theme-solarized)
+;(color-theme-solarized-dark)
+;(setq solarized-contrast 'high)
 
 ;; (load "ajt-color-themes.el")
 ;; (color-theme-ajt-no-bold-blue-sea)
