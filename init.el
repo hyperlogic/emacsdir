@@ -257,7 +257,7 @@ For example:
             (defun ajt-js-search (arg)
               "Search for a regex in all ngCore javascript files"
               (interactive "sngcore-js:")
-              (ajt-grep-find arg '("~/WebGame" "!/Users/athibault/WebGame/Flash/*") '("*.js" "!application.js")))
+              (ajt-grep-find arg '("~/WebGame" "!/Users/athibault/WebGame/Flash/*" "!*build/*") '("*.js" "!application.js")))
 
             ;; WebGame cpp search with regex
             (defun ajt-cpp-search (arg)
