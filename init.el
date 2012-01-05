@@ -25,6 +25,13 @@
 ;; show time in modeline
 (display-time-mode 1)
 
+;; display full path on modeline as well as filename.
+(defun ajt-set-mode-line ()
+  (interactive "*")
+  (setq-default mode-line-buffer-identification
+                '(#("%12f %b" 0 4 (local-map (keymap (header-line keymap (mouse-3 . mode-line-next-buffer) (down-mouse-3 . ignore) (mouse-1 . mode-line-previous-buffer) (down-mouse-1 . ignore)) (mode-line keymap (mouse-3 . mode-line-next-buffer) (mouse-1 . mode-line-previous-buffer))) mouse-face mode-line-highlight help-echo "Buffer name\nmouse-1: previous buffer\nmouse-3: next buffer" face mode-line-buffer-id)))))
+(ajt-set-mode-line)
+
 ;; emacsclient can be used to edit files from a terminal
 (server-start)
 
@@ -167,7 +174,7 @@ For example:
     (goto-line line)))
 
 ;;
-;; bluesliver - home laptop
+;; bluesliver or dodecahedron - home laptop
 ;;
 (if (string= "Darwin" uname)
     (progn
@@ -217,6 +224,15 @@ For example:
       (setq split-width-threshold 400)
       (setq split-height-threshold 200)
 
+      ;; use aspell
+      (setq-default ispell-program-name "aspell")
+
+      ;; home
+      (if (string= "dodecahedron" hostname)
+          (progn
+             (setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/Users/ajt/bin")
+             (setq-default ispell-program-name "/usr/local/bin/aspell")
+            ))
 
       ;; work @ ngmoco:)
       (if (or (string= "anthony-thibault_macbook-pro.local" (downcase hostname))
@@ -664,6 +680,7 @@ For example:
 (require 'ido)
 (ido-mode t)
 (setq ido-enable-flex-matching t)
+(setq completion-ignored-extensions (cons ".d" completion-ignored-extensions))
 
 ;; all windows should be pop-up.
 ;; NOTE: specifically this allows the "*shell*" buffer to go through the normal display-buffer logic.
