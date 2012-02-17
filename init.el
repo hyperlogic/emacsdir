@@ -239,13 +239,16 @@ For example:
               (string-match ".*corp\.ngmoco\.com$" (downcase hostname)))
           (progn
 
-			(require 'magit)
-			;(setq magit-repo-dirs nil)
+            (require 'magit)
+            ;(setq magit-repo-dirs nil)
 
-            (setq mac-allow-anti-aliasing 't)
+            ; tiny xcode font
+            (setq mac-allow-anti-aliasing nil)
+            (set-face-attribute 'default nil :family "Monaco" :height 100)
 
-            ;(set-face-attribute 'default nil :family "Monaco" :height 100)
-			(set-face-attribute 'default nil :family "Monaco" :height 120)
+            ;(setq mac-allow-anti-aliasing 't)
+            ;(set-face-attribute 'default nil :family "Monaco" :height 120)
+
             ;(set-face-attribute 'default nil :family "Menlo" :height 115)
             ;(set-face-attribute 'default nil :family "Inconsolata" :height 125)
             ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 120)
@@ -267,13 +270,13 @@ For example:
             (if use-sdkr12
                 (setenv "PATH" (concat (getenv "PATH") ":/Users/athibault/WebGame/android/DevKits/sdkr12/platform-tools")))
 
-			(setenv "PATH" (concat (getenv "PATH") ":~/WebGame/submodules/coreTools/android-ndk-r6"))
+            (setenv "PATH" (concat (getenv "PATH") ":~/WebGame/submodules/coreTools/android-ndk-r6b"))
 
             ;; WebGame javascript search with regex
             (defun ajt-js-search (arg)
               "Search for a regex in all ngCore javascript files"
               (interactive "sngcore-js:")
-              (ajt-grep-find arg '("~/WebGame" "!/Users/athibault/WebGame/Flash/*" "!*build/*") '("*.js" "!application.js")))
+              (ajt-grep-find arg '("~/WebGame" "!/Users/athibault/WebGame/Flash/*" "!*build/*" "!*Bootstrap/*") '("*.js" "!application.js")))
 
             ;; WebGame cpp search with regex
             (defun ajt-cpp-search (arg)
@@ -381,6 +384,16 @@ For example:
             ; better percent indicator in modeline
             ;(load-library "sml-modeline")
             ;(sml-modeline-mode)
+
+            (setq load-path (cons "~/.emacs.d/coffee-mode" load-path))
+            (load-library "coffee-mode")
+
+            (defun coffee-custom ()
+              "coffee-mode-hook"
+              (set (make-local-variable 'tab-width) 2))
+
+            (add-hook 'coffee-mode-hook
+                      '(lambda() (coffee-custom)))
 
             ))
       ))
@@ -537,7 +550,7 @@ For example:
 
 ;; no scroll bars
 (if window-system
-	(scroll-bar-mode -1))
+    (scroll-bar-mode -1))
 
 ;; hide gutters
 ;(fringe-mode nil)
@@ -818,6 +831,7 @@ For example:
                 ("\\.dtp\\'" . xml-mode)
                 ("\\.dtpinc\\'" . xml-mode)
                 ("\\.go\\'" . go-mode)
+                ("\\.coffee\\'" . coffee-mode)
                 ("BROWSE\\'" . ebrowse-tree-mode)
                 ("\\.lisp\\'" . common-lisp-mode)
                 ("\\.json\\'" . js-mode)
@@ -978,7 +992,7 @@ If point was already at that position, move point to beginning of line."
 (add-to-list 'auto-mode-alist '("\\.fth$" . forth-mode))
 
 ;; markdown mode
-(autoload 'markdown-mode "markdown-mode.el")
+(load-library "markdown-mode")
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 
