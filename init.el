@@ -56,6 +56,11 @@
         (if (string-equal (buffer-name b) name)
             (return 't))))
 
+
+;; override ansi-colors
+;(setq ansi-term-color-vector [unspecified “black” “red” “green” “yellow” “blue” “magenta” “cyan” “white”])
+(setq ansi-term-color-vector [unspecified "#000000" "#963F3C" "#5FFB65" "#FFFD65" "#0042cF" "#FF2180" "#57DCDB" "#FFFFFF"])
+
 (setq-default ajt-use-ansi-term 't)
 (defun ajt-term ()
   (interactive)
