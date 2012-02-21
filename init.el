@@ -243,11 +243,11 @@ For example:
             ;(setq magit-repo-dirs nil)
 
             ; tiny xcode font
-            (setq mac-allow-anti-aliasing nil)
-            (set-face-attribute 'default nil :family "Monaco" :height 100)
+            ;(setq mac-allow-anti-aliasing nil)
+            ;(set-face-attribute 'default nil :family "Monaco" :height 100)
 
-            ;(setq mac-allow-anti-aliasing 't)
-            ;(set-face-attribute 'default nil :family "Monaco" :height 120)
+            (setq mac-allow-anti-aliasing 't)
+            (set-face-attribute 'default nil :family "Monaco" :height 120)
 
             ;(set-face-attribute 'default nil :family "Menlo" :height 115)
             ;(set-face-attribute 'default nil :family "Inconsolata" :height 125)
@@ -564,15 +564,20 @@ For example:
 (color-theme-initialize)
 
 ;; try out solarized
-;(add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized" t)
-;(require 'color-theme-solarized)
-;(color-theme-solarized-dark)
-;(setq solarized-contrast 'high)
+(add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized" t)
+(require 'color-theme-solarized)
+(setq solarized-bold nil)
+(setq solarized-italic nil)
+(setq solarized-broken-srgb t)
+(setq solarized-contrast 'high)
+
+(if window-system
+	(color-theme-solarized-light))
 
 ;; (load "ajt-color-themes.el")
 ;; (color-theme-ajt-no-bold-blue-sea)
-(if window-system
-    (color-theme-zenburn))
+;; (if window-system
+;;     (color-theme-zenburn))
 
 ;; syntax highlighting for c++
 (setq c-basic-offset 4)
