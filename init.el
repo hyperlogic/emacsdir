@@ -46,7 +46,11 @@
 
 ;; Show trailing whitespace, except for term-mode and compilation-mode
 (setq-default show-trailing-whitespace t)
-(add-hook 'term-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
+(add-hook 'term-mode-hook
+		  '(lambda ()
+			 ;; override ansi-colors                   black     red       green     yellow    blue      magenta   cyan      white
+			 (setq ansi-term-color-vector [unspecified "#000000" "#963F3C" "#2F9B25" "#9F9D25" "#0042cF" "#FF2180" "#279C9B" "#FFFFFF"])
+			 (setq show-trailing-whitespace nil)))
 (add-hook 'compilation-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 
 ;; 't if buffer with name is open
@@ -56,11 +60,6 @@
         (if (string-equal (buffer-name b) name)
             (return 't))))
 
-
-;; override ansi-colors
-;(setq ansi-term-color-vector [unspecified “black” “red” “green” “yellow” “blue” “magenta” “cyan” “white”])
-(setq ansi-term-color-vector [unspecified "#000000" "#963F3C" "#5FFB65" "#FFFD65" "#0042cF" "#FF2180" "#57DCDB" "#FFFFFF"])
-
 (setq-default ajt-use-ansi-term 't)
 (defun ajt-term ()
   (interactive)
@@ -68,7 +67,7 @@
       (if (ajt-buffer-open "*ansi-term*")
           (progn
             (switch-to-buffer-other-window "*ansi-term*"))
-        (ansi-term "/bin/bash"))
+		(ansi-term "/bin/bash"))
     (if (ajt-buffer-open "*shell*")
         (progn
           (switch-to-buffer-other-window "*shell*"))
@@ -89,6 +88,11 @@
 (require 'highlight-current-line)
 (if window-system
     (highlight-current-line-on t))
+
+;; highlight-current-line-face
+(custom-set-faces
+ '(highlight-current-line-face ((t (:background "gray90"))))
+)
 
 ;; turn off line highlighting on ansi-term
 (setq highlight-current-line-ignore-regexp
@@ -306,7 +310,7 @@ For example:
 
             (defun ajt-logcat ()
               (interactive)
-              (shell-command "adb logcat&" "*ajt-logcat*")
+              (shell-command "adb logcat -v threadtime&" "*ajt-logcat*")
               (pop-to-buffer "*ajt-logcat*"))
               ;(text-mode))
               ;(ajt-logcat-mode))
@@ -568,16 +572,16 @@ For example:
 (require 'color-theme-zenburn)
 (color-theme-initialize)
 
-;; try out solarized
-(add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized" t)
-(require 'color-theme-solarized)
-(setq solarized-bold nil)
-(setq solarized-italic nil)
-(setq solarized-broken-srgb t)
-(setq solarized-contrast 'high)
+;; ;; try out solarized
+;; (add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized" t)
+;; (require 'color-theme-solarized)
+;; (setq solarized-bold nil)
+;; (setq solarized-italic nil)
+;; (setq solarized-broken-srgb t)
+;; (setq solarized-contrast 'high)
 
-(if window-system
-	(color-theme-solarized-light))
+;; (if window-system
+;; 	(color-theme-solarized-light))
 
 ;; (load "ajt-color-themes.el")
 ;; (color-theme-ajt-no-bold-blue-sea)
