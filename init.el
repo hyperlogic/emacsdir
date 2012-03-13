@@ -9,6 +9,8 @@
 ;; special buffer stuff
 ;; smart-beginning of line
 
+;; NOTE: occur is the command I always forget the name of. :)
+
 ;; which system are we running on.
 (setq uname (substring (shell-command-to-string "uname") 0 -1))
 (setq hostname (substring (shell-command-to-string "hostname") 0 -1))
@@ -182,6 +184,10 @@ For example:
     (pop-to-buffer "*ajt-log*")
     (goto-line line)))
 
+;; better scroll wheel behavior
+(if window-system
+	(setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil))))
+
 ;;
 ;; bluesliver or dodecahedron - home laptop
 ;;
@@ -248,7 +254,7 @@ For example:
               (string-match ".*corp\.ngmoco\.com$" (downcase hostname)))
           (progn
 
-            (require 'magit)
+            ;(require 'magit)
             ;(setq magit-repo-dirs nil)
 
             ; tiny xcode font
@@ -305,22 +311,13 @@ For example:
               (save-some-buffers)
               (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
               (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
-              ;(pop-to-buffer "*ajt-logcat*")
+              ;(pop-to-buffer "*adb-logcat*")
               )
 
-            (defun ajt-logcat ()
+            (defun adb-logcat ()
               (interactive)
-              (shell-command "adb logcat -v threadtime&" "*ajt-logcat*")
-              (pop-to-buffer "*ajt-logcat*"))
-              ;(text-mode))
-              ;(ajt-logcat-mode))
-
-            ;; TODO: broken, i keep getting
-            ;; error in process filter: Wrong type argument: markerp, nil
-            (define-generic-mode ajt-logcat-mode
-              () () '(("^V/.*$" . font-lock-comment-face)
-                      ("^W/.*$" . font-lock-constant-face)
-                      ("^E/.*$" . font-lock-warning-face)) () ())
+              (shell-command "adb logcat -v threadtime&" "*adb-logcat*")
+              (pop-to-buffer "*adb-logcat*"))
 
             (defun ajt-ngboot ()
               (interactive)
@@ -337,7 +334,7 @@ For example:
                 (kill-buffer "*ajt-ngboot*"))
               (message "starting game")
               (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
-              (pop-to-buffer "*ajt-logcat*")
+              (pop-to-buffer "*adb-logcat*")
               )
 
             (defun ajt-narwhal ()
@@ -355,7 +352,7 @@ For example:
                 (kill-buffer "*ajt-narwhal*"))
               (message "starting game")
               (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
-              (pop-to-buffer "*ajt-logcat*")
+              (pop-to-buffer "*adb-logcat*")
               ;(ajt-logcat-mode)
               )
 
@@ -366,7 +363,8 @@ For example:
             (global-set-key [f10] 'ajt-java-search)
             (global-set-key [f11] 'ajt-ngboot)
 
-            (setq compile-command (concat "cd ~/WebGame/; make afast; make arun game=Samples/ajt/RenderTargetTest"))
+            ;(setq compile-command (concat "cd ~/WebGame/; make afast"))
+			(setq compile-command "cd ~/WebGame/; xcodebuild -project webgame.xcodeproj -alltargets -configuration Debug")
 
             ;; make tags
             (defun ajt-make-tags ()
@@ -724,7 +722,7 @@ For example:
 ;;
 
 ;; list of "special" buffers, add new ones here.
-(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*ajt-grep*" "*ansi-term*" "*ajt-logcat*" "*ajt-blame*" "*ajt-log*"))
+(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*ajt-grep*" "*ansi-term*" "*adb-logcat*" "*ajt-blame*" "*ajt-log*"))
 
 ;; Customize special-display-buffer-names, this will cause the ajt-special-display function to be called on these buffers
 ;; instead of the standard display-buffer
