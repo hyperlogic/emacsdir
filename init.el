@@ -10,6 +10,7 @@
 ;; smart-beginning of line
 
 ;; NOTE: occur is the command I always forget the name of. :)
+;; NOTE: occur can take a optional context value!
 
 ;; which system are we running on.
 (setq uname (substring (shell-command-to-string "uname") 0 -1))
@@ -291,7 +292,7 @@ For example:
             (defun ajt-js-search (arg)
               "Search for a regex in all ngCore javascript files"
               (interactive "sngcore-js:")
-              (ajt-grep-find arg '("~/WebGame" "!/Users/athibault/WebGame/Flash/*" "!*build/*" "!*Bootstrap/*") '("*.js" "!application.js")))
+              (ajt-grep-find arg '("~/WebGame" "!/Users/athibault/WebGame/Flash/*" "!*build/*" "!*Bootstrap/*" "!*v8/*" "!*SpiderMonkey/*" "!*docs/*" "!*node-jsdoc-toolkit/*") '("*.js" "!application.js")))
 
             ;; WebGame cpp search with regex
             (defun ajt-cpp-search (arg)
@@ -310,8 +311,9 @@ For example:
               (interactive)
               (save-some-buffers)
               (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
+			  (shell-command "sleep 1" nil)
               (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
-              ;(pop-to-buffer "*adb-logcat*")
+              (pop-to-buffer "*adb-logcat*")
               )
 
             (defun adb-logcat ()
@@ -361,7 +363,7 @@ For example:
             (global-set-key [f8] 'ajt-js-search)
             (global-set-key [f9] 'ajt-cpp-search)
             (global-set-key [f10] 'ajt-java-search)
-            (global-set-key [f11] 'ajt-ngboot)
+            (global-set-key [f11] 'ajt-arun)
 
             ;(setq compile-command (concat "cd ~/WebGame/; make afast"))
 			(setq compile-command "cd ~/WebGame/; xcodebuild -project webgame.xcodeproj -alltargets -configuration Debug")
