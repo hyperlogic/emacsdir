@@ -209,6 +209,7 @@ For example:
       ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
 
       ;; tiny xcode font
+      ;(setq mac-allow-anti-aliasing nil)
       ;(set-face-attribute 'default nil :family "Monaco" :height 100)
       ;(setq my-window-width 234)
       ;(setq my-window-height 71)
@@ -821,6 +822,10 @@ For example:
 (require 'lua-mode)
 (setq lua-indent-level 4)
 
+;; rust-mode
+(add-to-list 'load-path "~/.emacs.d/rust-mode" t)
+(require 'rust-mode)
+
 ;; assign modes to file extentions
 (setq auto-mode-alist
       (append '(("\\.cpp\\'" . c++-mode)
@@ -852,6 +857,7 @@ For example:
                 ("\\.jake\\'" . js-mode)
                 ("[jJ]akefile" . js-mode)
                 (".boot[Cc]onfig" . js-mode)
+                ("\\.rs\\'" . rust-mode)
                 ("COMMIT_EDITMSG" . flyspell-mode))
               auto-mode-alist))
 
@@ -1000,10 +1006,10 @@ If point was already at that position, move point to beginning of line."
 ;(slime-setup '(slime-fancy))
 
 ;; forth mode
-(autoload 'forth-mode "gforth.el")
-(autoload 'forth-block-mode "gforth.el")
+(load "gforth.el")
 (add-to-list 'auto-mode-alist '("\\.fs$" . forth-mode))
 (add-to-list 'auto-mode-alist '("\\.fth$" . forth-mode))
+(add-to-list 'auto-mode-alist '("\\.f$" . forth-mode))
 
 ;; markdown mode
 (load-library "markdown-mode")
