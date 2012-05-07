@@ -50,10 +50,10 @@
 ;; Show trailing whitespace, except for term-mode and compilation-mode
 (setq-default show-trailing-whitespace t)
 (add-hook 'term-mode-hook
-		  '(lambda ()
-			 ;; override ansi-colors                   black     red       green     yellow    blue      magenta   cyan      white
-			 (setq ansi-term-color-vector [unspecified "#000000" "#963F3C" "#2F9B25" "#9F9D25" "#0042cF" "#FF2180" "#279C9B" "#FFFFFF"])
-			 (setq show-trailing-whitespace nil)))
+          '(lambda ()
+             ;; override ansi-colors                   black     red       green     yellow    blue      magenta   cyan      white
+             (setq ansi-term-color-vector [unspecified "#000000" "#963F3C" "#2F9B25" "#9F9D25" "#0042cF" "#FF2180" "#279C9B" "#FFFFFF"])
+             (setq show-trailing-whitespace nil)))
 (add-hook 'compilation-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 
 ;; 't if buffer with name is open
@@ -70,7 +70,7 @@
       (if (ajt-buffer-open "*ansi-term*")
           (progn
             (switch-to-buffer-other-window "*ansi-term*"))
-		(ansi-term "/bin/bash"))
+        (ansi-term "/bin/bash"))
     (if (ajt-buffer-open "*shell*")
         (progn
           (switch-to-buffer-other-window "*shell*"))
@@ -187,7 +187,7 @@ For example:
 
 ;; better scroll wheel behavior
 (if window-system
-	(setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil))))
+    (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil))))
 
 ;;
 ;; bluesliver or dodecahedron - home laptop
@@ -264,7 +264,7 @@ For example:
             ;(set-face-attribute 'default nil :family "Monaco" :height 100)
 
             (setq mac-allow-anti-aliasing 't)
-            (set-face-attribute 'default nil :family "Monaco" :height 120)
+            (set-face-attribute 'default nil :family "Monaco" :height 100)
 
             ;(set-face-attribute 'default nil :family "Menlo" :height 115)
             ;(set-face-attribute 'default nil :family "Inconsolata" :height 125)
@@ -278,6 +278,11 @@ For example:
 
             ;; this file should be spaces, tho
             (setq indent-tabs-mode nil)
+
+            (require 'ajt-js-flymake)
+			(setq flymake-log-level 3)
+            (add-hook 'javascript-mode-hook
+                      (lambda () (flymake-mode t)))
 
             ;; use aspell
             (setq-default ispell-program-name "aspell")
@@ -312,8 +317,17 @@ For example:
               (interactive)
               (save-some-buffers)
               (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
-			  (shell-command "sleep 1" nil)
+              (shell-command "sleep 1" nil)
               (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
+              (pop-to-buffer "*adb-logcat*")
+              )
+
+            (defun ajt-arun-game (game)
+              (interactive "sgame:")
+              (save-some-buffers)
+              (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
+              (shell-command "sleep 1" nil)
+              (shell-command (concat "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true -e game " game " > /dev/null") nil)
               (pop-to-buffer "*adb-logcat*")
               )
 
@@ -366,8 +380,16 @@ For example:
             (global-set-key [f10] 'ajt-java-search)
             (global-set-key [f11] 'ajt-arun)
 
-            ;(setq compile-command (concat "cd ~/WebGame/; make afast"))
-			(setq compile-command "cd ~/WebGame/; xcodebuild -project webgame.xcodeproj -alltargets -configuration Debug")
+            ;; bake, build c++ code and install on device.
+            (setq compile-command "cd ~/WebGame/; make afast")
+
+            ;; build c++ code only for android.
+            ;(setq compile-command "cd ~/WebGame/android/; ./DevKits/ndkr6/ndk-build")
+
+            ;; ios command line build
+            ;(setq compile-command "cd ~/WebGame/; xcodebuild -project webgame.xcodeproj -alltargets -configuration Debug")
+
+            ;; TO build c++ code only do this:
 
             ;; make tags
             (defun ajt-make-tags ()
@@ -574,15 +596,15 @@ For example:
 (color-theme-initialize)
 
 ;; ;; try out solarized
-;; (add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized" t)
-;; (require 'color-theme-solarized)
-;; (setq solarized-bold nil)
-;; (setq solarized-italic nil)
-;; (setq solarized-broken-srgb t)
-;; (setq solarized-contrast 'high)
+(add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized" t)
+(require 'color-theme-solarized)
+(setq solarized-bold nil)
+(setq solarized-italic nil)
+(setq solarized-broken-srgb t)
+(setq solarized-contrast 'high)
 
 ;; (if window-system
-;; 	(color-theme-solarized-light))
+;;  (color-theme-solarized-light))
 
 ;; (load "ajt-color-themes.el")
 ;; (color-theme-ajt-no-bold-blue-sea)
