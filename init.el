@@ -307,12 +307,15 @@ For example:
             ;(setq mac-allow-anti-aliasing nil)
             ;(set-face-attribute 'default nil :family "Monaco" :height 100)
 
-            (setq mac-allow-anti-aliasing 't)
-            (set-face-attribute 'default nil :family "Monaco" :height 100)
+            ;(setq mac-allow-anti-aliasing 't)
+            ;(set-face-attribute 'default nil :family "Monaco" :height 105)
 
             ;(set-face-attribute 'default nil :family "Menlo" :height 115)
             ;(set-face-attribute 'default nil :family "Inconsolata" :height 125)
-            ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 120)
+            ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 130)
+
+			; omg dec vt220
+			;(set-face-attribute 'default nil :family "Glass TTY VT220" :height 150)
 
             ;; Only useful when screen is maximized, and only works on a patched emacs (from Homebrew)
             ;(ns-toggle-fullscreen)
@@ -336,7 +339,7 @@ For example:
             (if use-sdkr12
                 (setenv "PATH" (concat (getenv "PATH") ":/Users/athibault/WebGame/android/DevKits/sdkr12/platform-tools")))
 
-            (setenv "PATH" (concat (getenv "PATH") ":~/WebGame/submodules/coreTools/android-ndk-r6b"))
+            (setenv "PATH" (concat (getenv "PATH") ":~/WebGame/submodules/coreTools/android-ndk-r6b:~/bin"))
 
             ;; WebGame javascript search with regex
             (defun ajt-js-search (arg)
@@ -355,6 +358,11 @@ For example:
               "Search for a regex in all ngCore java files"
               (interactive "sngcore-java:")
               (ajt-grep-find arg '("~/WebGame/android") '("*.java")))
+
+			;; remove .ngmoco directory on android device.
+			(defun ajt-anuke ()
+			  (interactive)
+			  (shell-command "adb shell rm -r /mnt/sdcard/.ngmoco" nil))
 
             ;; launch gamejs
             (defun ajt-arun ()
@@ -423,6 +431,7 @@ For example:
             (global-set-key [f9] 'ajt-cpp-search)
             (global-set-key [f10] 'ajt-java-search)
             (global-set-key [f11] 'ajt-arun)
+			(global-set-key [C-f11] 'ajt-arun-game)
 
             ;; bake, build c++ code and install on device.
             (setq compile-command "cd ~/WebGame/; make afast")
@@ -1069,7 +1078,7 @@ If point was already at that position, move point to beginning of line."
 ;;(require 'erin)
 
 ;; no highlighted text when selecting.
-(transient-mark-mode nil)
+(transient-mark-mode 0)
 
 ;; slime for Clozure Lisp
 ;(set-language-environment "utf-8")
