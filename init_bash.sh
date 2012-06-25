@@ -6,3 +6,4 @@ fi
 if [ $(uname)="Linux" ]; then
 	unset PROMPT_COMMAND
 fi
+export EDITOR=emacsclient
