@@ -3,7 +3,7 @@
 ;; TODO: move into modules.
 ;; header-swap
 ;; grep
-;; bluesilver config
+;; home-laptop config
 ;; ngmoco config
 ;; crystal dynamics config
 ;; special buffer stuff
@@ -190,7 +190,51 @@ For example:
     (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil))))
 
 ;;
-;; bluesliver or dodecahedron - home laptop
+;; bluerose - arch home laptop
+;;p
+
+(if (string= "bluerose" hostname)
+    (progn
+      (set-default-font "6x13")
+
+      (defun ajt-make-server ()
+        (interactive)
+        (shell-command "cd ~/WebGame; make server&" "*ajt-make-sever*")
+        (pop-to-buffer "*ajt-make-server*"))
+
+      ;; WebGame javascript search with regex
+      (defun ajt-js-search (arg)
+        "Search for a regex in all ngCore javascript files"
+        (interactive "sngcore-js:")
+        (ajt-grep-find arg '("~/WebGame" "!/Users/athibault/WebGame/Flash/*" "!*build/*" "!*Bootstrap/*") '("*.js" "!application.js")))
+
+      ;; WebGame cpp search with regex
+      (defun ajt-cpp-search (arg)
+        "Search for a regex in all ngCore cpp files"
+        (interactive "sngcore-cpp:")
+        (ajt-grep-find arg '("~/WebGame" "!/Users/athibault/WebGame/android/jni/utils/v8/*" "!/Users/athibault/WebGame/NGGameTech/export") '("*.cc" "*.cpp" "*.h" "*.mm" "*.m")))
+
+      ;; WebGame java search with regex
+      (defun ajt-java-search (arg)
+        "Search for a regex in all ngCore java files"
+        (interactive "sngcore-java:")
+        (ajt-grep-find arg '("~/WebGame/android") '("*.java")))
+
+      (defun ajt-ngcore ()
+        (interactive)
+        (shell-command "cd ~/WebGame/Linux; ./ngCore&" "*ajt-ngcore*")
+        (pop-to-buffer "*ajt-ngcore*"))
+
+      (global-set-key [f8] 'ajt-js-search)
+      (global-set-key [f9] 'ajt-cpp-search)
+      (global-set-key [f10] 'ajt-java-search)
+      (global-set-key [f11] 'ajt-ngcore)
+
+      ; TODO: set up emacsclient as default EDITOR
+))
+
+;;
+;; dodecahedron - home laptop
 ;;
 (if (string= "Darwin" uname)
     (progn
@@ -615,6 +659,11 @@ For example:
 (setq c-basic-offset 4)
 (setq tab-width 4)
 (setq default-tab-width 4)
+
+;; for linuxy c code
+;;(setq tab-width 8)
+;;(setq default-tab-width 8)
+
 (setq c-default-style '((java-mode . "java")
                         (awk-mode . "awk")
                         (other . "stroustrup")))
@@ -880,7 +929,10 @@ For example:
                 ("[jJ]akefile" . js-mode)
                 (".boot[Cc]onfig" . js-mode)
                 ("\\.rs\\'" . rust-mode)
-                ("COMMIT_EDITMSG" . flyspell-mode))
+                ("COMMIT_EDITMSG" . flyspell-mode)
+                ; disabled on my linux box
+                ("COMMIT_EDITMSG" . flyspell-mode)
+                )
               auto-mode-alist))
 
 ;; irc chat
@@ -953,8 +1005,8 @@ If point was already at that position, move point to beginning of line."
 (global-set-key "\C-a" 'smart-beginning-of-line)
 
 ;; list of header and soruce file extentions
-(setq ajt-hdr-ext-list `(".h" ".hpp" ".vsh"))
-(setq ajt-src-ext-list `(".cpp" ".c" ".m" ".mm" ".fsh"))
+(setq ajt-hdr-ext-list `(".h" ".hpp" ".vsh" ".hh"))
+(setq ajt-src-ext-list `(".cpp" ".c" ".m" ".mm" ".fsh" ".cc"))
 
 ;; fn can return non-nil to stop iteration
 (defun ajt-for-each (fn lst)
