@@ -199,7 +199,7 @@ For example:
 
       (defun ajt-make-server ()
         (interactive)
-        (shell-command "cd ~/WebGame; make server&" "*ajt-make-sever*")
+        (shell-command "cd ~/WebGame; make server&" "*ajt-make-server*")
         (pop-to-buffer "*ajt-make-server*"))
 
       ;; WebGame javascript search with regex
@@ -363,6 +363,12 @@ For example:
 			(defun ajt-anuke ()
 			  (interactive)
 			  (shell-command "adb shell rm -r /mnt/sdcard/.ngmoco" nil))
+
+			;; run "make server" in an emacs buffer
+			(defun ajt-make-server ()
+			  (interactive)
+			  (shell-command "cd ~/WebGame; make server&" "*ajt-make-server*")
+			  (pop-to-buffer "*ajt-make-server*"))
 
             ;; launch gamejs
             (defun ajt-arun ()
