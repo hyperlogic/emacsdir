@@ -308,14 +308,15 @@ For example:
             ;(set-face-attribute 'default nil :family "Monaco" :height 100)
 
             ;(setq mac-allow-anti-aliasing 't)
-            ;(set-face-attribute 'default nil :family "Monaco" :height 105)
+            (set-face-attribute 'default nil :family "Monaco" :height 120)
 
-            ;(set-face-attribute 'default nil :family "Menlo" :height 115)
-            ;(set-face-attribute 'default nil :family "Inconsolata" :height 125)
-            ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 130)
+            ;(set-face-attribute 'default nil :family "Menlo" :height 125)
+            ;(set-face-attribute 'default nil :family "Inconsolata" :height 155)
+            ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 120)
+            ;(set-face-attribute 'default nil :family "Droid Sans Mono" :height 120)
 
-			; omg dec vt220
-			;(set-face-attribute 'default nil :family "Glass TTY VT220" :height 150)
+            ; omg dec vt220
+            ;(set-face-attribute 'default nil :family "Glass TTY VT220" :height 150)
 
             ;; Only useful when screen is maximized, and only works on a patched emacs (from Homebrew)
             ;(ns-toggle-fullscreen)
@@ -327,7 +328,7 @@ For example:
             (setq indent-tabs-mode nil)
 
             (require 'ajt-js-flymake)
-			(setq flymake-log-level 3)
+            (setq flymake-log-level 3)
             (add-hook 'javascript-mode-hook
                       (lambda () (flymake-mode t)))
 
@@ -359,16 +360,16 @@ For example:
               (interactive "sngcore-java:")
               (ajt-grep-find arg '("~/WebGame/android") '("*.java")))
 
-			;; remove .ngmoco directory on android device.
-			(defun ajt-anuke ()
-			  (interactive)
-			  (shell-command "adb shell rm -r /mnt/sdcard/.ngmoco" nil))
+            ;; remove .ngmoco directory on android device.
+            (defun ajt-anuke ()
+              (interactive)
+              (shell-command "adb shell rm -r /mnt/sdcard/.ngmoco" nil))
 
-			;; run "make server" in an emacs buffer
-			(defun ajt-make-server ()
-			  (interactive)
-			  (shell-command "cd ~/WebGame; make server&" "*ajt-make-server*")
-			  (pop-to-buffer "*ajt-make-server*"))
+            ;; run "make server" in an emacs buffer
+            (defun ajt-make-server ()
+              (interactive)
+              (shell-command "cd ~/WebGame; make server&" "*ajt-make-server*")
+              (pop-to-buffer "*ajt-make-server*"))
 
             ;; launch gamejs
             (defun ajt-arun ()
@@ -378,6 +379,7 @@ For example:
               (shell-command "sleep 1" nil)
               (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
               (pop-to-buffer "*adb-logcat*")
+              (adb-clear)
               )
 
             (defun ajt-arun-game (game)
@@ -391,8 +393,14 @@ For example:
 
             (defun adb-logcat ()
               (interactive)
-              (shell-command "adb logcat -v threadtime&" "*adb-logcat*")
-              (pop-to-buffer "*adb-logcat*"))
+              (start-process "*adb-logcat*" "*adb-logcat*" "/bin/sh" "-c" "adb logcat -v threadtime")
+              (pop-to-buffer "*adb-logcat*")
+              (buffer-disable-undo))
+
+            (defun adb-clear ()
+              (interactive)
+              (pop-to-buffer "*adb-logcat*")
+              (delete-region (point-min) (point-max)))
 
             (defun ajt-ngboot ()
               (interactive)
@@ -437,7 +445,7 @@ For example:
             (global-set-key [f9] 'ajt-cpp-search)
             (global-set-key [f10] 'ajt-java-search)
             (global-set-key [f11] 'ajt-arun)
-			(global-set-key [C-f11] 'ajt-arun-game)
+            (global-set-key [C-f11] 'ajt-arun-game)
 
             ;; bake, build c++ code and install on device.
             (setq compile-command "cd ~/WebGame/; make afast")
@@ -684,7 +692,7 @@ For example:
                         (other . "stroustrup")))
 
 ;; create a new *scratch* buffer
-(defun create-scratch-buffer nil
+(defun scratch-buffer-create nil
   "create a new scratch buffer to work in. (could be *scratch* - *scratchX*)"
   (interactive)
   (let ((n 0)
@@ -1105,3 +1113,13 @@ If point was already at that position, move point to beginning of line."
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 
+(setq load-path (cons "~/.emacs.d/emacs-jabber" load-path))
+(load-library "jabber")
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(jabber-account-list (quote (("athibault@jabber.ngmoco.com" (:network-server . "jabber.ngmoco.com") (:port . 5223) (:connection-type . ssl))))))
+;; jabber-connect
+;; j ngcore@conference.jabber.ngmoco.com
