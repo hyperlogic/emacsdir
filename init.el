@@ -819,7 +819,7 @@ For example:
 ;;
 
 ;; list of "special" buffers, add new ones here.
-(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*ajt-grep*" "*ansi-term*" "*adb-logcat*" "*ajt-blame*" "*ajt-log*"))
+(setq ajt-special-buffers `("*compilation*" "*grep*" "*shell*" "*ajt-grep*" "*ansi-term*" "*adb-logcat*" "*ajt-blame*" "*ajt-log*" "*ajt-ngcore*"))
 
 ;; Customize special-display-buffer-names, this will cause the ajt-special-display function to be called on these buffers
 ;; instead of the standard display-buffer
