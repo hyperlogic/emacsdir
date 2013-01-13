@@ -55,6 +55,7 @@
              (setq ansi-term-color-vector [unspecified "#000000" "#963F3C" "#2F9B25" "#9F9D25" "#0042cF" "#FF2180" "#279C9B" "#FFFFFF"])
              (setq show-trailing-whitespace nil)))
 (add-hook 'compilation-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
+(add-hook 'diff-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 
 ;; 't if buffer with name is open
 ;; nil otherwise
@@ -169,21 +170,29 @@ For example:
     (ajt-grep-find-shell-cmd cmd)))
 
 
-;; invoke git-blame on current buffer.
-(defun ajt-blame ()
+;; invoke git blame on current buffer.
+(defun ajt-git-blame ()
   (interactive)
   (let ((line (line-number-at-pos)))
     (shell-command (concat "git blame -w " (buffer-file-name)) "*ajt-blame*")
     (pop-to-buffer "*ajt-blame*")
     (goto-line line)))
 
-;; invoke git-log on current buffer.
-(defun ajt-log ()
+;; invoke git log on current buffer.
+(defun ajt-git-log ()
   (interactive)
   (let ((line (line-number-at-pos)))
     (shell-command (concat "git log " (buffer-file-name)) "*ajt-log*")
     (pop-to-buffer "*ajt-log*")
     (goto-line line)))
+
+;; invoke git diff and pipe result into a buffer.
+(defun ajt-git-diff ()
+  (interactive)
+  (shell-command "git diff -w" "*ajt-git-diff*")
+  (pop-to-buffer "*ajt-git-diff*")
+  (diff-mode))
+
 
 ;; better scroll wheel behavior
 (if window-system
@@ -191,7 +200,7 @@ For example:
 
 ;;
 ;; bluerose - arch home laptop
-;;p
+;;
 
 (if (string= "bluerose" hostname)
     (progn
@@ -200,6 +209,11 @@ For example:
       (defun ajt-make-server ()
         (interactive)
         (shell-command "cd ~/WebGame; make server&" "*ajt-make-server*")
+        (pop-to-buffer "*ajt-make-server*"))
+
+      (defun ajt-make-server-no-typecheck ()
+        (interactive)
+        (shell-command "cd ~/WebGame; make server typecheck=false&" "*ajt-make-server*")
         (pop-to-buffer "*ajt-make-server*"))
 
       ;; WebGame javascript search with regex
@@ -247,7 +261,7 @@ For example:
       ;(setq mac-allow-anti-aliasing nil)
 
       ;; turn on anti-aliasing
-      (setq mac-allow-anti-aliasing t)
+      ;(setq mac-allow-anti-aliasing t)
 
       ;; Note: be sure to also enter the following into the shell
       ;; defaults write org.gnu.Emacs AppleAntiAliasingThreshold 128
@@ -305,35 +319,55 @@ For example:
 
             ; tiny xcode font
             ;(setq mac-allow-anti-aliasing nil)
-            ;(set-face-attribute 'default nil :family "Monaco" :height 100)
-
-            ;(setq mac-allow-anti-aliasing 't)
             (set-face-attribute 'default nil :family "Monaco" :height 120)
 
+            ;(setq mac-allow-anti-aliasing 't)
+            ;(set-face-attribute 'default nil :family "Monaco" :height 90)
+
             ;(set-face-attribute 'default nil :family "Menlo" :height 125)
-            ;(set-face-attribute 'default nil :family "Inconsolata" :height 155)
+            ;(set-face-attribute 'default nil :family "Inconsolata" :height 115)
             ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 120)
             ;(set-face-attribute 'default nil :family "Droid Sans Mono" :height 120)
+			;(set-face-attribute 'default nil :family "PragmataPro" :height 105)
+
+            (setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:~/bin:~/WebGame/Tools:~/WebGame/Resources:~/WebGame/android/DevKits/sdk/platform-tools:~/.emacs.d")
 
             ; omg dec vt220
-            ;(set-face-attribute 'default nil :family "Glass TTY VT220" :height 150)
+            ;(set-face-attribute 'default nil :family "Glass TTY VT220" :height 170)
 
             ;; Only useful when screen is maximized, and only works on a patched emacs (from Homebrew)
             ;(ns-toggle-fullscreen)
 
-            ;; ngmoco uses tabs!
+            ;; ngCore uses tabs...
             (setq-default indent-tabs-mode 't)
 
-            ;; this file should be spaces, tho
+			;; but ngGO uses spaces for it's javascript
+			;; and my personal projects in code use spaces.
+			(add-hook 'find-file-hook
+					  (lambda () (if (or (string-match ".*/dev/.*" (buffer-file-name))
+										 (string-match ".*/code/.*" (buffer-file-name)))
+									 (setq indent-tabs-mode nil))))
+
+            ;; this file should be spaces
             (setq indent-tabs-mode nil)
 
-            (require 'ajt-js-flymake)
-            (setq flymake-log-level 3)
-            (add-hook 'javascript-mode-hook
-                      (lambda () (flymake-mode t)))
+			(defun dired-sort-size ()
+			  "Dired sort by size."
+			  (interactive)
+			  (dired-sort-other (concat dired-listing-switches "S")))
+
+			(defun dired-sort-name ()
+			  "Dired sort by name."
+			  (interactive)
+			  (dired-sort-other (concat dired-listing-switches "")))
+
+            ;;(require 'ajt-js-flymake)
+            ;;(setq flymake-log-level 3)
+            ;;(add-hook 'javascript-mode-hook
+            ;;          (lambda () (flymake-mode t)))
 
             ;; use aspell
-            (setq-default ispell-program-name "aspell")
+            (setq-default ispell-program-name "/usr/local/bin/aspell")
 
             ;; older branches still use android sdkr12
             (setq use-sdkr12 nil)
@@ -381,6 +415,10 @@ For example:
               (pop-to-buffer "*adb-logcat*")
               (adb-clear)
               )
+
+			(defun ajt-astop ()
+			  (interactive)
+			  (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil))
 
             (defun ajt-arun-game (game)
               (interactive "sgame:")
@@ -462,7 +500,7 @@ For example:
             (defun ajt-make-tags ()
               "Make TAGS"
               (interactive)
-              (ajt-grep-find-shell-cmd "etagsGen.rb ~/WebGame/TAGS ~/WebGame \!~/WebGame/android/jni/utils/v8 \!~/WebGame/NGGameTech/export"))
+              (ajt-grep-find-shell-cmd "~/WebGame/samples/ajt/bin/etagsGen.rb ~/WebGame/TAGS ~/WebGame \!~/WebGame/android/jni/utils/v8 \!~/WebGame/NGGameTech/export"))
 
             ;; use TAGS file in these dirs.
             (setq tags-table-list '("~/WebGame"))
@@ -1115,11 +1153,14 @@ If point was already at that position, move point to beginning of line."
 
 (setq load-path (cons "~/.emacs.d/emacs-jabber" load-path))
 (load-library "jabber")
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(jabber-account-list (quote (("athibault@jabber.ngmoco.com" (:network-server . "jabber.ngmoco.com") (:port . 5223) (:connection-type . ssl))))))
-;; jabber-connect
-;; j ngcore@conference.jabber.ngmoco.com
+
+(defun ajt-jabber ()
+  "Connect to ngmoco jabber server"
+  (interactive)
+  (jabber-connect "athibault" "jabber.ngmoco.com" nil nil "PASSWORD_HERE" "jabber.ngmoco.com" 5223 'ssl))
+
+(defun ajt-jabber-conference ()
+  "join the ngmoco ngcore multi-user channel conference"
+  (interactive)
+  (jabber-muc-join (jabber-read-account) "ngcore@conference.jabber.ngmoco.com" "athibault" 't))
+
