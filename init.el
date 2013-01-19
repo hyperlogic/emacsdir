@@ -302,6 +302,9 @@ For example:
       ;; use aspell
       (setq-default ispell-program-name "aspell")
 
+	  ;; show entire kill ring in a buffer
+	  (require 'browse-kill-ring)
+
       ;; home
       (if (string= "dodecahedron" hostname)
           (progn
