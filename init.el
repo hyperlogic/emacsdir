@@ -49,11 +49,14 @@
 
 ;; Show trailing whitespace, except for term-mode and compilation-mode
 (setq-default show-trailing-whitespace t)
-(add-hook 'term-mode-hook
-          '(lambda ()
-             ;; override ansi-colors                   black     red       green     yellow    blue      magenta   cyan      white
-             (setq ansi-term-color-vector [unspecified "#000000" "#963F3C" "#2F9B25" "#9F9D25" "#0042cF" "#FF2180" "#279C9B" "#FFFFFF"])
-             (setq show-trailing-whitespace nil)))
+
+ (add-hook 'term-mode-hook
+           '(lambda ()
+              ;; BROKEN in emacs 24.3 *sigh*
+              ;; override ansi-colors                   black     red       green     yellow    blue      magenta   cyan      white
+              ;; (setq ansi-term-color-vector [default "#000000" "#963F3C" "#2F9B25" "#9F9D25" "#0042cF" "#FF2180" "#279C9B" "#FFFFFF"])
+              (setq show-trailing-whitespace nil)))
+
 (add-hook 'compilation-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 (add-hook 'diff-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 
@@ -302,8 +305,8 @@ For example:
       ;; use aspell
       (setq-default ispell-program-name "aspell")
 
-	  ;; show entire kill ring in a buffer
-	  (require 'browse-kill-ring)
+      ;; show entire kill ring in a buffer
+      (require 'browse-kill-ring)
 
       ;; home
       (if (string= "dodecahedron" hostname)
@@ -322,7 +325,9 @@ For example:
 
             ; tiny xcode font
             ;(setq mac-allow-anti-aliasing nil)
-            (set-face-attribute 'default nil :family "Monaco" :height 120)
+            (set-face-attribute 'default nil :family "Monaco" :height 120 :weight 'normal :slant 'normal)
+            ;(set-face-attribute 'default nil :family "PragmataPro" :height 125 :weight 'normal :slant 'normal)
+            ;(set-face-attribute 'default nil :family "Courier Prime" :weight 'normal :slant 'italic :height 135)
 
             ;(setq mac-allow-anti-aliasing 't)
             ;(set-face-attribute 'default nil :family "Monaco" :height 90)
@@ -331,7 +336,7 @@ For example:
             ;(set-face-attribute 'default nil :family "Inconsolata" :height 115)
             ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 120)
             ;(set-face-attribute 'default nil :family "Droid Sans Mono" :height 120)
-			;(set-face-attribute 'default nil :family "PragmataPro" :height 105)
+            ;(set-face-attribute 'default nil :family "PragmataPro" :height 105)
 
             (setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:~/bin:~/WebGame/Tools:~/WebGame/Resources:~/WebGame/android/DevKits/sdk/platform-tools:~/.emacs.d")
 
@@ -344,25 +349,25 @@ For example:
             ;; ngCore uses tabs...
             (setq-default indent-tabs-mode 't)
 
-			;; but ngGO uses spaces for it's javascript
-			;; and my personal projects in code use spaces.
-			(add-hook 'find-file-hook
-					  (lambda () (if (or (string-match ".*/dev/.*" (buffer-file-name))
-										 (string-match ".*/code/.*" (buffer-file-name)))
-									 (setq indent-tabs-mode nil))))
+            ;; but ngGO uses spaces for it's javascript
+            ;; and my personal projects in code use spaces.
+            (add-hook 'find-file-hook
+                      (lambda () (if (or (string-match ".*/dev/.*" (buffer-file-name))
+                                         (string-match ".*/code/.*" (buffer-file-name)))
+                                     (setq indent-tabs-mode nil))))
 
             ;; this file should be spaces
             (setq indent-tabs-mode nil)
 
-			(defun dired-sort-size ()
-			  "Dired sort by size."
-			  (interactive)
-			  (dired-sort-other (concat dired-listing-switches "S")))
+            (defun dired-sort-size ()
+              "Dired sort by size."
+              (interactive)
+              (dired-sort-other (concat dired-listing-switches "S")))
 
-			(defun dired-sort-name ()
-			  "Dired sort by name."
-			  (interactive)
-			  (dired-sort-other (concat dired-listing-switches "")))
+            (defun dired-sort-name ()
+              "Dired sort by name."
+              (interactive)
+              (dired-sort-other (concat dired-listing-switches "")))
 
             ;;(require 'ajt-js-flymake)
             ;;(setq flymake-log-level 3)
@@ -397,6 +402,12 @@ For example:
               (interactive "sngcore-java:")
               (ajt-grep-find arg '("~/WebGame/android") '("*.java")))
 
+            ;; NGGo js search with regex
+            (defun ajt-go-search (arg)
+              "Search for a regex in all ngGO js files"
+              (interactive "snggo-js:")
+              (ajt-grep-find arg '("~/dev/ngGo" "!*build/*") '("*.js" "!application.js")))
+
             ;; remove .ngmoco directory on android device.
             (defun ajt-anuke ()
               (interactive)
@@ -406,6 +417,11 @@ For example:
             (defun ajt-make-server ()
               (interactive)
               (shell-command "cd ~/WebGame; make server&" "*ajt-make-server*")
+              (pop-to-buffer "*ajt-make-server*"))
+
+            (defun ajt-make-server-no-typecheck ()
+              (interactive)
+              (shell-command "cd ~/WebGame; make server typecheck=false&" "*ajt-make-server*")
               (pop-to-buffer "*ajt-make-server*"))
 
             ;; launch gamejs
@@ -419,9 +435,9 @@ For example:
               (adb-clear)
               )
 
-			(defun ajt-astop ()
-			  (interactive)
-			  (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil))
+            (defun ajt-astop ()
+              (interactive)
+              (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil))
 
             (defun ajt-arun-game (game)
               (interactive "sgame:")
@@ -482,7 +498,8 @@ For example:
 
 
             ;; key bindings
-            (global-set-key [f8] 'ajt-js-search)
+            ;(global-set-key [f8] 'ajt-js-search)
+            (global-set-key [f8] 'ajt-go-search)
             (global-set-key [f9] 'ajt-cpp-search)
             (global-set-key [f10] 'ajt-java-search)
             (global-set-key [f11] 'ajt-arun)
@@ -695,21 +712,21 @@ For example:
 ;; hide gutters
 ;(fringe-mode nil)
 
-;; color-theme
-(setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
-(require 'color-theme)
+; color-theme
+;; (setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
+;; (require 'color-theme)
 
-(add-to-list 'load-path "~/.emacs.d/zenburn-emacs" t)
-(require 'color-theme-zenburn)
-(color-theme-initialize)
+;; (add-to-list 'load-path "~/.emacs.d/zenburn-emacs" t)
+;; (require 'color-theme-zenburn)
+;; (color-theme-initialize)
 
-;; ;; try out solarized
-(add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized" t)
-(require 'color-theme-solarized)
-(setq solarized-bold nil)
-(setq solarized-italic nil)
-(setq solarized-broken-srgb t)
-(setq solarized-contrast 'high)
+;; ;; ;; try out solarized
+;; (add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized" t)
+;; (require 'color-theme-solarized)
+;; (setq solarized-bold nil)
+;; (setq solarized-italic nil)
+;; (setq solarized-broken-srgb t)
+;; (setq solarized-contrast 'high)
 
 ;; (if window-system
 ;;  (color-theme-solarized-light))
@@ -980,6 +997,7 @@ For example:
                 ("\\.vsh\\'" . glsl-mode)
                 ("\\.fsh\\'" . glsl-mode)
                 ("\\.js\\'" . js-mode)
+                ("\\.jsfl\\'" . js-mode) ; flash javascript plug-in
                 ("\\.m\\'" . objc-mode)
                 ("\\.mm\\'" . objc-mode)
                 ("\\.dtp\\'" . xml-mode)
@@ -1160,7 +1178,7 @@ If point was already at that position, move point to beginning of line."
 (defun ajt-jabber ()
   "Connect to ngmoco jabber server"
   (interactive)
-  (jabber-connect "athibault" "jabber.ngmoco.com" nil nil "PASSWORD_HERE" "jabber.ngmoco.com" 5223 'ssl))
+  (jabber-connect "athibault" "jabber.ngmoco.com" nil nil "PASSWORD_HERE" "jabber.ngmoco.com" 5222))
 
 (defun ajt-jabber-conference ()
   "join the ngmoco ngcore multi-user channel conference"
