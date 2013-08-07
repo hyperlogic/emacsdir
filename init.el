@@ -1019,6 +1019,8 @@ For example:
 ;; jsx-mode
 (autoload 'jsx-mode "jsx-mode" "JSX mode" t)
 
+(load "typescript/TypeScript")
+
 ;; assign modes to file extentions
 (setq auto-mode-alist
       (append '(("\\.cpp\\'" . c++-mode)
@@ -1054,6 +1056,7 @@ For example:
                 ("\\.rs\\'" . rust-mode)
                 ("COMMIT_EDITMSG" . flyspell-mode)
                 ("\\.jsx\\'" . jsx-mode)
+				("\\.ts\\'" . typescript-mode)
                 )
               auto-mode-alist))
 
