@@ -57,7 +57,8 @@
               ;; (setq ansi-term-color-vector [default "#000000" "#963F3C" "#2F9B25" "#9F9D25" "#0042cF" "#FF2180" "#279C9B" "#FFFFFF"])
               (setq show-trailing-whitespace nil)))
 
-(add-hook 'compilation-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
+;(add-hook 'compilation-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
+
 (add-hook 'diff-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 
 ;; 't if buffer with name is open
@@ -80,9 +81,11 @@
           (switch-to-buffer-other-window "*shell*"))
       (shell))))
 
-;; ruby-mode NOTE: now included in 23.1
-(when (< emacs-major-version 23)
-  (load-library "ruby-mode"))
+;; ruby-mode NOTE: now included in 23.1,
+;; in 24.3 last-command-char not defined anymore?!?
+(when (or (< emacs-major-version 23) (= emacs-major-version 24))
+  (load-library "ruby-mode")
+)
 
 ;; turn off line wrapping.
 (set-default 'truncate-lines t)
@@ -323,19 +326,24 @@ For example:
             ;(require 'magit)
             ;(setq magit-repo-dirs nil)
 
+            ; nice small font
+            ;(set-face-attribute 'default nil :family "Menlo" :height 105 :weight 'normal)
+            ;(set-face-attribute 'default nil :family "Inconsolata" :height 120 :weight 'bold)
+            ;(set-face-attribute 'default nil :family "Droid Sans Mono" :height 110)
+            ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 130 :weight 'normal)
+            (set-face-attribute 'default nil :family "Monaco" :height 120 :weight 'normal)
+            ;(set-face-attribute 'default nil :family "Courier Prime" :weight 'normal :height 100)
+
             ; tiny xcode font
-            ;(setq mac-allow-anti-aliasing nil)
-            (set-face-attribute 'default nil :family "Monaco" :height 120 :weight 'normal :slant 'normal)
-            ;(set-face-attribute 'default nil :family "PragmataPro" :height 125 :weight 'normal :slant 'normal)
-            ;(set-face-attribute 'default nil :family "Courier Prime" :weight 'normal :slant 'italic :height 135)
+            (setq mac-allow-anti-aliasing nil)
+            (set-face-attribute 'default nil :family "Monaco" :height 100 :weight 'normal)
+            ;(set-face-attribute 'default nil :family "Monaco" :height 140 :weight 'normal :slant 'normal)
+            ;(set-face-attribute 'default nil :family "PragmataPro" :height 95 :weight 'normal :slant 'normal)
+            ;(set-face-attribute 'default nil :family "Courier Prime" :weight 'normal :slant 'italic :height 110)
 
             ;(setq mac-allow-anti-aliasing 't)
-            ;(set-face-attribute 'default nil :family "Monaco" :height 90)
+            ;(set-face-attribute 'default nil :family "Monaco" :height 100)
 
-            ;(set-face-attribute 'default nil :family "Menlo" :height 125)
-            ;(set-face-attribute 'default nil :family "Inconsolata" :height 115)
-            ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 120)
-            ;(set-face-attribute 'default nil :family "Droid Sans Mono" :height 120)
             ;(set-face-attribute 'default nil :family "PragmataPro" :height 105)
 
             (setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:~/bin:~/WebGame/Tools:~/WebGame/Resources:~/WebGame/android/DevKits/sdk/platform-tools:~/.emacs.d")
@@ -406,12 +414,27 @@ For example:
             (defun ajt-go-search (arg)
               "Search for a regex in all ngGO js files"
               (interactive "snggo-js:")
-              (ajt-grep-find arg '("~/dev/ngGo" "!*build/*") '("*.js" "!application.js")))
+              (ajt-grep-find arg '("~/dev/ngGo/NGGo" "!*build/*") '("*.js" "!application.js")))
+
+            ;; transformers js search with regex
+            (defun ajt-trans-search (arg)
+              "Search for a regex in all js files in transformers game code"
+              (interactive "stransformers-js:")
+              (ajt-grep-find arg '("~/dev/transformers/Client/Transformers/Code" "!*build/*") '("*.js" "!application.js")))
+
+            ;; puzzles js search with regex
+            (defun ajt-puzz-search (arg)
+              "Search for a regex in all js files in puzzles game code"
+              (interactive "spuzz-js:")
+              (ajt-grep-find arg '("~/dev/puzzles/Client/Puzzles/Code" "!*build/*") '("*.js" "!application.js")))
 
             ;; remove .ngmoco directory on android device.
             (defun ajt-anuke ()
               (interactive)
-              (shell-command "adb shell rm -r /mnt/sdcard/.ngmoco" nil))
+              (shell-command "adb shell rm -r /mnt/sdcard/.ngmoco" nil)
+              (shell-command "adb shell rm -r /storage/emulated/0/Android/data/com.mobage.ww/cache/.ngmoco/" nil)
+              (shell-command "adb shell rm -r /mnt/sdcard/Android/data/com.mobage.ww/cache/.ngmoco" nil)
+              )
 
             ;; run "make server" in an emacs buffer
             (defun ajt-make-server ()
@@ -432,8 +455,7 @@ For example:
               (shell-command "sleep 1" nil)
               (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
               (pop-to-buffer "*adb-logcat*")
-              (adb-clear)
-              )
+              (adb-clear))
 
             (defun ajt-astop ()
               (interactive)
@@ -444,9 +466,21 @@ For example:
               (save-some-buffers)
               (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
               (shell-command "sleep 1" nil)
-              (shell-command (concat "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true -e game " game " > /dev/null") nil)
+              (shell-command (concat "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true -e jsLog true -e game " game " > /dev/null") nil)
+              (pop-to-buffer "*adb-logcat*"))
+
+            (defun ajt-ww-astop ()
+              (interactive)
+              (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil))
+
+            (defun ajt-ww-arun ()
+              (interactive)
+              (save-some-buffers)
+              (shell-command "adb shell am broadcast -a com.mobage.ww.STOP > /dev/null" nil)
+              (shell-command "sleep 1" nil)
+              (shell-command "adb shell am start -a com.mobage.ww.RUN -e nativeLog true > /dev/null" nil)
               (pop-to-buffer "*adb-logcat*")
-              )
+              (adb-clear))
 
             (defun adb-logcat ()
               (interactive)
@@ -499,13 +533,14 @@ For example:
 
             ;; key bindings
             ;(global-set-key [f8] 'ajt-js-search)
-            (global-set-key [f8] 'ajt-go-search)
+            (global-set-key [f8] 'ajt-trans-search)
             (global-set-key [f9] 'ajt-cpp-search)
             (global-set-key [f10] 'ajt-java-search)
             (global-set-key [f11] 'ajt-arun)
             (global-set-key [C-f11] 'ajt-arun-game)
 
             ;; bake, build c++ code and install on device.
+            ;; export JENKINS=TRUE
             (setq compile-command "cd ~/WebGame/; make afast")
 
             ;; build c++ code only for android.
@@ -548,6 +583,9 @@ For example:
             (defun coffee-custom ()
               "coffee-mode-hook"
               (set (make-local-variable 'tab-width) 2))
+
+            ; ruby tab depth
+            ; (setq ruby-indent-level 4))
 
             (add-hook 'coffee-mode-hook
                       '(lambda() (coffee-custom)))
@@ -705,20 +743,20 @@ For example:
   (tool-bar-mode -1))
 (menu-bar-mode -1)
 
-;; no scroll bars
+;; enable scroll bars
 (if window-system
-    (scroll-bar-mode -1))
+    (scroll-bar-mode 1))
 
-;; hide gutters
-;(fringe-mode nil)
+;; no gutters
+(fringe-mode '(0 . 0))
 
 ; color-theme
-;; (setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
-;; (require 'color-theme)
+;(setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
+;(require 'color-theme)
 
-;; (add-to-list 'load-path "~/.emacs.d/zenburn-emacs" t)
-;; (require 'color-theme-zenburn)
-;; (color-theme-initialize)
+;(add-to-list 'load-path "~/.emacs.d/zenburn-emacs" t)
+;(require 'color-theme-zenburn)
+;(color-theme-initialize)
 
 ;; ;; ;; try out solarized
 ;; (add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized" t)
@@ -978,6 +1016,9 @@ For example:
 (add-to-list 'load-path "~/.emacs.d/rust-mode" t)
 (require 'rust-mode)
 
+;; jsx-mode
+(autoload 'jsx-mode "jsx-mode" "JSX mode" t)
+
 ;; assign modes to file extentions
 (setq auto-mode-alist
       (append '(("\\.cpp\\'" . c++-mode)
@@ -1012,8 +1053,7 @@ For example:
                 (".boot[Cc]onfig" . js-mode)
                 ("\\.rs\\'" . rust-mode)
                 ("COMMIT_EDITMSG" . flyspell-mode)
-                ; disabled on my linux box
-                ("COMMIT_EDITMSG" . flyspell-mode)
+                ("\\.jsx\\'" . jsx-mode)
                 )
               auto-mode-alist))
 
@@ -1178,7 +1218,7 @@ If point was already at that position, move point to beginning of line."
 (defun ajt-jabber ()
   "Connect to ngmoco jabber server"
   (interactive)
-  (jabber-connect "athibault" "jabber.ngmoco.com" nil nil "PASSWORD_HERE" "jabber.ngmoco.com" 5222))
+  (jabber-connect "athibault" "jabber.ngmoco.com" nil nil "xxx.xxx" "jabber.ngmoco.com" 5222))
 
 (defun ajt-jabber-conference ()
   "join the ngmoco ngcore multi-user channel conference"
