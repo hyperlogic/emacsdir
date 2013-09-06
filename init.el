@@ -335,14 +335,14 @@ For example:
             ;(set-face-attribute 'default nil :family "Courier Prime" :weight 'normal :height 100)
 
             ; tiny xcode font
-            (setq mac-allow-anti-aliasing nil)
-            (set-face-attribute 'default nil :family "Monaco" :height 100 :weight 'normal)
+            ;(setq mac-allow-anti-aliasing nil)
+            ;(set-face-attribute 'default nil :family "Monaco" :height 100 :weight 'normal)
             ;(set-face-attribute 'default nil :family "Monaco" :height 140 :weight 'normal :slant 'normal)
             ;(set-face-attribute 'default nil :family "PragmataPro" :height 95 :weight 'normal :slant 'normal)
             ;(set-face-attribute 'default nil :family "Courier Prime" :weight 'normal :slant 'italic :height 110)
 
-            ;(setq mac-allow-anti-aliasing 't)
-            ;(set-face-attribute 'default nil :family "Monaco" :height 100)
+            (setq mac-allow-anti-aliasing 't)
+            (set-face-attribute 'default nil :family "Monaco" :height 120)
 
             ;(set-face-attribute 'default nil :family "PragmataPro" :height 105)
 
@@ -1203,6 +1203,10 @@ If point was already at that position, move point to beginning of line."
 ;(require 'slime)
 ;(setq slime-net-coding-system 'utf-8-unix)
 ;(slime-setup '(slime-fancy))
+
+
+(load-library "csharp-mode")
+(add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
 
 ;; forth mode
 (load "gforth.el")
