@@ -95,18 +95,31 @@
 (setq-default indent-tabs-mode nil)
 
 ;; highlight curent line NOTE: better then hl-line mode
-(require 'highlight-current-line)
-(if window-system
-    (highlight-current-line-on t))
+;(require 'highlight-current-line)
+;(if window-system
+;    (highlight-current-line-on t))
 
 ;; highlight-current-line-face
-(custom-set-faces
- '(highlight-current-line-face ((t (:background "gray90"))))
-)
+;(custom-set-faces
+; '(highlight-current-line-face ((t (:background "gray90"))))
+;)
 
 ;; turn off line highlighting on ansi-term
-(setq highlight-current-line-ignore-regexp
-      (concat highlight-current-line-ignore-regexp "\\|\\*ansi-term\\*"))
+;;(setq highlight-current-line-ignore-regexp
+;;      (concat highlight-current-line-ignore-regexp "\\|\\*ansi-term\\*"))
+
+;;
+;; Refresh the compilation-mode on the ajt-grep buffer
+;;
+(defun ajt-refresh-compilation-mode-on-grep (process event)
+  (let ((prev-buffer (current-buffer)))
+	(switch-to-buffer "*ajt-grep*")
+	(end-of-buffer)
+	(setq buffer-read-only nil)
+	(insert (format "\nProcess %s %s\n" process event))
+	(setq buffer-read-only 't)
+	(compilation-mode)
+	(switch-to-buffer prev-buffer)))
 
 ;;
 ;; Pops up a grep process in a buffer named *ajt-grep*
@@ -116,9 +129,10 @@
   (message cmd)
 
   ;; exec command in a new process
-  (start-process-shell-command "ajt-grep" "*ajt-grep*" cmd)
-  (pop-to-buffer "*ajt-grep*")
-  (compilation-mode))
+  (let ((process (start-process-shell-command "ajt-grep" "*ajt-grep*" cmd))
+		(buffer (pop-to-buffer "*ajt-grep*")))
+	(set-process-sentinel process 'ajt-refresh-compilation-mode-on-grep)
+	(compilation-mode)))
 
 (defun ajt-filter-include-patterns (patterns)
   (remq nil (mapcar (lambda (x) (if (string-equal (substring x 0 1) "!") nil x)) patterns)))
@@ -381,6 +395,9 @@ For example:
             ;;(setq flymake-log-level 3)
             ;;(add-hook 'javascript-mode-hook
             ;;          (lambda () (flymake-mode t)))
+
+			;; I need this now for some reason to make revert-buffer work, on js files wtf.
+			(flymake-mode nil)
 
             ;; use aspell
             (setq-default ispell-program-name "/usr/local/bin/aspell")
@@ -773,6 +790,9 @@ For example:
 ;; (color-theme-ajt-no-bold-blue-sea)
 ;; (if window-system
 ;;     (color-theme-zenburn))
+
+(when (and (>= emacs-major-version 24) window-system)
+  (load-theme 'deeper-blue))
 
 ;; syntax highlighting for c++
 (setq c-basic-offset 4)
