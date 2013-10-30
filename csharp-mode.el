@@ -5523,7 +5523,9 @@ Key bindings:
 
 
     (local-set-key (kbd "/") 'csharp-maybe-insert-codedoc)
-    (local-set-key (kbd "{") 'csharp-insert-open-brace)
+
+	;; AJT: disabled
+    ;(local-set-key (kbd "{") 'csharp-insert-open-brace)
 
     ;; Need the following for parse-partial-sexp to work properly with
     ;; verbatim literal strings Setting this var to non-nil tells
