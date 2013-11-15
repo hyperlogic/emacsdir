@@ -1,5 +1,13 @@
+;;; rust-mode.el --- A major emacs mode for editing Rust source code
+
+;; Version: 0.1.0
+;; Author: Mozilla
+;; Package-Requires: ((cm-mode "0.1.0"))
+;; Url: https://github.com/mozilla/rust
+
 (require 'cm-mode)
 (require 'cc-mode)
+(eval-when-compile (require 'cl))
 
 (defun rust-electric-brace (arg)
   (interactive "*P")
@@ -9,13 +17,16 @@
                           '(font-lock-comment-face font-lock-string-face))))
     (cm-indent)))
 
+(defcustom rust-capitalized-idents-are-types t
+  "If non-nil, capitalized identifiers will be treated as types for the purposes of font-lock mode"
+  :type 'boolean
+  :require 'rust-mode
+  :group 'rust-mode)
+
 (defvar rust-indent-unit 4)
 (defvar rust-syntax-table (let ((table (make-syntax-table)))
                             (c-populate-syntax-table table)
                             table))
-
-(add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
-(add-to-list 'auto-mode-alist '("\\.rc$" . rust-mode))
 
 (defun make-rust-state ()
   (vector 'rust-token-base
@@ -52,14 +63,21 @@
 (defvar rust-punc-chars "()[].,{}:;")
 (defvar rust-value-keywords
   (let ((table (make-hash-table :test 'equal)))
-    (dolist (word '("mod" "type" "resource" "fn" "tag" "iface" "impl"))
+    (dolist (word '("mod" "const" "class" "type"
+                    "trait" "struct" "fn" "enum"
+                    "impl"))
       (puthash word 'def table))
-    (dolist (word '("if" "else" "while" "do" "for" "break" "cont" "ret" "be" "fail" "const"
-                    "check" "assert" "claim" "prove" "native" "import" "export" "let" "log"
-                    "use" "pure" "unsafe"))
+    (dolist (word '("as" "break"
+                    "copy" "do" "drop" "else"
+                    "extern" "for" "if" "let" "log"
+                    "loop" "once" "priv" "pub" "pure"
+                    "ref" "return" "static" "unsafe" "use"
+                    "while" "while"
+                    "assert"
+                    "mut"))
       (puthash word t table))
-    (puthash "alt" 'alt table)
-    (dolist (word '("true" "false")) (puthash word 'atom table))
+    (puthash "match" 'alt table)
+    (dolist (word '("self" "true" "false")) (puthash word 'atom table))
     table))
 ;; FIXME type-context keywords
 
@@ -84,14 +102,7 @@
            (rust-push-context st 'string (current-column) t)
            (setf (rust-state-tokenize st) 'rust-token-string)
            (rust-token-string st))
-      (def ?\' (forward-char)
-           (setf rust-tcat 'atom)
-           (let ((is-escape (eq (char-after) ?\\))
-                 (start (point)))
-             (if (not (rust-eat-until-unescaped ?\'))
-                 'font-lock-warning-face
-               (if (or is-escape (= (point) (+ start 2)))
-                   'font-lock-string-face 'font-lock-warning-face))))
+      (def ?\' (rust-single-quote))
       (def ?/ (forward-char)
            (case (char-after)
              (?/ (end-of-line) 'font-lock-comment-face)
@@ -105,12 +116,7 @@
                  ((rust-eat-re "[a-z_]+") (setf rust-tcat 'macro)))
            'font-lock-preprocessor-face)
       (def ((?a . ?z) (?A . ?Z) ?_)
-           (rust-eat-re "[a-zA-Z_][a-zA-Z0-9_]*")
-           (setf rust-tcat 'ident)
-           (if (and (eq (char-after) ?:) (eq (char-after (+ (point) 1)) ?:)
-                    (not (eq (char-after (+ (point) 2)) ?:)))
-               (progn (forward-char 2) 'font-lock-builtin-face)
-             (match-string 0)))
+           (rust-token-identifier))
       (def ((?0 . ?9))
            (rust-eat-re "0x[0-9a-fA-F_]+\\|0b[01_]+\\|[0-9_]+\\(\\.[0-9_]+\\)?\\(e[+\\-]?[0-9_]+\\)?")
            (setf rust-tcat 'atom)
@@ -132,6 +138,31 @@
            (skip-chars-forward rust-operator-chars)
            (setf rust-tcat 'op) nil)
       table)))
+
+(defun rust-token-identifier ()
+  (rust-eat-re "[a-zA-Z_][a-zA-Z0-9_]*")
+  (setf rust-tcat 'ident)
+  (if (and (eq (char-after) ?:) (eq (char-after (+ (point) 1)) ?:)
+           (not (eq (char-after (+ (point) 2)) ?:)))
+      (progn (forward-char 2) 'font-lock-builtin-face)
+    (match-string 0)))
+
+(defun rust-single-quote ()
+  (forward-char)
+  (setf rust-tcat 'atom)
+  ; Is this a lifetime?
+  (if (or (looking-at "[a-zA-Z_]$")
+          (looking-at "[a-zA-Z_][^']"))
+      ; If what we see is 'abc, use font-lock-builtin-face:
+      (progn (rust-eat-re "[a-zA-Z_][a-zA-Z_0-9]*")
+             'font-lock-builtin-face)
+    ; Otherwise, handle as a character constant:
+    (let ((is-escape (eq (char-after) ?\\))
+          (start (point)))
+      (if (not (rust-eat-until-unescaped ?\'))
+          'font-lock-warning-face
+        (if (or is-escape (= (point) (+ start 2)))
+            'font-lock-string-face 'font-lock-warning-face)))))
 
 (defun rust-token-base (st)
   (funcall (char-table-range rust-char-table (char-after)) st))
@@ -173,6 +204,10 @@
   (dolist (cx (rust-state-context st))
     (when (eq (rust-context-type cx) ?\}) (return (rust-context-info cx)))))
 
+(defun rust-is-capitalized (string)
+  (let ((case-fold-search nil))
+    (string-match-p "[A-Z]" string)))
+
 (defun rust-token (st)
   (let ((cx (car (rust-state-context st))))
     (when (bolp)
@@ -189,6 +224,8 @@
         (setf tok (cond ((eq tok-id 'atom) 'font-lock-constant-face)
                         (tok-id 'font-lock-keyword-face)
                         ((equal (rust-state-last-token st) 'def) 'font-lock-function-name-face)
+                        ((and rust-capitalized-idents-are-types
+                              (rust-is-capitalized tok)) 'font-lock-type-face)
                         (t nil))))
       (when rust-tcat
         (when (eq (rust-context-align cx) 'unset)
@@ -255,8 +292,7 @@
       (setf cx parent parent (caddr (rust-state-context st))))
     (let* ((tp (rust-context-type cx))
            (closing (eq tp (char-after)))
-           (unit (if (member (rust-context-info cx) '(alt-inner alt-outer))
-                     (/ rust-indent-unit 2) rust-indent-unit))
+           (unit rust-indent-unit)
            (base (if (and (eq tp 'statement) parent (rust-context-align parent))
                      (rust-context-column parent) (rust-context-indent cx))))
       (cond ((eq tp 'comment) base)
@@ -265,6 +301,7 @@
             ((eq (rust-context-align cx) t) (+ (rust-context-column cx) (if closing -1 0)))
             (t (+ base (if closing 0 unit)))))))
 
+;;;###autoload
 (define-derived-mode rust-mode fundamental-mode "Rust"
   "Major mode for editing Rust source files."
   (set-syntax-table rust-syntax-table)
@@ -280,4 +317,11 @@
 (define-key rust-mode-map "}" 'rust-electric-brace)
 (define-key rust-mode-map "{" 'rust-electric-brace)
 
+;;;###autoload
+(progn
+  (add-to-list 'auto-mode-alist '("\\.rs$" . rust-mode))
+  (add-to-list 'auto-mode-alist '("\\.rc$" . rust-mode)))
+
 (provide 'rust-mode)
+
+;;; rust-mode.el ends here
