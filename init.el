@@ -326,7 +326,7 @@ For example:
       (require 'browse-kill-ring)
 
       ;; home
-      (if (string= "dodecahedron" hostname)
+      (if (or (string= "dodecahedron" hostname) (string= "dodecahedron.local" hostname))
           (progn
              (setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/Users/ajt/bin")
              (setq-default ispell-program-name "/usr/local/bin/aspell")
