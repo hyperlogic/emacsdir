@@ -330,6 +330,10 @@ For example:
           (progn
              (setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/Users/ajt/bin")
              (setq-default ispell-program-name "/usr/local/bin/aspell")
+
+             ;; I need this now for some reason to make revert-buffer work! wtf
+             (flymake-mode nil)
+
             ))
 
       ;; work @ ngmoco:)
@@ -1189,6 +1193,7 @@ If point was already at that position, move point to beginning of line."
 
 ;; was mark-whole-buffer
 (global-set-key "\C-x\h" 'ajt-header-swap)
+(global-set-key "\C-x\C-h" 'ajt-header-swap)
 
 ;; Perforce edit
 (defun ajt-p4-edit ()
