@@ -194,7 +194,7 @@ For example:
 (defun ajt-git-blame ()
   (interactive)
   (let ((line (line-number-at-pos)))
-    (shell-command (concat "git blame -w " (buffer-file-name)) "*ajt-blame*")
+    (shell-command (concat "git blame -w \"" (buffer-file-name) "\"") "*ajt-blame*")
     (pop-to-buffer "*ajt-blame*")
     (goto-line line)))
 
@@ -375,12 +375,15 @@ For example:
             ;; ngCore uses tabs...
             (setq-default indent-tabs-mode 't)
 
-            ;; but ngGO uses spaces for it's javascript
-            ;; and my personal projects in code use spaces.
-            (add-hook 'find-file-hook
-                      (lambda () (if (or (string-match ".*/dev/.*" (buffer-file-name))
-                                         (string-match ".*/code/.*" (buffer-file-name)))
-                                     (setq indent-tabs-mode nil))))
+			;; every file open goes through here!
+            (add-hook 'find-file-hook (lambda ()
+										; use spaces for NGGo and my personal projects
+										(if (or (string-match ".*/dev/.*" (buffer-file-name))
+												(string-match ".*/code/.*" (buffer-file-name)))
+											(setq indent-tabs-mode nil))
+										; MonoDevelop has trailing whitespace everywhere!
+										(if (or (string-match ".*/unity/TF2/.*" (buffer-file-name)))
+											(setq show-trailing-whitespace nil))))
 
             ;; this file should be spaces
             (setq indent-tabs-mode nil)
@@ -443,11 +446,27 @@ For example:
               (interactive "stransformers-js:")
               (ajt-grep-find arg '("~/dev/transformers/Client/Transformers/Code" "!*build/*") '("*.js" "!application.js")))
 
+			(defun ajt-tf2-search (arg)
+			  "Search for a regex in all c# files in tf2 game code"
+			  (interactive "stf2-c#:")
+			  (ajt-grep-find arg '("~/unity/TF2/Assets") '("*.cs")))
+
             ;; puzzles js search with regex
             (defun ajt-puzz-search (arg)
               "Search for a regex in all js files in puzzles game code"
               (interactive "spuzz-js:")
               (ajt-grep-find arg '("~/dev/puzzles/Client/Puzzles/Code" "!*build/*") '("*.js" "!application.js")))
+
+
+			(defun ajt-narwhal-search (arg)
+			  "Search narwhal javascript"
+			  (interactive "snarwhal-js:")
+			  (ajt-grep-find arg '("~/OtherWebGame/NGCore/Client/Social/_Internal/US/Interface/Public" "!*build/*") '("*.js" "!application.js")))
+
+			(defun ajt-mobage-search (arg)
+			  "Search ndk mobage javascript"
+			  (interactive "smobage-js:")
+			  (ajt-grep-find arg '("~/WebGame/submodules/ndk-dist/mobage-interface-ndk-ngcore/WW" "!*build/*") '("*.js" "!application.js")))
 
             ;; remove .ngmoco directory on android device.
             (defun ajt-anuke ()
@@ -503,6 +522,8 @@ For example:
               (pop-to-buffer "*adb-logcat*")
               (adb-clear))
 
+			; for ios logs
+			; tail -f ~/Library/Logs/iOS\ Simulator/7.0.3-64/system.log
             (defun adb-logcat ()
               (interactive)
               (start-process "*adb-logcat*" "*adb-logcat*" "/bin/sh" "-c" "adb logcat -v threadtime")
@@ -532,25 +553,24 @@ For example:
               (pop-to-buffer "*adb-logcat*")
               )
 
-            (defun ajt-narwhal ()
-              (interactive)
-              (save-some-buffers)
-              (if (get-buffer "*ajt-narwhal*") (kill-buffer (get-buffer "*ajt-narwhal*")))
-              (message "stopping game")
-              (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
-              (message "building narwhal...")
-              (if (not (equal 0 (shell-command "cd ~/WebGame/submodules/narwhal/Bundles/MobageBoot/; make" "*ajt-narwhal*")))
-                  (progn
-                    (pop-to-buffer "*ajt-narwhal*")
-                    (compilation-mode)
-                    (error "narwhal build failed"))
-                (kill-buffer "*ajt-narwhal*"))
-              (message "starting game")
-              (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
-              (pop-to-buffer "*adb-logcat*")
-              ;(ajt-logcat-mode)
-              )
-
+            ;; (defun ajt-narwhal ()
+            ;;   (interactive)
+            ;;   (save-some-buffers)
+            ;;   (if (get-buffer "*ajt-narwhal*") (kill-buffer (get-buffer "*ajt-narwhal*")))
+            ;;   (message "stopping game")
+            ;;   (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
+            ;;   (message "building narwhal...")
+            ;;   (if (not (equal 0 (shell-command "cd ~/WebGame/submodules/narwhal/Bundles/MobageBoot/; make" "*ajt-narwhal*")))
+            ;;       (progn
+            ;;         (pop-to-buffer "*ajt-narwhal*")
+            ;;         (compilation-mode)
+            ;;         (error "narwhal build failed"))
+            ;;     (kill-buffer "*ajt-narwhal*"))
+            ;;   (message "starting game")
+            ;;   (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
+            ;;   (pop-to-buffer "*adb-logcat*")
+            ;;   ;(ajt-logcat-mode)
+            ;;   )
 
             ;; key bindings
             ;(global-set-key [f8] 'ajt-js-search)
