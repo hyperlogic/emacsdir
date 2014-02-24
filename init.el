@@ -94,6 +94,11 @@
 ;; NOTE: overridden for ngmoco
 (setq-default indent-tabs-mode nil)
 
+;(add-hook 'diff-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
+
+; hl-line color
+(set-face-background hl-line-face "gray18")
+
 ;; highlight curent line NOTE: better then hl-line mode
 ;(require 'highlight-current-line)
 ;(if window-system
@@ -338,7 +343,8 @@ For example:
 
       ;; work @ ngmoco:)
       (if (or (string= "anthony-thibault_macbook-pro.local" (downcase hostname))
-              (string-match ".*corp\.ngmoco\.com$" (downcase hostname)))
+              (string-match ".*corp\.ngmoco\.com$" (downcase hostname))
+              (string-match "sfo.500405.mac" (downcase hostname)))
           (progn
 
             ;(require 'magit)
@@ -349,7 +355,7 @@ For example:
             ;(set-face-attribute 'default nil :family "Inconsolata" :height 120 :weight 'bold)
             ;(set-face-attribute 'default nil :family "Droid Sans Mono" :height 110)
             ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 130 :weight 'normal)
-            (set-face-attribute 'default nil :family "Monaco" :height 120 :weight 'normal)
+            (set-face-attribute 'default nil :family "Monaco" :height 100 :weight 'normal)
             ;(set-face-attribute 'default nil :family "Courier Prime" :weight 'normal :height 100)
 
             ; tiny xcode font
@@ -377,6 +383,12 @@ For example:
 
 			;; every file open goes through here!
             (add-hook 'find-file-hook (lambda ()
+
+										;; line highlighting
+										(unless (or (string-match "*ansi-term*" (buffer-name))
+												(string-match "*ajt-grep*" (buffer-name)))
+										  (hl-line-mode))
+
 										; use spaces for NGGo and my personal projects
 										(if (or (string-match ".*/dev/.*" (buffer-file-name))
 												(string-match ".*/code/.*" (buffer-file-name)))
@@ -450,6 +462,11 @@ For example:
 			  "Search for a regex in all c# files in tf2 game code"
 			  (interactive "stf2-c#:")
 			  (ajt-grep-find arg '("~/unity/TF2/Assets") '("*.cs")))
+
+			(defun ajt-st-search (arg)
+			  "Search for a regex in all c# files in tanuki/sharedTec game code"
+			  (interactive "stf2-c#:")
+			  (ajt-grep-find arg '("~/unity/sharedTech/client/Assets") '("*.cs")))
 
             ;; puzzles js search with regex
             (defun ajt-puzz-search (arg)
