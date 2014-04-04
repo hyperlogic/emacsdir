@@ -96,9 +96,6 @@
 
 ;(add-hook 'diff-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 
-; hl-line color
-(set-face-background hl-line-face "gray18")
-
 ;; highlight curent line NOTE: better then hl-line mode
 ;(require 'highlight-current-line)
 ;(if window-system
@@ -118,13 +115,13 @@
 ;;
 (defun ajt-refresh-compilation-mode-on-grep (process event)
   (let ((prev-buffer (current-buffer)))
-	(switch-to-buffer "*ajt-grep*")
-	(end-of-buffer)
-	(setq buffer-read-only nil)
-	(insert (format "\nProcess %s %s\n" process event))
-	(setq buffer-read-only 't)
-	(compilation-mode)
-	(switch-to-buffer prev-buffer)))
+    (switch-to-buffer "*ajt-grep*")
+    (end-of-buffer)
+    (setq buffer-read-only nil)
+    (insert (format "\nProcess %s %s\n" process event))
+    (setq buffer-read-only 't)
+    (compilation-mode)
+    (switch-to-buffer prev-buffer)))
 
 ;;
 ;; Pops up a grep process in a buffer named *ajt-grep*
@@ -135,9 +132,9 @@
 
   ;; exec command in a new process
   (let ((process (start-process-shell-command "ajt-grep" "*ajt-grep*" cmd))
-		(buffer (pop-to-buffer "*ajt-grep*")))
-	(set-process-sentinel process 'ajt-refresh-compilation-mode-on-grep)
-	(compilation-mode)))
+        (buffer (pop-to-buffer "*ajt-grep*")))
+    (set-process-sentinel process 'ajt-refresh-compilation-mode-on-grep)
+    (compilation-mode)))
 
 (defun ajt-filter-include-patterns (patterns)
   (remq nil (mapcar (lambda (x) (if (string-equal (substring x 0 1) "!") nil x)) patterns)))
@@ -355,7 +352,7 @@ For example:
             ;(set-face-attribute 'default nil :family "Inconsolata" :height 120 :weight 'bold)
             ;(set-face-attribute 'default nil :family "Droid Sans Mono" :height 110)
             ;(set-face-attribute 'default nil :family "Ubuntu Mono" :height 130 :weight 'normal)
-            (set-face-attribute 'default nil :family "Monaco" :height 100 :weight 'normal)
+            (set-face-attribute 'default nil :family "Monaco" :height 120 :weight 'normal)
             ;(set-face-attribute 'default nil :family "Courier Prime" :weight 'normal :height 100)
 
             ; tiny xcode font
@@ -381,21 +378,23 @@ For example:
             ;; ngCore uses tabs...
             (setq-default indent-tabs-mode 't)
 
-			;; every file open goes through here!
-            (add-hook 'find-file-hook (lambda ()
+            ;; every file open goes through here!
+            (add-hook 'find-file-hook
+                      (lambda ()
+                        ;; line highlighting
+                        (unless (or (string-match "*ansi-term*" (buffer-name))
+                                    (string-match "*ajt-grep*" (buffer-name)))
+                          (progn
+                            (hl-line-mode)
+                            (set-face-background hl-line-face "gray90")))
 
-										;; line highlighting
-										(unless (or (string-match "*ansi-term*" (buffer-name))
-												(string-match "*ajt-grep*" (buffer-name)))
-										  (hl-line-mode))
-
-										; use spaces for NGGo and my personal projects
-										(if (or (string-match ".*/dev/.*" (buffer-file-name))
-												(string-match ".*/code/.*" (buffer-file-name)))
-											(setq indent-tabs-mode nil))
-										; MonoDevelop has trailing whitespace everywhere!
-										(if (or (string-match ".*/unity/TF2/.*" (buffer-file-name)))
-											(setq show-trailing-whitespace nil))))
+						;; use spaces for NGGo and my personal projects
+                        (if (or (string-match ".*/dev/.*" (buffer-file-name))
+                                (string-match ".*/code/.*" (buffer-file-name)))
+                            (setq indent-tabs-mode nil))
+						;; MonoDevelop has trailing whitespace everywhere!
+                        (if (or (string-match ".*/Assets/.*" (buffer-file-name)))
+                            (setq show-trailing-whitespace nil))))
 
             ;; this file should be spaces
             (setq indent-tabs-mode nil)
@@ -415,8 +414,8 @@ For example:
             ;;(add-hook 'javascript-mode-hook
             ;;          (lambda () (flymake-mode t)))
 
-			;; I need this now for some reason to make revert-buffer work, on js files wtf.
-			(flymake-mode nil)
+            ;; I need this now for some reason to make revert-buffer work, on js files wtf.
+            (flymake-mode nil)
 
             ;; use aspell
             (setq-default ispell-program-name "/usr/local/bin/aspell")
@@ -458,32 +457,46 @@ For example:
               (interactive "stransformers-js:")
               (ajt-grep-find arg '("~/dev/transformers/Client/Transformers/Code" "!*build/*") '("*.js" "!application.js")))
 
-			(defun ajt-tf2-search (arg)
-			  "Search for a regex in all c# files in tf2 game code"
-			  (interactive "stf2-c#:")
-			  (ajt-grep-find arg '("~/unity/TF2/Assets") '("*.cs")))
+            (defun ajt-tf2-search (arg)
+              "Search for a regex in all c# files in tf2 game code"
+              (interactive "stf2-c#:")
+              (ajt-grep-find arg '("~/unity/TF2/Assets") '("*.cs")))
 
-			(defun ajt-st-search (arg)
-			  "Search for a regex in all c# files in tanuki/sharedTec game code"
-			  (interactive "stf2-c#:")
-			  (ajt-grep-find arg '("~/unity/sharedTech/client/Assets") '("*.cs")))
+            (defun ajt-m2client-search (arg)
+              "Search for a regex in all c# files in marvel client game code"
+              (interactive "sm2-c#:")
+              (ajt-grep-find arg '("~/marvel/Client/Assets") '("*.cs")))
+
+            (defun ajt-m2server-search (arg)
+              "Search for a regex in all scala files in marvel server game code"
+              (interactive "sm2-scala:")
+              (ajt-grep-find arg '("~/marvel/Server/src") '("*.scala")))
+
+            (defun ajt-cyber-search (arg)
+              "Search for a regex in all c# files in cybersled game code"
+              (interactive "scyblersled-c#:")
+              (ajt-grep-find arg '("~/unity/cybersled/Assets") '("*.cs")))
+
+            (defun ajt-st-search (arg)
+              "Search for a regex in all c# files in tanuki/sharedTec game code"
+              (interactive "stf2-c#:")
+              (ajt-grep-find arg '("~/unity/sharedTech/client/Assets") '("*.cs")))
 
             ;; puzzles js search with regex
             (defun ajt-puzz-search (arg)
               "Search for a regex in all js files in puzzles game code"
               (interactive "spuzz-js:")
-              (ajt-grep-find arg '("~/dev/puzzles/Client/Puzzles/Code" "!*build/*") '("*.js" "!application.js")))
+              (ajt-grep-find arg '("~/dev/puzzles/Puzzles/Code" "!*build/*") '("*.js" "!application.js")))
 
+            (defun ajt-narwhal-search (arg)
+              "Search narwhal javascript"
+              (interactive "snarwhal-js:")
+              (ajt-grep-find arg '("~/OtherWebGame/NGCore/Client/Social/_Internal/US/Interface/Public" "!*build/*") '("*.js" "!application.js")))
 
-			(defun ajt-narwhal-search (arg)
-			  "Search narwhal javascript"
-			  (interactive "snarwhal-js:")
-			  (ajt-grep-find arg '("~/OtherWebGame/NGCore/Client/Social/_Internal/US/Interface/Public" "!*build/*") '("*.js" "!application.js")))
-
-			(defun ajt-mobage-search (arg)
-			  "Search ndk mobage javascript"
-			  (interactive "smobage-js:")
-			  (ajt-grep-find arg '("~/WebGame/submodules/ndk-dist/mobage-interface-ndk-ngcore/WW" "!*build/*") '("*.js" "!application.js")))
+            (defun ajt-mobage-search (arg)
+              "Search ndk mobage javascript"
+              (interactive "smobage-js:")
+              (ajt-grep-find arg '("~/WebGame/submodules/ndk-dist/mobage-interface-ndk-ngcore/WW" "!*build/*") '("*.js" "!application.js")))
 
             ;; remove .ngmoco directory on android device.
             (defun ajt-anuke ()
@@ -539,8 +552,8 @@ For example:
               (pop-to-buffer "*adb-logcat*")
               (adb-clear))
 
-			; for ios logs
-			; tail -f ~/Library/Logs/iOS\ Simulator/7.0.3-64/system.log
+            ; for ios logs
+            ; tail -f ~/Library/Logs/iOS\ Simulator/7.0.3-64/system.log
             (defun adb-logcat ()
               (interactive)
               (start-process "*adb-logcat*" "*adb-logcat*" "/bin/sh" "-c" "adb logcat -v threadtime")
@@ -596,6 +609,14 @@ For example:
             (global-set-key [f10] 'ajt-java-search)
             (global-set-key [f11] 'ajt-arun)
             (global-set-key [C-f11] 'ajt-arun-game)
+
+
+			(require 'package)
+			(add-to-list 'package-archives
+						 '("melpa" . "http://melpa.milkbox.net/packages/") t)
+			(package-initialize)
+			(unless (package-installed-p 'scala-mode2)
+			  (package-refresh-contents) (package-install 'scala-mode2))
 
             ;; bake, build c++ code and install on device.
             ;; export JENKINS=TRUE
@@ -832,8 +853,9 @@ For example:
 ;; (if window-system
 ;;     (color-theme-zenburn))
 
-(when (and (>= emacs-major-version 24) window-system)
-  (load-theme 'deeper-blue))
+;; *sigh* due to monitor glare I can't use dark themes anymore ;(
+;(when (and (>= emacs-major-version 24) window-system)
+;  (load-theme 'deeper-blue))
 
 ;; syntax highlighting for c++
 (setq c-basic-offset 4)
@@ -959,7 +981,7 @@ For example:
 (require 'ido)
 (ido-mode t)
 (setq ido-enable-flex-matching t)
-(setq completion-ignored-extensions (cons ".d" completion-ignored-extensions))
+(setq completion-ignored-extensions (cons ".meta" (cons ".d" completion-ignored-extensions)))
 
 ;; all windows should be pop-up.
 ;; NOTE: specifically this allows the "*shell*" buffer to go through the normal display-buffer logic.
@@ -1117,7 +1139,7 @@ For example:
                 ("\\.rs\\'" . rust-mode)
                 ("COMMIT_EDITMSG" . flyspell-mode)
                 ("\\.jsx\\'" . jsx-mode)
-				("\\.ts\\'" . typescript-mode)
+                ("\\.ts\\'" . typescript-mode)
                 )
               auto-mode-alist))
 
@@ -1283,14 +1305,4 @@ If point was already at that position, move point to beginning of line."
 
 (setq load-path (cons "~/.emacs.d/emacs-jabber" load-path))
 (load-library "jabber")
-
-(defun ajt-jabber ()
-  "Connect to ngmoco jabber server"
-  (interactive)
-  (jabber-connect "athibault" "jabber.ngmoco.com" nil nil "xxx.xxx" "jabber.ngmoco.com" 5222))
-
-(defun ajt-jabber-conference ()
-  "join the ngmoco ngcore multi-user channel conference"
-  (interactive)
-  (jabber-muc-join (jabber-read-account) "ngcore@conference.jabber.ngmoco.com" "athibault" 't))
 
