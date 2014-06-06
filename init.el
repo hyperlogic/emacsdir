@@ -465,12 +465,12 @@ For example:
             (defun ajt-m2client-search (arg)
               "Search for a regex in all c# files in marvel client game code"
               (interactive "sm2-c#:")
-              (ajt-grep-find arg '("~/marvel/Client/Assets") '("*.cs")))
+              (ajt-grep-find arg '("~/Marvel/Client/Assets") '("*.cs")))
 
             (defun ajt-m2server-search (arg)
               "Search for a regex in all scala files in marvel server game code"
               (interactive "sm2-scala:")
-              (ajt-grep-find arg '("~/marvel/Server/src") '("*.scala")))
+              (ajt-grep-find arg '("~/Marvel/Server/src") '("*.scala")))
 
             (defun ajt-cyber-search (arg)
               "Search for a regex in all c# files in cybersled game code"
@@ -523,13 +523,13 @@ For example:
               (save-some-buffers)
               (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil)
               (shell-command "sleep 1" nil)
-              (shell-command "adb shell am start -a com.ngmoco.gamejs.RUN -e nativeLog true > /dev/null" nil)
+              (shell-command "adb shell am start -a com.mobage.marvel.RUN -e nativeLog true > /dev/null" nil)
               (pop-to-buffer "*adb-logcat*")
               (adb-clear))
 
             (defun ajt-astop ()
               (interactive)
-              (shell-command "adb shell am broadcast -a com.ngmoco.gamejs.STOP > /dev/null" nil))
+			  (shell-command "adb shell am broadcast -a com.mobage.marvel.STOP > /dev/null" nil))
 
             (defun ajt-arun-game (game)
               (interactive "sgame:")
@@ -1100,9 +1100,10 @@ For example:
 (require 'rust-mode)
 
 ;; jsx-mode
-(autoload 'jsx-mode "jsx-mode" "JSX mode" t)
+;(autoload 'jsx-mode "jsx-mode" "JSX mode" t)
 
-(load "typescript/TypeScript")
+;(load "typescript/TypeScript")
+(require 'thrift-mode)
 
 ;; assign modes to file extentions
 (setq auto-mode-alist
@@ -1139,7 +1140,8 @@ For example:
                 ("\\.rs\\'" . rust-mode)
                 ("COMMIT_EDITMSG" . flyspell-mode)
                 ("\\.jsx\\'" . jsx-mode)
-                ("\\.ts\\'" . typescript-mode)
+                ;("\\.ts\\'" . typescript-mode)
+				("\\.thrift\\'" . thrift-mode)
                 )
               auto-mode-alist))
 
@@ -1306,3 +1308,4 @@ If point was already at that position, move point to beginning of line."
 (setq load-path (cons "~/.emacs.d/emacs-jabber" load-path))
 (load-library "jabber")
 
+(put 'downcase-region 'disabled nil)
