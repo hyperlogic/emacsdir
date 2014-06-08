@@ -36,7 +36,8 @@
 (ajt-set-mode-line)
 
 ;; emacsclient can be used to edit files from a terminal
-(server-start)
+(if window-system
+    (server-start))
 
 ;; revert buffers when they change on disk (except if they are modified)
 (setq revert-without-query '("."))
@@ -315,7 +316,7 @@ For example:
 
       ;; use command key as meta
       (setq mac-command-modifier 'meta)
-      (setq compile-command (concat "cd ~/code/lavender/; rake debug"))
+      (setq compile-command (concat "cd ~/code/riftty/; rake"))
 
       ;; For CinemaDisplay, try to only have 4 buffers at once
       (setq split-width-threshold 400)
@@ -326,6 +327,16 @@ For example:
 
       ;; show entire kill ring in a buffer
       (require 'browse-kill-ring)
+
+      (require 'package)
+      (add-to-list 'package-archives
+                   '("melpa" . "http://melpa.milkbox.net/packages/") t)
+      (package-initialize)
+      (unless (package-installed-p 'scala-mode2)
+        (package-refresh-contents) (package-install 'scala-mode2))
+
+
+
 
       ;; home
       (if (or (string= "dodecahedron" hostname) (string= "dodecahedron.local" hostname))
@@ -610,14 +621,6 @@ For example:
             (global-set-key [f11] 'ajt-arun)
             (global-set-key [C-f11] 'ajt-arun-game)
 
-
-			(require 'package)
-			(add-to-list 'package-archives
-						 '("melpa" . "http://melpa.milkbox.net/packages/") t)
-			(package-initialize)
-			(unless (package-installed-p 'scala-mode2)
-			  (package-refresh-contents) (package-install 'scala-mode2))
-
             ;; bake, build c++ code and install on device.
             ;; export JENKINS=TRUE
             (setq compile-command "cd ~/WebGame/; make afast")
@@ -829,13 +832,17 @@ For example:
 ;; no gutters
 (fringe-mode '(0 . 0))
 
-; color-theme
-;(setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
-;(require 'color-theme)
+(add-to-list 'custom-theme-load-path "~/.emacs.d/emacs-color-themes/themes")
+(if window-system
+    (load-theme 'granger t))
 
-;(add-to-list 'load-path "~/.emacs.d/zenburn-emacs" t)
-;(require 'color-theme-zenburn)
-;(color-theme-initialize)
+; color-theme
+;;(setq load-path (cons "~/.emacs.d/color-theme-6.6.0" load-path))
+;;(require 'color-theme)
+
+;;(add-to-list 'load-path "~/.emacs.d/zenburn-emacs" t)
+;;(require 'color-theme-zenburn)
+;;(color-theme-initialize)
 
 ;; ;; ;; try out solarized
 ;; (add-to-list 'load-path "~/.emacs.d/emacs-color-theme-solarized" t)
@@ -848,10 +855,10 @@ For example:
 ;; (if window-system
 ;;  (color-theme-solarized-light))
 
-;; (load "ajt-color-themes.el")
-;; (color-theme-ajt-no-bold-blue-sea)
-;; (if window-system
-;;     (color-theme-zenburn))
+;;(load "ajt-color-themes.el")
+;;(color-theme-ajt-no-bold-blue-sea)
+;;(if window-system
+;;    (color-theme-zenburn))
 
 ;; *sigh* due to monitor glare I can't use dark themes anymore ;(
 ;(when (and (>= emacs-major-version 24) window-system)
