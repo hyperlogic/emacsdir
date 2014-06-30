@@ -481,7 +481,7 @@ For example:
             (defun ajt-m2server-search (arg)
               "Search for a regex in all scala files in marvel server game code"
               (interactive "sm2-scala:")
-              (ajt-grep-find arg '("~/Marvel/Server/src") '("*.scala")))
+              (ajt-grep-find arg '("~/Marvel/Server/src") '("*.scala" "*.conf")))
 
             (defun ajt-cyber-search (arg)
               "Search for a regex in all c# files in cybersled game code"
@@ -614,12 +614,13 @@ For example:
             ;;   )
 
             ;; key bindings
-            ;(global-set-key [f8] 'ajt-js-search)
-            (global-set-key [f8] 'ajt-trans-search)
-            (global-set-key [f9] 'ajt-cpp-search)
-            (global-set-key [f10] 'ajt-java-search)
-            (global-set-key [f11] 'ajt-arun)
-            (global-set-key [C-f11] 'ajt-arun-game)
+            (global-set-key [f8] 'ajt-m2client-search)
+			(global-set-key [f9] 'ajt-m2server-search)
+            ;(global-set-key [f8] 'ajt-trans-search)
+            ;(global-set-key [f9] 'ajt-cpp-search)
+            ;(global-set-key [f10] 'ajt-java-search)
+            ;(global-set-key [f11] 'ajt-arun)
+            ;(global-set-key [C-f11] 'ajt-arun-game)
 
             ;; bake, build c++ code and install on device.
             ;; export JENKINS=TRUE
