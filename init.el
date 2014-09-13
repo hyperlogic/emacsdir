@@ -1100,7 +1100,8 @@ For example:
 ;(load-library "js2")
 
 ;; lua-mode
-(require 'lua-mode)
+(setq load-path (cons "~/.emacs.d/lua-mode" load-path))
+(load-library "lua-mode")
 (setq lua-indent-level 4)
 
 ;; rust-mode
