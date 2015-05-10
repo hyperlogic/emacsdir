@@ -176,11 +176,13 @@ For example:
     (when (not (string-equal path-exclude-string ""))
       (setq cmd (concat cmd " " path-exclude-string)))
     (when (not (string-equal name-include-string ""))
-      (setq cmd (concat cmd " -and " name-include-string)))
+      (setq cmd (concat cmd " " name-include-string))) ; hack for windows
     (when (not (string-equal name-exclude-string ""))
       (setq cmd (concat cmd " -and " name-exclude-string)))
 
-    (setq cmd (concat cmd " -type f -exec grep -nH -e " search-term " {} /dev/null \\;"))
+    (if (string= uname "MINGW32_NT-6.1")
+        (setq cmd (concat cmd " -type f -print0 | \"xargs\" -0 -e grep -nH -e " search-term))
+      (setq cmd (concat cmd " -type f -exec grep -nH -e " search-term " {} /dev/null \\;")))
 
     ;; send cmd to *Messages*
     (message cmd)
@@ -693,11 +695,31 @@ For example:
 ;;
 ;; windows (home)
 ;;
-(if (string= uname "MINGW32_NT-6.1")
+(if (string= hostname "Anthony-PC")
     (progn
-      (set-face-attribute 'default nil :family "courier new" :height 100)
+      (set-face-attribute 'default nil :family "courier new" :height 105)
       (setq my-window-width 154)
-      (setq my-window-height 60)))
+      (setq my-window-height 60)
+
+      ;; wtf why do I have to do this?
+      (flymake-mode nil)
+
+      ;; hifi javascript search with regex
+      (defun ajt-hifi-js-search (arg)
+        "Search for a regex in all hifi javascript files"
+        (interactive "shifi-js:")
+        (ajt-grep-find arg '("C:/Users/Anthony/code/hifi/examples") '("*.js")))
+
+      ;; WebGame cpp search with regex
+      (defun ajt-hifi-cpp-search (arg)
+        "Search for a regex in all hifi cpp files"
+        (interactive "shifi-cpp:")
+        (ajt-grep-find arg '("C:/Users/Anthony/code/hifi") '("*.cc" "*.cpp" "*.h")))
+
+      (global-set-key [f8] 'ajt-hifi-js-search)
+      (global-set-key [f9] 'ajt-hifi-cpp-search)
+
+      ))
 
 ;;
 ;; windows (work) - crystal dynamics
