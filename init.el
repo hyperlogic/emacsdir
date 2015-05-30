@@ -341,13 +341,29 @@ For example:
 
 
       ;; home
-      (if (or (string= "dodecahedron" hostname) (string= "dodecahedron.local" hostname))
+      (if (or (string= "dodecahedron" hostname) (string= "dodecahedron.local" hostname) (string= "dodecahedron-2.local" hostname))
           (progn
              (setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/Users/ajt/bin")
              (setq-default ispell-program-name "/usr/local/bin/aspell")
 
              ;; I need this now for some reason to make revert-buffer work! wtf
              (flymake-mode nil)
+
+             ;; hifi javascript search with regex
+             (defun ajt-hifi-js-search (arg)
+               "Search for a regex in all hifi javascript files"
+               (interactive "shifi-js:")
+               (ajt-grep-find arg '("~/code/hifi/examples") '("*.js")))
+
+             ;; WebGame cpp search with regex
+             (defun ajt-hifi-cpp-search (arg)
+               "Search for a regex in all hifi cpp files"
+               (interactive "shifi-cpp:")
+               (ajt-grep-find arg '("~/code/hifi") '("*.cc" "*.cpp" "*.h" "*.hpp")))
+
+             (global-set-key [f8] 'ajt-hifi-js-search)
+             (global-set-key [f9] 'ajt-hifi-cpp-search)
+
 
             ))
 
@@ -714,7 +730,7 @@ For example:
       (defun ajt-hifi-cpp-search (arg)
         "Search for a regex in all hifi cpp files"
         (interactive "shifi-cpp:")
-        (ajt-grep-find arg '("C:/Users/Anthony/code/hifi") '("*.cc" "*.cpp" "*.h")))
+        (ajt-grep-find arg '("C:/Users/Anthony/code/hifi") '("*.cc" "*.cpp" "*.h" "*.hpp")))
 
       (global-set-key [f8] 'ajt-hifi-js-search)
       (global-set-key [f9] 'ajt-hifi-cpp-search)
@@ -1122,9 +1138,9 @@ For example:
 ;(load-library "js2")
 
 ;; lua-mode
-(setq load-path (cons "~/.emacs.d/lua-mode" load-path))
-(load-library "lua-mode")
-(setq lua-indent-level 4)
+;(setq load-path (cons "~/.emacs.d/lua-mode" load-path))
+;(load-library "lua-mode")
+;(setq lua-indent-level 4)
 
 ;; rust-mode
 (add-to-list 'load-path "~/.emacs.d/rust-mode" t)
