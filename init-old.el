@@ -339,7 +339,7 @@ For example:
 
 
       ;; home mac
-      (if (or (string= "dodecahedron" hostname) (string= "dodecahedron.local" hostname) (string= "
+      (if (or (string= "dodecahedron" hostname) (string= "dodecahedron.local" hostname))
           (progn
              (setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/Users/ajt/bin")
              (setq-default ispell-program-name "/usr/local/bin/aspell")

@@ -5,16 +5,15 @@
 
 ;; TODO: make this more robust
 (setq is-windows-machine (string= uname "MINGW32_NT-6.1"))
+(setq is-macintosh-machine (string= uname "Darwin"))
 
 ;; emacsclient can be used to edit files from a terminal
 (if window-system
     (server-start))
 
 ;;
-;; emacs config
+;; path & autoloads
 ;;
-
-; path & autoload
 
 (setq load-path (cons "~/.emacs.d/" load-path))
 (add-to-list 'custom-theme-load-path "~/.emacs.d/emacs-color-themes/themes")
@@ -22,13 +21,23 @@
 (require 'cl)
 (require 'thingatpt)
 
+;; some custom git functions
 (load "ajt-git")
+
+;; improvements to grep
 (autoload 'ajt-grep "ajt-grep")
+
+;; swap between .h and .cpp files
 (autoload 'ajt-header-swap "ajt-header-swap")
+
+;; new buffers should show up in lower right hand corner
 (load "ajt-special-display")
 
 ;; irc chat
-(require 'erc)
+(autoload 'erc "erc")
+
+;; show entire kill ring in a buffer
+(autoload 'browse-kill-ring "browser-kill-ring")
 
 ;;
 ;; major-modes
@@ -133,9 +142,18 @@
 ;; by default use spaces to indent.
 (setq-default indent-tabs-mode nil)
 
-;; highlight current line
-(global-hl-line-mode 't)
-(set-face-foreground 'highlight nil)
+;; line highlight
+(add-hook 'find-file-hook
+          (lambda ()
+            ;; don't enable line highlight for specific buffer names
+            (unless (or (string-match "*ansi-term*" (buffer-name))
+                    (string-match "*shell*" (buffer-name))
+                    (string-match "*ajt-grep*" (buffer-name)))
+              (progn
+                (hl-line-mode)
+                (set-face-foreground 'highlight nil)
+                (set-face-background hl-line-face "gray13")))))
+
 
 ;; better scroll wheel behavior
 (if window-system
@@ -195,16 +213,6 @@
     (get-buffer bufname)))
     (switch-to-buffer (get-buffer-create bufname))
     (if (= n 1) (lisp-interaction-mode))))
-
-(defun scroll-down-keep-cursor ()
-   "Scroll the text one line down while keeping the cursor"
-   (interactive)
-   (scroll-down 1))
-
-(defun scroll-up-keep-cursor ()
-   "Scroll the text one line up while keeping the cursor"
-   (interactive)
-   (scroll-up 1))
 
 ;; scrolling output
 (setq compilation-scroll-output t)
@@ -326,7 +334,6 @@ If point was already at that position, move point to beginning of line."
 (add-hook 'compilation-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 (add-hook 'diff-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 
-
 ;;
 ;; term
 ;;
@@ -358,10 +365,24 @@ If point was already at that position, move point to beginning of line."
 
 (if window-system
     (progn
-      (load-theme 'granger t)
-      (set-face-background hl-line-face "gray13")))
+      (load-theme 'granger t)))
 
 
+
+;;
+;; platform specific stuff
+;;
+
+(if is-windows-machine
+    (load "ajt-windows-init"))
+
+(if is-macintosh-machine
+    (load "ajt-macintosh-init"))
+
+
+;;
+;; site specific stuff
+;;
 
 
 
