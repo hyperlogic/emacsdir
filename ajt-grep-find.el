@@ -67,7 +67,7 @@ For example:
     (when (not (string-equal name-exclude-string ""))
       (setq cmd (concat cmd " -and " name-exclude-string)))
 
-    (if on-windows-machine
+    (if is-windows-machine
         (setq cmd (concat cmd " -type f -print0 | \"xargs\" -0 -e grep -nH -e " search-term))
       (setq cmd (concat cmd " -type f -exec grep -nH -e " search-term " {} /dev/null \\;")))
 

@@ -25,7 +25,7 @@
 (load "ajt-git")
 
 ;; improvements to grep
-(autoload 'ajt-grep "ajt-grep")
+(autoload 'ajt-grep-find "ajt-grep-find")
 
 ;; swap between .h and .cpp files
 (autoload 'ajt-header-swap "ajt-header-swap")
@@ -381,8 +381,8 @@ If point was already at that position, move point to beginning of line."
 
 
 ;;
-;; site specific stuff
+;; project specific stuff
 ;;
 
-
+(load "ajt-project-hifi")
 
