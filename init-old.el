@@ -338,10 +338,8 @@ For example:
         (package-refresh-contents) (package-install 'scala-mode2))
 
 
-
-
-      ;; home
-      (if (or (string= "dodecahedron" hostname) (string= "dodecahedron.local" hostname))
+      ;; home mac
+      (if (or (string= "dodecahedron" hostname) (string= "dodecahedron.local" hostname) (string= "
           (progn
              (setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/Users/ajt/bin")
              (setq-default ispell-program-name "/usr/local/bin/aspell")
@@ -349,7 +347,22 @@ For example:
              ;; I need this now for some reason to make revert-buffer work! wtf
              (flymake-mode nil)
 
-            ))
+             ;; hifi javascript search with regex
+             (defun ajt-hifi-js-search (arg)
+               "Search for a regex in all hifi javascript files"
+               (interactive "shifi-js:")
+               (ajt-grep-find arg '("~/code/hifi/examples") '("*.js")))
+
+             ;; WebGame cpp search with regex
+             (defun ajt-hifi-cpp-search (arg)
+               "Search for a regex in all hifi cpp files"
+               (interactive "shifi-cpp:")
+               (ajt-grep-find arg '("~/code/hifi") '("*.cc" "*.cpp" "*.h" "*.hpp")))
+
+             (global-set-key [f8] 'ajt-hifi-js-search)
+             (global-set-key [f9] 'ajt-hifi-cpp-search)
+
+             ))
 
       ;; work @ ngmoco:)
       (if (or (string= "anthony-thibault_macbook-pro.local" (downcase hostname))
@@ -714,7 +727,7 @@ For example:
       (defun ajt-hifi-cpp-search (arg)
         "Search for a regex in all hifi cpp files"
         (interactive "shifi-cpp:")
-        (ajt-grep-find arg '("C:/Users/Anthony/code/hifi") '("*.cc" "*.cpp" "*.h")))
+        (ajt-grep-find arg '("C:/Users/Anthony/code/hifi") '("*.cc" "*.cpp" "*.h" "*.hpp")))
 
       (global-set-key [f8] 'ajt-hifi-js-search)
       (global-set-key [f9] 'ajt-hifi-cpp-search)
