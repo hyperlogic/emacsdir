@@ -15,11 +15,12 @@
 ;; path & autoloads
 ;;
 
-(setq load-path (cons "~/.emacs.d/" load-path))
+(add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/emacs-color-themes/themes")
 
 (require 'cl)
 (require 'thingatpt)
+(require 'powerline)
 
 ;; some custom git functions
 (load "ajt-git")
@@ -88,39 +89,6 @@
                 ("COMMIT_EDITMSG" . flyspell-mode)
                 ("\\.thrift\\'" . thrift-mode)
                 ("\\.lua\\'" . lua-mode))))
-
-;;
-;; modeline
-;;
-
-;; show line & column in modeline
-(setq column-number-mode t)
-
-;; show filesize and % in modeline
-(size-indication-mode 1)
-
-;; show time in modeline
-(display-time-mode 1)
-
-;; display full path on modeline as well as filename.
-(defun ajt-set-mode-line ()
-  (interactive "*")
-  (setq-default mode-line-buffer-identification
-                '(#("%12f %b" 0 4 (local-map
-                                   (keymap (header-line keymap
-                                                        (mouse-3 . mode-line-next-buffer)
-                                                        (down-mouse-3 . ignore)
-                                                        (mouse-1 . mode-line-previous-buffer)
-                                                        (down-mouse-1 . ignore))
-                                           (mode-line keymap
-                                                      (mouse-3 . mode-line-next-buffer)
-                                                      (mouse-1 . mode-line-previous-buffer)))
-                                   mouse-face
-                                   mode-line-highlight
-                                   help-echo
-                                   "Buffer name\nmouse-1: previous buffer\nmouse-3: next buffer"
-                                   face mode-line-buffer-id)))))
-(ajt-set-mode-line)
 
 ;;
 ;; misc
@@ -366,8 +334,6 @@ If point was already at that position, move point to beginning of line."
 (if window-system
     (progn
       (load-theme 'granger t)))
-
-
 
 ;;
 ;; platform specific stuff

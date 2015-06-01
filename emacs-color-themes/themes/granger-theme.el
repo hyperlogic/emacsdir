@@ -42,8 +42,8 @@
    `(linum                            ((t (:background ,background :foreground "#2f2f2f"))))
    `(minibuffer-prompt                ((t (:foreground "#9489C4"            :weight bold))))
    `(minibuffer-message               ((t (:foreground "#ffffff"                        ))))
-   `(mode-line                        ((t (:foreground "#FFFFFF" :background "#484879"  ))))
-   `(mode-line-inactive               ((t (:foreground "#777777" :background "#303030"  ))))
+   `(mode-line                        ((t (:foreground "#FFFFFF" :background "#484879" :box nil ))))
+   `(mode-line-inactive               ((t (:foreground "#777777" :background "#303030" :box nil ))))
 
 ;; Font lock faces
 ;; *****************************************************************************************
