@@ -5,7 +5,7 @@
 (setq mac-command-modifier 'meta)
 
 ;; use aspell
-(setq-default ispell-program-name "aspell")
+(setq-default ispell-program-name "/usr/local/bin/aspell")
 
 (set-face-attribute 'default nil :family "Monaco" :height 120)
 
