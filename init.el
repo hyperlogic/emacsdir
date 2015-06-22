@@ -61,6 +61,7 @@
 (setq auto-mode-alist
       (append '(("\\.cpp\\'" . c++-mode)
                 ("\\.h\\'" . c++-mode)
+                ("\\.hpp\\'" . c++-mode)
                 ("\\.c\\'" . c-mode)
                 ("\\.cs\\'" . csharp-mode)
                 ("\\.rb\\'" . ruby-mode)
@@ -120,7 +121,7 @@
               (progn
                 (hl-line-mode)
                 (set-face-foreground 'highlight nil)
-                (set-face-background hl-line-face "gray13")))))
+                (set-face-background hl-line-face "light gray")))))
 
 
 ;; better scroll wheel behavior
@@ -331,7 +332,7 @@ If point was already at that position, move point to beginning of line."
 ;; color theme
 ;;
 
-(if window-system
+(if (and window-system is-windows-machine)
     (progn
       (load-theme 'granger t)))
 

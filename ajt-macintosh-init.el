@@ -7,5 +7,5 @@
 ;; use aspell
 (setq-default ispell-program-name "/usr/local/bin/aspell")
 
-(set-face-attribute 'default nil :family "Monaco" :height 120)
+(set-face-attribute 'default nil :family "Menlo" :height 110)
 

@@ -13,7 +13,15 @@
 (defun ajt-hifi-cpp-search (arg)
   "Search for a regex in all hifi cpp files"
   (interactive "shifi-cpp:")
-  (ajt-grep-find arg (list ajt-hifi-path) '("*.cc" "*.cpp" "*.h" "*.hpp")))
+  (ajt-grep-find arg (list ajt-hifi-path "!*build/*") '("*.cc" "*.cpp" "*.h" "*.hpp")))
 
 (global-set-key [f8] 'ajt-hifi-js-search)
 (global-set-key [f9] 'ajt-hifi-cpp-search)
+
+(setq compile-command (concat "cd ~/code/hifi/build; xcodebuild -project hifi.xcodeproj/ -scheme interface -configuration Debug"))
+
+(defun ajt-run-hifi ()
+  (interactive)
+  (shell-command "open ~/code/hifi/build/interface/Debug/interface.app"))
+
+(global-set-key [f10] 'ajt-run-hifi)

@@ -1,8 +1,8 @@
 
 # Builds emacs TAGS files from all the src files in the PATHS directory.
 
-PATHS = ['D:/TRAS/cdc/runtime',
-         'D:/TRAS/code/game']
+PATHS = ['~/code/hifi/libraries',
+         '~/code/hifi/interface/src']
 
 # ends in .h, .cpp or .c (case insensitive match)
 SRC_PATTERN = /\.[hH]\z|\.[cC][pP][pP]\z|\.[cC]\z/
@@ -14,10 +14,11 @@ class Dir
   # for each file in path, including sub-directories, 
   # yield the full path of the filename to a block
   def Dir.for_each_rec path, &block
-    if File.directory?(path)
-      foreach path do |file|
+    exp_path = File.expand_path(path)
+    if File.directory?(exp_path)
+      foreach exp_path do |file|
         if file[0,1] != '.'
-          for_each_rec File.expand_path(file, path), &block
+          for_each_rec File.expand_path(file, exp_path), &block
         end
       end
     else
