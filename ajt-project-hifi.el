@@ -25,3 +25,4 @@
   (shell-command "open ~/code/hifi/build/interface/Debug/interface.app"))
 
 (global-set-key [f10] 'ajt-run-hifi)
+

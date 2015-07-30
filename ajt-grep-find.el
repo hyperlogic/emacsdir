@@ -4,6 +4,14 @@
 (defun ajt-refresh-compilation-mode-on-grep (process event)
   (let ((prev-buffer (current-buffer)))
     (switch-to-buffer "*ajt-grep*")
+
+    ;; bit of a hack, for windows using msys2
+    (when is-windows-machine
+      (let ((case-fold-search nil))
+        (setq buffer-read-only nil)
+        (goto-char (point-min))
+        (while (search-forward "/home/anthony" nil t) (replace-match "c:/msys64/home/anthony"))))
+
     (end-of-buffer)
     (setq buffer-read-only nil)
     (insert (format "\nProcess %s %s\n" process event))
