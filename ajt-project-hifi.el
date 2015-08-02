@@ -26,3 +26,12 @@
 
 (global-set-key [f10] 'ajt-run-hifi)
 
+;; make tags
+(defun ajt-make-tags ()
+  "Make TAGS"
+  (interactive)
+  (ajt-grep-find-shell-cmd "ruby ~/.emacs.d/etags/makefiles.rb"))
+
+
+(setq tags-table-list '("~/.emacs.d/etags"))
+

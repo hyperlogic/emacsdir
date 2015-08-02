@@ -1,6 +1,6 @@
 ;; list of header and soruce file extentions
-(setq ajt-hdr-ext-list `(".h" ".hpp" ".vsh" ".hh"))
-(setq ajt-src-ext-list `(".cpp" ".c" ".m" ".mm" ".fsh" ".cc"))
+(setq ajt-hdr-ext-list `(".h" ".hpp" ".vsh" ".hh" ".slv"))
+(setq ajt-src-ext-list `(".cpp" ".c" ".m" ".mm" ".fsh" ".cc" ".slf"))
 
 ;; fn can return non-nil to stop iteration
 (defun ajt-for-each (fn lst)

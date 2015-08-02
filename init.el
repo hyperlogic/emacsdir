@@ -77,6 +77,8 @@
                 ("\\.frag\\'" . glsl-mode)
                 ("\\.vsh\\'" . glsl-mode)
                 ("\\.fsh\\'" . glsl-mode)
+                ("\\.slf\\'" . glsl-mode)
+                ("\\.slv\\'" . glsl-mode)
                 ("\\.js\\'" . js-mode)
                 ("\\.m\\'" . objc-mode)
                 ("\\.mm\\'" . objc-mode)
