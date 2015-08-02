@@ -15,8 +15,8 @@
 ;; path & autoloads
 ;;
 
-(add-to-list 'load-path "~/.emacs.d")
-(add-to-list 'custom-theme-load-path "~/.emacs.d/emacs-color-themes/themes")
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/lisp/emacs-color-themes/themes")
 
 (require 'cl)
 (require 'thingatpt)
@@ -50,11 +50,11 @@
 (autoload 'csharp-mode "csharp-mode")
 (autoload 'thrift-mode "thrift-mode")
 
-(add-to-list 'load-path "~/.emacs.d/lua-mode" t)
+(add-to-list 'load-path "~/.emacs.d/lisp/lua-mode" t)
 (autoload 'lua-mode "lua-mode")
 (setq lua-indent-level 4)
 
-(add-to-list 'load-path "~/.emacs.d/rust-mode" t)
+(add-to-list 'load-path "~/.emacs.d/lisp/rust-mode" t)
 (autoload 'rust-mode "rust-mode")
 
 ;; assign modes to file extentions
