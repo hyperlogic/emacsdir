@@ -4,7 +4,8 @@
 (setq hostname (substring (shell-command-to-string "hostname") 0 -1))
 
 ;; TODO: make this more robust
-(setq is-windows-machine (string= uname "MINGW32_NT-6.1"))
+(setq is-windows-machine (or (string= uname "MINGW32_NT-6.1")
+                             (string= uname "MSYS_NT-6.3")))
 (setq is-macintosh-machine (string= uname "Darwin"))
 
 ;; emacsclient can be used to edit files from a terminal
@@ -334,9 +335,9 @@ If point was already at that position, move point to beginning of line."
 ;; color theme
 ;;
 
-(if (and window-system is-windows-machine)
-    (progn
-      (load-theme 'granger t)))
+;;(if (and window-system is-windows-machine)
+;;    (progn
+;;      (load-theme 'granger t)))
 
 ;;
 ;; platform specific stuff
