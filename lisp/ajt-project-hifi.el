@@ -6,7 +6,7 @@
 (defun ajt-hifi-js-search (arg)
   "Search for a regex in all hifi javascript files"
   (interactive "shifi-js:")
-  (let ((path (concat ajt-hifi-path "/examples")))
+  (let ((path (concat ajt-hifi-path "/examples/")))
     (ajt-grep-find arg (list path) '("*.js"))))
 
 ;; WebGame cpp search with regex
@@ -64,6 +64,22 @@
     (list (- v1x v2x) (- v1y v2y) (- v1z v2z))))
 
 
+; tail -f /Users/anthony/AppData/Local/High\ Fidelity/Interface/Logs/hifi-log.txt
+(defun ajt-hifi-log ()
+  (interactive)
+  (find-file "/Users/anthony/AppData/Local/High Fidelity/Interface/Logs/hifi-log.txt")
+  (buffer-disable-undo))
+
+(defun ajt-hifi-ini ()
+  "Load the Hifi fidelity ini file"
+  (interactive)
+  (find-file "/Users/anthony/AppData/Roaming/High Fidelity/Interface/interface.ini"))
+
+(defun ajt-hifi-server-json ()
+  "Load the Hifi fidelity ini file"
+  (interactive)
+  (find-file "/Users/anthony/AppData/Local/High Fidelity/Stack Manager/resources/models.json.gz"))
+
 (defun ajt-load-common-files ()
   "Load common files"
   (interactive)
@@ -71,7 +87,12 @@
         (docs-path "~/docs"))
     (find-file (concat code-path "/interface/src/Application.cpp"))
     (find-file (concat code-path "/interface/src/avatar/MyAvatar.cpp"))
+    (find-file (concat code-path "/interface/src/avatar/SkeletonModel.cpp"))
+    (find-file (concat code-path "/interface/src/avatar/Avatar.cpp"))
     (find-file (concat code-path "/interface/resources/meshes/defaultAvatar_full/avatar-animation.json"))
     (find-file (concat code-path "/libraries/animation/src/AnimSkeleton.cpp"))
     (find-file (concat code-path "/libraries/animation/src/Rig.cpp"))
+    (find-file (concat code-path "/libraries/fbx/src/FBXReader.cpp"))
+    (find-file (concat code-path "/libraries/render-utils/src/Model.cpp"))
     (find-file (concat docs-path "/hifi/todo.md"))))
+
