@@ -23,6 +23,14 @@
 (require 'thingatpt)
 (require 'powerline)
 
+;;
+;; init melpa package manager
+;;
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+
 ;; some custom git functions
 (load "ajt-git")
 

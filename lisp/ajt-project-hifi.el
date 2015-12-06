@@ -13,7 +13,7 @@
 (defun ajt-hifi-cpp-search (arg)
   "Search for a regex in all hifi cpp files"
   (interactive "shifi-cpp:")
-  (ajt-grep-find arg (list ajt-hifi-path "!*build/*") '("*.cc" "*.cpp" "*.h" "*.hpp" "*.txt")))
+  (ajt-grep-find arg (list ajt-hifi-path "!*build/*" "!jquery-2.1.4.min.js") '("*.cc" "*.cpp" "*.h" "*.hpp" "*.txt")))
 
 (global-set-key [f8] 'ajt-hifi-js-search)
 (global-set-key [f9] 'ajt-hifi-cpp-search)
