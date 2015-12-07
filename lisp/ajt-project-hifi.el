@@ -67,18 +67,28 @@
 ; tail -f /Users/anthony/AppData/Local/High\ Fidelity/Interface/Logs/hifi-log.txt
 (defun ajt-hifi-log ()
   (interactive)
-  (find-file "/Users/anthony/AppData/Local/High Fidelity/Interface/Logs/hifi-log.txt")
+  (when is-windows-machine
+    (find-file "/Users/anthony/AppData/Local/High Fidelity/Interface/Logs/hifi-log.txt"))
+  (when is-macintosh-machine
+    (find-file "~/Library/Application Support/High Fidelity/Interface/Logs/hifi-log.txt"))
+  (auto-revert-tail-mode)
   (buffer-disable-undo))
 
 (defun ajt-hifi-ini ()
   "Load the Hifi fidelity ini file"
   (interactive)
-  (find-file "/Users/anthony/AppData/Roaming/High Fidelity/Interface/interface.ini"))
+  (when is-windows-machine
+    (find-file "/Users/anthony/AppData/Roaming/High Fidelity/Interface/interface.ini"))
+  (when is-macintosh-machine
+    (find-file "~/.config/highfidelity.io/Interface.ini")))
 
 (defun ajt-hifi-server-json ()
   "Load the Hifi fidelity ini file"
   (interactive)
-  (find-file "/Users/anthony/AppData/Local/High Fidelity/Stack Manager/resources/models.json.gz"))
+  (when is-windows-machine
+    (find-file "/Users/anthony/AppData/Local/High Fidelity/Stack Manager/resources/models.json.gz"))
+  (when is-macintosh-machine
+    (find-file "~/Library/Application Support/High Fidelity/Stack Manager/resources/models.json.gz")))
 
 (defun ajt-load-common-files ()
   "Load common files"
