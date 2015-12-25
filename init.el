@@ -5,7 +5,8 @@
 
 ;; TODO: make this more robust
 (setq is-windows-machine (or (string= uname "MINGW32_NT-6.1")
-                             (string= uname "MSYS_NT-6.3")))
+                             (string= uname "MSYS_NT-6.3")
+                             (string= uname "MSYS_NT-10.0")))
 (setq is-macintosh-machine (string= uname "Darwin"))
 
 ;; emacsclient can be used to edit files from a terminal
@@ -132,7 +133,10 @@
               (progn
                 (hl-line-mode)
                 (set-face-foreground 'highlight nil)
-                (set-face-background hl-line-face "light gray")))))
+                (when (and (boundp 'hl-line-face))
+                  (if (and window-system use-dark-theme)
+                      (set-face-background hl-line-face "midnight blue")
+                    (set-face-background hl-line-face "light gray")))))))
 
 
 ;; better scroll wheel behavior
@@ -346,11 +350,12 @@ If point was already at that position, move point to beginning of line."
 ;; color theme
 ;;
 
-(setq use-dark-theme 'nil)
+(setq use-dark-theme t)
 
 (when (and window-system use-dark-theme)
   (load-theme 'granger t)
-  (set-face-background hl-line-face "midnight blue"))
+  (when (boundp 'hl-line-face)
+    (set-face-background hl-line-face "midnight blue")))
 
 ;;
 ;; platform specific stuff
