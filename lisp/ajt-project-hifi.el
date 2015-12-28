@@ -1,3 +1,6 @@
+; WTF: sometimes I have to do this in order for some commands to work.
+(setq flymake-mode nil)
+
 (setq ajt-hifi-path "~/code/hifi")
 (when (and is-windows-machine (not (string= hostname "blackholesun")))
   (setq ajt-hifi-path "C:/Users/Anthony/code/hifi"))
@@ -9,12 +12,20 @@
   (let ((path (concat ajt-hifi-path "/examples/")))
     (ajt-grep-find arg (list path) '("*.js"))))
 
-;; WebGame cpp search with regex
+;; hifi cmake search with regex
+(defun ajt-hifi-cmake-search (arg)
+  "Search for a regex in all hifi cmake files"
+  (interactive "shifi-cmake:")
+  (let ((path (concat ajt-hifi-path)))
+    (ajt-grep-find arg (list path "!*build/*") '("*.txt" "*.cmake" "*.txt"))))
+
+;; cpp search with regex
 (defun ajt-hifi-cpp-search (arg)
   "Search for a regex in all hifi cpp files"
   (interactive "shifi-cpp:")
   (ajt-grep-find arg (list ajt-hifi-path "!*build/*" "!jquery-2.1.4.min.js") '("*.cc" "*.cpp" "*.h" "*.hpp" "*.txt")))
 
+(global-set-key [f7] 'ajt-hifi-cmake-search)
 (global-set-key [f8] 'ajt-hifi-js-search)
 (global-set-key [f9] 'ajt-hifi-cpp-search)
 
@@ -74,11 +85,17 @@
   (auto-revert-tail-mode)
   (buffer-disable-undo))
 
+(defun ajt-hifi-entity-server-log ()
+  (interactive)
+  (find-file "~/code/server-logs/entity-server.txt")
+  (auto-revert-tail-mode)
+  (buffer-disable-undo))
+
 (defun ajt-hifi-ini ()
   "Load the Hifi fidelity ini file"
   (interactive)
   (when is-windows-machine
-    (find-file "/Users/anthony/AppData/Roaming/High Fidelity/Interface/interface.ini"))
+    (find-file "c:/Users/anthony/AppData/Roaming/High Fidelity/Interface.ini"))
   (when is-macintosh-machine
     (find-file "~/.config/highfidelity.io/Interface.ini")))
 
