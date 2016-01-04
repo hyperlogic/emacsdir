@@ -1,4 +1,5 @@
 
 ;; Microsoft Windows specific configuration
-
-(set-face-attribute 'default nil :family "Hack" :height 85)
+(if (equal hostname "blackholesun")
+    (set-face-attribute 'default nil :family "Hack" :height 90)
+  (set-face-attribute 'default nil :family "Hack" :height 85)

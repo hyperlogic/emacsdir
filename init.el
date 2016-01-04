@@ -133,7 +133,7 @@
               (progn
                 (hl-line-mode)
                 (set-face-foreground 'highlight nil)
-                (when (and (boundp 'hl-line-face))
+                (when (boundp 'hl-line-face)
                   (if (and window-system use-dark-theme)
                       (set-face-background hl-line-face "midnight blue")
                     (set-face-background hl-line-face "light gray")))))))
