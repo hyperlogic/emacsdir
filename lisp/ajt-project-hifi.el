@@ -2,8 +2,8 @@
 (setq flymake-mode nil)
 
 (setq ajt-hifi-path "~/code/hifi")
-(when (and is-windows-machine (not (string= hostname "blackholesun")))
-  (setq ajt-hifi-path "C:/Users/Anthony/code/hifi"))
+;(when (and is-windows-machine (not (string= hostname "blackholesun")))
+;  (setq ajt-hifi-path "C:/Users/Anthony/code/hifi"))
 
 ;; hifi javascript search with regex
 (defun ajt-hifi-js-search (arg)
