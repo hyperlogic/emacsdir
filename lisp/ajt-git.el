@@ -2,8 +2,9 @@
 ;; invoke git blame on current buffer.
 (defun ajt-git-blame ()
   (interactive)
-  (let ((line (line-number-at-pos)))
-    (shell-command (concat "git blame -w \"" (buffer-file-name) "\"") "*ajt-blame*")
+  (let ((line (line-number-at-pos))
+        (file-name (file-name-nondirectory (buffer-file-name))))
+    (shell-command (concat "git blame -w \"" file-name "\"") "*ajt-blame*")
     (pop-to-buffer "*ajt-blame*")
     (goto-line line)))
 

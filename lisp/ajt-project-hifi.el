@@ -1,4 +1,6 @@
-; WTF: sometimes I have to do this in order for some commands to work.
+(load "ajt-vector-math")
+
+;; WTF: sometimes I have to do this in order for some commands to work.
 (setq flymake-mode nil)
 
 (setq ajt-hifi-path "~/code/hifi")
@@ -46,35 +48,6 @@
 
 (setq tags-table-list '("~/.emacs.d/etags"))
 
-(defun ajt-quat-to-axis-angle (q)
-  (let ((qx (car q))
-        (qy (cadr q))
-        (qz (caddr q))
-        (qw (cadddr q)))
-    (let ((angle (* 2.0 (acos qw)))
-          (s (- 1.0 (* qw qw))))
-      (if (<= s 0.0)
-          (list 1.0 0.0 0.0 angle)
-        (list (/ qx (sqrt s))
-              (/ qy (sqrt s))
-              (/ qz (sqrt s))
-              angle)))))
-
-(defun ajt-vec3-len (v)
-  (let ((vx (car v)) (vy (cadr v)) (vz (caddr v)))
-    (sqrt (+ (* vx vx) (* vy vy) (* vz vz)))))
-
-(defun ajt-vec3-add (v1 v2)
-  (let ((v1x (car v1)) (v1y (cadr v1)) (v1z (caddr v1))
-        (v2x (car v2)) (v2y (cadr v2)) (v2z (caddr v2)))
-    (list (+ v1x v2x) (+ v1y v2y) (+ v1z v2z))))
-
-(defun ajt-vec3-sub (v1 v2)
-  (let ((v1x (car v1)) (v1y (cadr v1)) (v1z (caddr v1))
-        (v2x (car v2)) (v2y (cadr v2)) (v2z (caddr v2)))
-    (list (- v1x v2x) (- v1y v2y) (- v1z v2z))))
-
-
 ; tail -f /Users/anthony/AppData/Local/High\ Fidelity/Interface/Logs/hifi-log.txt
 (defun ajt-hifi-log ()
   (interactive)
@@ -103,7 +76,7 @@
   "Load the Hifi fidelity ini file"
   (interactive)
   (when is-windows-machine
-    (find-file "/Users/anthony/AppData/Local/High Fidelity/Stack Manager/resources/models.json.gz"))
+    (find-file "/Users/anthony/AppData/Roaming/High Fidelity - dev/assignment-client/entities/models.json.gz"))
   (when is-macintosh-machine
     (find-file "~/Library/Application Support/High Fidelity/Stack Manager/resources/models.json.gz")))
 
