@@ -307,10 +307,10 @@ If point was already at that position, move point to beginning of line."
 ;; god-mode, to help with RSI
 ;;
 
-(require 'god-mode)
-(global-set-key (kbd "<escape>") 'god-mode-all)
-(setq god-exempt-major-modes nil)
-(setq god-exempt-predicates nil)
+;(require 'god-mode)
+;(global-set-key (kbd "<escape>") 'god-mode-all)
+;(setq god-exempt-major-modes nil)
+;(setq god-exempt-predicates nil)
 
 ;;
 ;; trailing whitespace
