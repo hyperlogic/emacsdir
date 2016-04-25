@@ -12,7 +12,7 @@
   "Search for a regex in all hifi javascript files"
   (interactive "shifi-js:")
   (let ((path (concat ajt-hifi-path "/examples/")))
-    (ajt-grep-find arg (list path) '("*.js"))))
+    (ajt-grep-find arg (list path "!*.min.js") '("*.js"))))
 
 ;; hifi cmake search with regex
 (defun ajt-hifi-cmake-search (arg)
@@ -25,7 +25,7 @@
 (defun ajt-hifi-cpp-search (arg)
   "Search for a regex in all hifi cpp files"
   (interactive "shifi-cpp:")
-  (ajt-grep-find arg (list ajt-hifi-path "!*build/*" "!jquery-2.1.4.min.js") '("*.cc" "*.cpp" "*.h" "*.hpp" "*.txt")))
+  (ajt-grep-find arg (list ajt-hifi-path "!*build/*") '("*.cc" "*.cpp" "*.h" "*.hpp" "*.txt")))
 
 (global-set-key [f7] 'ajt-hifi-cmake-search)
 (global-set-key [f8] 'ajt-hifi-js-search)

@@ -266,6 +266,9 @@
 (global-set-key [f6] 'grep-find)
 (global-set-key [f7] 'compile)
 
+; fix for obsolute GREP_OPTIONS spew
+(grep-apply-setting 'grep-find-command '("unset GREP_OPTIONS; find . -type f -exec grep -nH  {} \\;" . 51))
+
 ;; ajt-kill-word
 (defun ajt-delete-word (&optional num)
   "Delete from point to beginning of next word"
@@ -302,15 +305,6 @@ If point was already at that position, move point to beginning of line."
 ;; was mark-whole-buffer
 (global-set-key "\C-x\h" 'ajt-header-swap)
 (global-set-key "\C-x\C-h" 'ajt-header-swap)
-
-;;
-;; god-mode, to help with RSI
-;;
-
-;(require 'god-mode)
-;(global-set-key (kbd "<escape>") 'god-mode-all)
-;(setq god-exempt-major-modes nil)
-;(setq god-exempt-predicates nil)
 
 ;;
 ;; trailing whitespace
