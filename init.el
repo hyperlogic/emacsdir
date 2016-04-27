@@ -266,7 +266,8 @@
 (global-set-key [f6] 'grep-find)
 (global-set-key [f7] 'compile)
 
-; fix for obsolute GREP_OPTIONS spew
+;; fix for obsolute GREP_OPTIONS spew
+(require 'grep)
 (grep-apply-setting 'grep-find-command '("unset GREP_OPTIONS; find . -type f -exec grep -nH  {} \\;" . 51))
 
 ;; ajt-kill-word
