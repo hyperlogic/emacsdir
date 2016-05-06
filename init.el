@@ -220,7 +220,7 @@
 
 ;; forward-to-word
 (require 'misc)
-;(global-set-key "\M-f" 'forward-to-word)
+ ;(global-set-key "\M-f" 'forward-to-word)
 (global-set-key "\M-f" 'forward-same-syntax)
 
 ;; ham-handed kill-buffer
@@ -354,7 +354,7 @@ If point was already at that position, move point to beginning of line."
 ;; color theme
 ;;
 
-(setq use-dark-theme 't)
+(setq use-dark-theme 'f)
 
 (when (and window-system use-dark-theme)
   (load-theme 'granger t)
