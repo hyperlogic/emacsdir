@@ -11,7 +11,7 @@
 (defun ajt-hifi-js-search (arg)
   "Search for a regex in all hifi javascript files"
   (interactive "shifi-js:")
-  (let ((path (concat ajt-hifi-path "/examples/")))
+  (let ((path (concat ajt-hifi-path "/scripts/")))
     (ajt-grep-find arg (list path "!*.min.js") '("*.js"))))
 
 ;; hifi cmake search with regex
@@ -89,7 +89,7 @@
     (find-file (concat code-path "/interface/src/avatar/MyAvatar.cpp"))
     (find-file (concat code-path "/interface/src/avatar/SkeletonModel.cpp"))
     (find-file (concat code-path "/interface/src/avatar/Avatar.cpp"))
-    (find-file (concat code-path "/interface/resources/meshes/defaultAvatar_full/avatar-animation.json"))
+    (find-file (concat code-path "/interface/resources/avatar/avatar-animation.json"))
     (find-file (concat code-path "/libraries/animation/src/AnimSkeleton.cpp"))
     (find-file (concat code-path "/libraries/animation/src/Rig.cpp"))
     (find-file (concat code-path "/libraries/fbx/src/FBXReader.cpp"))
