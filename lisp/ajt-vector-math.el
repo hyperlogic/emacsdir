@@ -1,10 +1,7 @@
 (require 'cl-lib)
 
 (defun ajt-quat-to-axis-angle (q)
-  (let ((qx (car q))
-        (qy (cadr q))
-        (qz (caddr q))
-        (qw (cadddr q)))
+  (let ((qx (car q)) (qy (cadr q)) (qz (caddr q)) (qw (cadddr q)))
     (let ((angle (* 2.0 (acos qw)))
           (s (- 1.0 (* qw qw))))
       (if (<= s 0.0)
@@ -13,6 +10,26 @@
               (/ qy (sqrt s))
               (/ qz (sqrt s))
               angle)))))
+
+(defun ajt-axis-angle-to-quat (axis angle)
+  (let ((x (car axis))
+        (y (cadr axis))
+        (z (caddr axis))
+        (sin-half-angle (sin (/ angle 2.0)))
+        (cos-half-angle (cos (/ angle 2.0))))
+    (list (* x sin-half-angle) (* y sin-half-angle) (* z sin-half-angle) cos-half-angle)))
+
+(defun ajt-quat-mul (a b)
+  (let ((a_2 (car a)) (a_3 (cadr a)) (a_4 (caddr a)) (a_1 (cadddr a))
+        (b_2 (car b)) (b_3 (cadr b)) (b_4 (caddr b)) (b_1 (cadddr b)))
+    (list (+ (* a_1 b_2) (* a_2 b_1) (* a_3 b_4) (- (* a_4 b_3)))
+          (+ (* a_1 b_3) (- (* a_2 b_4)) (* a_3 b_1) (* a_4 b_2))
+          (+ (* a_1 b_4) (* a_2 b_3) (- (* a_3 b_2)) (* a_4 b_1))
+          (+ (* a_1 b_1) (- (* a_2 b_2)) (- (* a_3 b_3)) (- (* a_4 b_4))))))
+
+(defun ajt-quat-inv (q)
+  (let ((qx (car q)) (qy (cadr q)) (qz (caddr q)) (qw (cadddr q)))
+    (list qx qy qz (-qw))))
 
 (defun ajt-vec-dot (a b)
   (cl-reduce '+ (mapcar* '* a b)))

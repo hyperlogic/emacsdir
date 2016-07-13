@@ -73,11 +73,19 @@
   (when is-macintosh-machine
     (find-file "~/.config/highfidelity.io/Interface.ini")))
 
-(defun ajt-hifi-server-json ()
+(defun ajt-hifi-server-dev-json ()
   "Load the Hifi fidelity ini file"
   (interactive)
   (when is-windows-machine
     (find-file "/Users/anthony/AppData/Roaming/High Fidelity - dev/assignment-client/entities/models.json.gz"))
+  (when is-macintosh-machine
+    (find-file "~/Library/Application Support/High Fidelity/Stack Manager/resources/models.json.gz")))
+
+(defun ajt-hifi-server-json ()
+  "Load the Hifi fidelity ini file"
+  (interactive)
+  (when is-windows-machine
+    (find-file "/Users/anthony/AppData/Roaming/High Fidelity/assignment-client/entities/models.json.gz"))
   (when is-macintosh-machine
     (find-file "~/Library/Application Support/High Fidelity/Stack Manager/resources/models.json.gz")))
 
@@ -97,4 +105,10 @@
     (find-file (concat code-path "/libraries/render-utils/src/Model.cpp"))
     (find-file (concat code-path "/libraries/avatars/src/AvatarData.cpp"))
     (find-file (concat docs-path "/hifi/todo.md"))))
+
+;; eslint
+(defun ajt-eslint ()
+  (interactive)
+  (shell-command (concat "eslint " (buffer-file-name)) "*eslint-log*")
+  (pop-to-buffer "*eslint-log*"))
 
