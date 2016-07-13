@@ -1,5 +1,9 @@
 (require 'cl-lib)
 
+;; quaternions are expected to be a list of four elements
+;; '(x y z w), w is the real part of the quaternion and
+;; x y z are the i j k imaginary elements
+
 (defun ajt-quat-to-axis-angle (q)
   (let ((qx (car q)) (qy (cadr q)) (qz (caddr q)) (qw (cadddr q)))
     (let ((angle (* 2.0 (acos qw)))
