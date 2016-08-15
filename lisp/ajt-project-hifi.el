@@ -112,7 +112,8 @@
     (find-file (concat code-path "/libraries/fbx/src/FBXReader.cpp"))
     (find-file (concat code-path "/libraries/render-utils/src/Model.cpp"))
     (find-file (concat code-path "/libraries/avatars/src/AvatarData.cpp"))
-    (find-file (concat docs-path "/hifi/todo.md"))))
+    (find-file (concat docs-path "/hifi/todo.md"))
+    (find-file (concat code-path "/scripts/system/controllers/handControllerGrab.js"))))
 
 ;; eslint
 (defun ajt-eslint ()
