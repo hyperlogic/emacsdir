@@ -19,7 +19,7 @@
 ;; qml search with regex
 (defun ajt-hifi-qml-search (arg)
   "Search for a regex in all hifi javascript files"
-  (interactive "shifi-js:")
+  (interactive "shifi-qml:")
   (let ((qml-path (concat ajt-hifi-path "/interface/resources/qml")))
     (ajt-grep-find arg (list qml-path) '("*.qml"))))
 
@@ -36,7 +36,7 @@
   (interactive "shifi-cpp:")
   (ajt-grep-find arg (list ajt-hifi-path "!*build/*") '("*.cc" "*.cpp" "*.h" "*.hpp" "*.txt")))
 
-(global-set-key [f7] 'ajt-hifi-cmake-search)
+(global-set-key [f7] 'ajt-hifi-qml-search)
 (global-set-key [f8] 'ajt-hifi-js-search)
 (global-set-key [f9] 'ajt-hifi-cpp-search)
 
