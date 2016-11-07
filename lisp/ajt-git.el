@@ -11,10 +11,10 @@
 ;; invoke git log on current buffer.
 (defun ajt-git-log ()
   (interactive)
-  (let ((line (line-number-at-pos)))
-    (shell-command (concat "git log " (buffer-file-name)) "*ajt-log*")
-    (pop-to-buffer "*ajt-log*")
-    (goto-line line)))
+  (let ((line (line-number-at-pos))
+        (file-name (file-name-nondirectory (buffer-file-name))))
+    (shell-command (concat "git log \"" file-name "\"") "*ajt-git-log*")
+    (pop-to-buffer "*ajt-git-log*")))
 
 ;; invoke git diff and pipe result into a buffer.
 (defun ajt-git-diff ()
