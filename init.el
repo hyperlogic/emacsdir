@@ -90,6 +90,7 @@
                 ("\\.slf\\'" . glsl-mode)
                 ("\\.slv\\'" . glsl-mode)
                 ("\\.js\\'" . js-mode)
+                ("\\.qml\\'" . js-mode)
                 ("\\.m\\'" . objc-mode)
                 ("\\.mm\\'" . objc-mode)
                 ("\\.go\\'" . go-mode)
