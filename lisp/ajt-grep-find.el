@@ -10,8 +10,8 @@
       (let ((case-fold-search nil))
         (setq buffer-read-only nil)
         (goto-char (point-min))
-        (while (re-search-forward "^/home/[Aa]nthony" nil t)
-          (replace-match "c:/msys64/home/Anthony"))))
+        (while (re-search-forward (concat "^/home/" username) nil t)
+          (replace-match (concat "c:/msys64/home/" username)))))
 
     (end-of-buffer)
     (setq buffer-read-only nil)

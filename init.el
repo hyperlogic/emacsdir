@@ -2,11 +2,13 @@
 ;; used to determine which system are we running on.
 (setq uname (substring (shell-command-to-string "uname") 0 -1))
 (setq hostname (substring (shell-command-to-string "hostname") 0 -1))
+(setq username (substring (shell-command-to-string "whoami") 0 -1))
 
 ;; TODO: make this more robust
 (setq is-windows-machine (or (string= uname "MINGW32_NT-6.1")
                              (string= uname "MSYS_NT-6.3")
-                             (string= uname "MSYS_NT-10.0")))
+                             (string= uname "MSYS_NT-10.0")
+                             (string= uname "MINGW64_NT-10.0")))
 (setq is-macintosh-machine (string= uname "Darwin"))
 
 ;; emacsclient can be used to edit files from a terminal
@@ -355,7 +357,7 @@ If point was already at that position, move point to beginning of line."
 ;; color theme
 ;;
 
-(setq use-dark-theme 'f)
+(setq use-dark-theme nil)
 
 (when (and window-system use-dark-theme)
   (load-theme 'granger t)
