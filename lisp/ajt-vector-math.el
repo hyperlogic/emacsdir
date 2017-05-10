@@ -73,4 +73,8 @@
 (defun ajt-lerp (a b alpha)
   (+ (* (- 1 alpha) a) (* alpha b)))
 
+(defun ajt-rad-to-deg (a)
+  (* (/ 180 pi) a))
 
+(defun ajt-deg-to-rad (a)
+  (* (/ pi 180) a))
