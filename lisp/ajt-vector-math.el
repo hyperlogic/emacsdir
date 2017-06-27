@@ -33,7 +33,7 @@
 
 (defun ajt-quat-inv (q)
   (let ((qx (car q)) (qy (cadr q)) (qz (caddr q)) (qw (cadddr q)))
-    (list qx qy qz (-qw))))
+    (list qx qy qz (- qw))))
 
 (defun ajt-vec-dot (a b)
   (cl-reduce '+ (mapcar* '* a b)))
@@ -78,3 +78,10 @@
 
 (defun ajt-deg-to-rad (a)
   (* (/ pi 180) a))
+
+(defun ajt-vec3-cross (a b)
+  (let ((ax (car a)) (ay (cadr a)) (az (caddr a))
+        (bx (car b)) (by (cadr b)) (bz (caddr b)))
+    (list (- (* ay bz) (* az by))
+          (- (* az bx) (* ax bz))
+          (- (* ax by) (* ay bx)))))

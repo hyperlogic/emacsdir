@@ -104,7 +104,7 @@
         (docs-path "~/docs"))
     (find-file (concat code-path "/interface/src/Application.cpp"))
     (find-file (concat code-path "/interface/src/avatar/MyAvatar.cpp"))
-    (find-file (concat code-path "/interface/src/avatar/SkeletonModel.cpp"))
+    (find-file (concat code-path "/interface/src/avatar/MySkeletonModel.cpp"))
     (find-file (concat code-path "/interface/src/avatar/Avatar.cpp"))
     (find-file (concat code-path "/interface/resources/avatar/avatar-animation.json"))
     (find-file (concat code-path "/libraries/animation/src/AnimSkeleton.cpp"))
@@ -112,6 +112,7 @@
     (find-file (concat code-path "/libraries/fbx/src/FBXReader.cpp"))
     (find-file (concat code-path "/libraries/render-utils/src/Model.cpp"))
     (find-file (concat code-path "/libraries/avatars/src/AvatarData.cpp"))
+    (find-file (concat code-path "/libraries/avatars-renderer/src/avatars-renderer/Avatar.cpp"))
     (find-file (concat docs-path "/hifi/todo.md"))
     (find-file (concat code-path "/scripts/system/controllers/handControllerGrab.js"))))
 
@@ -128,5 +129,4 @@
   (shell-command (concat "jsonlint \"" (buffer-file-name) "\"") "*jsonlint-log*")
   (pop-to-buffer "*jsonlint-log*")
   (compilation-mode))
-
 
