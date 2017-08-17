@@ -73,13 +73,14 @@
   (auto-revert-tail-mode)
   (buffer-disable-undo))
 
+; ini was recently changed to a json file...
 (defun ajt-hifi-ini ()
-  "Load the Hifi fidelity ini file"
+  "Load the Hifi fidelity interface json file"
   (interactive)
   (when is-windows-machine
-    (find-file "c:/Users/anthony/AppData/Roaming/High Fidelity/Interface.ini"))
+    (find-file "c:/Users/anthony/AppData/Roaming/High Fidelity - dev/Interface.json"))
   (when is-macintosh-machine
-    (find-file "~/.config/highfidelity.io/Interface.ini")))
+    (find-file "~/.config/highfidelity.io/Interface.json")))
 
 (defun ajt-hifi-server-dev-json ()
   "Load the Hifi fidelity ini file"
@@ -103,16 +104,17 @@
   (let ((code-path "~/code/hifi")
         (docs-path "~/docs"))
     (find-file (concat code-path "/interface/src/Application.cpp"))
-    (find-file (concat code-path "/interface/src/avatar/MyAvatar.cpp"))
-    (find-file (concat code-path "/interface/src/avatar/MySkeletonModel.cpp"))
-    (find-file (concat code-path "/interface/src/avatar/Avatar.cpp"))
-    (find-file (concat code-path "/interface/resources/avatar/avatar-animation.json"))
-    (find-file (concat code-path "/libraries/animation/src/AnimSkeleton.cpp"))
-    (find-file (concat code-path "/libraries/animation/src/Rig.cpp"))
-    (find-file (concat code-path "/libraries/fbx/src/FBXReader.cpp"))
-    (find-file (concat code-path "/libraries/render-utils/src/Model.cpp"))
     (find-file (concat code-path "/libraries/avatars/src/AvatarData.cpp"))
     (find-file (concat code-path "/libraries/avatars-renderer/src/avatars-renderer/Avatar.cpp"))
+    (find-file (concat code-path "/interface/src/avatar/MyAvatar.cpp"))
+    (find-file (concat code-path "/libraries/render-utils/src/Model.cpp"))
+    (find-file (concat code-path "/interface/src/avatar/MySkeletonModel.cpp"))
+    (find-file (concat code-path "/interface/resources/avatar/avatar-animation.json"))
+    (find-file (concat code-path "/libraries/animation/src/AnimSkeleton.cpp"))
+    (find-file (concat code-path "/libraries/animation/src/AnimInverseKinematics.cpp"))
+    (find-file (concat code-path "/libraries/animation/src/Rig.cpp"))
+    (find-file (concat code-path "/libraries/shared/src/glmHelpers.cpp"))
+    (find-file (concat code-path "/libraries/fbx/src/FBXReader.cpp"))
     (find-file (concat docs-path "/hifi/todo.md"))
     (find-file (concat code-path "/scripts/system/controllers/handControllerGrab.js"))))
 
@@ -129,4 +131,46 @@
   (shell-command (concat "jsonlint \"" (buffer-file-name) "\"") "*jsonlint-log*")
   (pop-to-buffer "*jsonlint-log*")
   (compilation-mode))
+
+;; execute a function for each line in the current buffer
+(defun ajt-for-each-line (f)
+  (goto-char 1)
+  (let ((more-lines 't)
+        (start-point 0))
+    (while more-lines
+      (beginning-of-line)
+      (setq start-point (point))
+      (end-of-line)
+      (funcall f (buffer-substring-no-properties start-point (point)))
+      (setq more-lines (= 0 (forward-line 1))))))
+
+(require 'subr-x)
+(defun ajt-stuck-resources-count ()
+  (interactive)
+  (setq count 0)
+  (let ((table (make-hash-table :test 'equal)))
+    (ajt-for-each-line
+     (lambda (line)
+       (let* ((starting-str "[hifi.networking.resource] Starting request for: ")
+              (finished-str "[hifi.networking] Finished loading: ")
+              (starting-index (cl-search starting-str line))
+              (finished-index (cl-search finished-str line)))
+         ;;(print (list "starting-index -> " starting-index ", finished-index -> " finished-index))
+         (when starting-index
+           (let* ((key (substring line (+ starting-index (length starting-str)) (length line)))
+                  (count (gethash key table 1)))
+             (print (format "starting, key = %s, count = %d" key count))
+             (puthash key count table)))
+         (when finished-index
+           (let* ((key (substring line (+ finished-index (length finished-str)) (length line)))
+                  (count (gethash key table 0)))
+             (print (format "finished, key = %s, count = %d" key count))
+             (if (eq count 1)
+                 (remhash key table)
+               (puthash key (- count 1) table)))))))
+    (let ((keys (hash-table-keys table)))
+      (print (format "Found %d open resources" (length keys)))
+      (mapcar (lambda (x) (print (format "    %s, count = %d" x (gethash x table)))) keys))))
+
+
 
