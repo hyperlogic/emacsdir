@@ -36,7 +36,13 @@
   (interactive "shifi-cpp:")
   (ajt-grep-find arg (list ajt-hifi-path "!*build/*") '("*.cc" "*.cpp" "*.h" "*.hpp" "*.txt")))
 
-(global-set-key [f7] 'ajt-hifi-qml-search)
+;; shader search with regex
+(defun ajt-hifi-shader-search (arg)
+  "Search for a regex in all hifi cpp files"
+  (interactive "shifi-shader:")
+  (ajt-grep-find arg (list ajt-hifi-path "!*build/*") '("*.slv" "*.slf" "*.slg" "*.slh")))
+
+(global-set-key [f7] 'ajt-hifi-shader-search)
 (global-set-key [f8] 'ajt-hifi-js-search)
 (global-set-key [f9] 'ajt-hifi-cpp-search)
 
@@ -108,6 +114,8 @@
     (find-file (concat code-path "/libraries/avatars-renderer/src/avatars-renderer/Avatar.cpp"))
     (find-file (concat code-path "/interface/src/avatar/MyAvatar.cpp"))
     (find-file (concat code-path "/libraries/render-utils/src/Model.cpp"))
+    (find-file (concat code-path "/libraries/avatars-renderer/src/avatars-renderer/SkeletonModel.cpp"))
+    (find-file (concat code-path "/libraries/render-utils/src/src/CauterizedModel.cpp"))
     (find-file (concat code-path "/interface/src/avatar/MySkeletonModel.cpp"))
     (find-file (concat code-path "/interface/resources/avatar/avatar-animation.json"))
     (find-file (concat code-path "/libraries/animation/src/AnimSkeleton.cpp"))
@@ -115,8 +123,9 @@
     (find-file (concat code-path "/libraries/animation/src/Rig.cpp"))
     (find-file (concat code-path "/libraries/shared/src/glmHelpers.cpp"))
     (find-file (concat code-path "/libraries/fbx/src/FBXReader.cpp"))
+
     (find-file (concat docs-path "/hifi/todo.md"))
-    (find-file (concat code-path "/scripts/system/controllers/handControllerGrab.js"))))
+    (find-file (concat code-path "/scripts/system/controllers/controllerDispatcher.js"))))
 
 ;; eslint
 (defun ajt-eslint ()
