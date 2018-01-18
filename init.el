@@ -91,6 +91,7 @@
                 ("\\.fsh\\'" . glsl-mode)
                 ("\\.slf\\'" . glsl-mode)
                 ("\\.slv\\'" . glsl-mode)
+                ("\\.slh\\'" . glsl-mode)
                 ("\\.js\\'" . js-mode)
                 ("\\.qml\\'" . js-mode)
                 ("\\.m\\'" . objc-mode)

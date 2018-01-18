@@ -115,7 +115,7 @@
     (find-file (concat code-path "/interface/src/avatar/MyAvatar.cpp"))
     (find-file (concat code-path "/libraries/render-utils/src/Model.cpp"))
     (find-file (concat code-path "/libraries/avatars-renderer/src/avatars-renderer/SkeletonModel.cpp"))
-    (find-file (concat code-path "/libraries/render-utils/src/src/CauterizedModel.cpp"))
+    (find-file (concat code-path "/libraries/render-utils/src/CauterizedModel.cpp"))
     (find-file (concat code-path "/interface/src/avatar/MySkeletonModel.cpp"))
     (find-file (concat code-path "/interface/resources/avatar/avatar-animation.json"))
     (find-file (concat code-path "/libraries/animation/src/AnimSkeleton.cpp"))
