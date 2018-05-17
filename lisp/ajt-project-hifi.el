@@ -4,8 +4,8 @@
 (setq flymake-mode nil)
 
 (setq ajt-hifi-path "~/code/hifi")
-;(when (and is-windows-machine (not (string= hostname "blackholesun")))
-;  (setq ajt-hifi-path "C:/Users/Anthony/code/hifi"))
+(when (and is-windows-machine (string= hostname "blackholesun"))
+  (setq ajt-hifi-path "e:/code/hifi"))
 
 ;; hifi javascript search with regex
 (defun ajt-hifi-js-search (arg)
@@ -107,7 +107,7 @@
 (defun ajt-load-common-files ()
   "Load common files"
   (interactive)
-  (let ((code-path "~/code/hifi")
+  (let ((code-path ajt-hifi-path)
         (docs-path "~/docs"))
     (find-file (concat code-path "/interface/src/Application.cpp"))
     (find-file (concat code-path "/libraries/avatars/src/AvatarData.cpp"))

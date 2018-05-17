@@ -61,10 +61,11 @@
 (autoload 'yaml-mode "yaml-mode")
 (autoload 'csharp-mode "csharp-mode")
 (autoload 'thrift-mode "thrift-mode")
+(autoload 'typescript-mode "typescript-mode")
 
 (add-to-list 'load-path "~/.emacs.d/lisp/lua-mode" t)
 (autoload 'lua-mode "lua-mode")
-(setq lua-indent-level 4)
+(setq lua-indent-level 2)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/rust-mode" t)
 (autoload 'rust-mode "rust-mode")
