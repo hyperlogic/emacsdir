@@ -64,7 +64,8 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp/lua-mode" t)
 (autoload 'lua-mode "lua-mode")
-(setq lua-indent-level 4)
+;(load 'lua-mode)
+(setq lua-indent-level 2)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/rust-mode" t)
 (autoload 'rust-mode "rust-mode")
