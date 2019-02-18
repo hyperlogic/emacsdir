@@ -35,6 +35,15 @@
   (let ((qx (car q)) (qy (cadr q)) (qz (caddr q)) (qw (cadddr q)))
     (list qx qy qz (- qw))))
 
+(defun ajt-quat-conj (q)
+  (let ((qx (car q)) (qy (cadr q)) (qz (caddr q)) (qw (cadddr q)))
+    (list (- qx) (- qy) (- qz) qw)))
+
+;; rotate vector v by q
+(defun ajt-rotate (q v)
+  (let ((qv (list 0.0 (car v) (cadr v) (caddr v))))
+    (ajt-quat-mul (ajt-quat-mul q qv) (ajt-quat-conj q))))
+
 (defun ajt-vec-dot (a b)
   (cl-reduce '+ (mapcar* '* a b)))
 
