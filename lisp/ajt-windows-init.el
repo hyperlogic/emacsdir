@@ -2,7 +2,9 @@
 ;; Microsoft Windows specific configuration
 
 (if (not (equal hostname "blackholesun"))
-    (set-face-attribute 'default nil :family "Consolas" :height 110 :weight 'regular)
+    (progn
+      (set-face-attribute 'default nil :family "Consolas" :height 110 :weight 'regular)
+      (setq-default ispell-program-name "aspell"))
   ;;(set-face-attribute 'default nil :family "Hack" :height 110)
   (set-face-attribute 'default nil :family "InputMono" :height 110))
 

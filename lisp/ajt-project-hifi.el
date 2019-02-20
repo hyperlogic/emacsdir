@@ -122,7 +122,9 @@
     (find-file (concat code-path "/libraries/animation/src/AnimInverseKinematics.cpp"))
     (find-file (concat code-path "/libraries/animation/src/Rig.cpp"))
     (find-file (concat code-path "/libraries/shared/src/glmHelpers.cpp"))
-    (find-file (concat code-path "/libraries/fbx/src/FBXReader.cpp"))
+    (find-file (concat code-path "/libraries/hfm/src/hfm/HFM.h"))
+    (find-file (concat code-path "/libraries/fbx/src/FBXSerializer.cpp"))
+    (find-file (concat code-path "/plugins/openvr/src/ViveControllerManager.cpp"))
 
     (find-file (concat docs-path "/hifi/todo.md"))
     (find-file (concat code-path "/scripts/system/controllers/controllerDispatcher.js"))))

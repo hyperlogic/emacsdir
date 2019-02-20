@@ -23,6 +23,13 @@
         (cos-half-angle (cos (/ angle 2.0))))
     (list (* x sin-half-angle) (* y sin-half-angle) (* z sin-half-angle) cos-half-angle)))
 
+;; assumes maya xyz ordering (radians)
+(defun ajt-euler-to-quat (x y z)
+  (let ((qx (ajt-axis-angle-to-quat '(1 0 0) x))
+        (qy (ajt-axis-angle-to-quat '(0 1 0) y))
+        (qz (ajt-axis-angle-to-quat '(0 0 1) z)))
+    (ajt-quat-mul qx (ajt-quat-mul qy qz))))
+
 (defun ajt-quat-mul (a b)
   (let ((a_2 (car a)) (a_3 (cadr a)) (a_4 (caddr a)) (a_1 (cadddr a))
         (b_2 (car b)) (b_3 (cadr b)) (b_4 (caddr b)) (b_1 (cadddr b)))
