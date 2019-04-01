@@ -34,13 +34,13 @@
 (defun ajt-hifi-cpp-search (arg)
   "Search for a regex in all hifi cpp files"
   (interactive "shifi-cpp:")
-  (ajt-grep-find arg (list ajt-hifi-path "!*build/*") '("*.cc" "*.cpp" "*.h" "*.hpp" "*.txt")))
+  (ajt-grep-find arg (list ajt-hifi-path "!*build/*" "!*android/*") '("*.cc" "*.cpp" "*.h" "*.hpp" "*.txt")))
 
 ;; shader search with regex
 (defun ajt-hifi-shader-search (arg)
-  "Search for a regex in all hifi cpp files"
+  "Search for a regex in all hifi shader files"
   (interactive "shifi-shader:")
-  (ajt-grep-find arg (list ajt-hifi-path "!*build/*") '("*.slv" "*.slf" "*.slg" "*.slh")))
+  (ajt-grep-find arg (list ajt-hifi-path "!*build/*" "!*android/*") '("*.slv" "*.slf" "*.slg" "*.slh")))
 
 (global-set-key [f7] 'ajt-hifi-shader-search)
 (global-set-key [f8] 'ajt-hifi-js-search)
