@@ -4,6 +4,7 @@
 (setq flymake-mode nil)
 
 (setq ajt-hifi-path "~/code/hifi")
+(setq ajt-qt-path "/c/q/qt5")
 (when (and is-windows-machine (string= hostname "blackholesun"))
   (setq ajt-hifi-path "e:/code/hifi"))
 
@@ -36,6 +37,12 @@
   (interactive "shifi-cpp:")
   (ajt-grep-find arg (list ajt-hifi-path "!*build/*" "!*android/*") '("*.cc" "*.cpp" "*.h" "*.hpp" "*.txt")))
 
+;; at source cpp search with regex
+(defun ajt-hifi-qt-search (arg)
+  "Search for a regex in all hifi cpp files"
+  (interactive "shifi-qt:")
+  (ajt-grep-find arg (list ajt-qt-path) '("*.cc" "*.cpp" "*.h" "*.hpp")))
+
 ;; shader search with regex
 (defun ajt-hifi-shader-search (arg)
   "Search for a regex in all hifi shader files"
@@ -67,7 +74,7 @@
 (defun ajt-hifi-log ()
   (interactive)
   (when is-windows-machine
-    (find-file "/Users/anthony/AppData/Local/High Fidelity/Interface/Logs/hifi-log.txt"))
+    (find-file (concat "/Users/" username "/AppData/Local/High Fidelity/Interface/Logs/hifi-log.txt")))
   (when is-macintosh-machine
     (find-file "~/Library/Application Support/High Fidelity/Interface/Logs/hifi-log.txt"))
   (auto-revert-tail-mode)
@@ -80,11 +87,20 @@
   (buffer-disable-undo))
 
 ; ini was recently changed to a json file...
+(defun ajt-hifi-ini-dev ()
+  "Load the Hifi fidelity interface json file"
+  (interactive)
+  (when is-windows-machine
+    (find-file (concat "c:/Users/" username "/AppData/Roaming/High Fidelity - dev/Interface.json")))
+  (when is-macintosh-machine
+    (find-file "~/.config/highfidelity.io/Interface.json")))
+
+; ini was recently changed to a json file...
 (defun ajt-hifi-ini ()
   "Load the Hifi fidelity interface json file"
   (interactive)
   (when is-windows-machine
-    (find-file "c:/Users/anthony/AppData/Roaming/High Fidelity - dev/Interface.json"))
+    (find-file (concat "c:/Users/" username "/AppData/Roaming/High Fidelity/Interface.json")))
   (when is-macintosh-machine
     (find-file "~/.config/highfidelity.io/Interface.json")))
 
@@ -92,7 +108,7 @@
   "Load the Hifi fidelity ini file"
   (interactive)
   (when is-windows-machine
-    (find-file "/Users/anthony/AppData/Roaming/High Fidelity - dev/assignment-client/entities/models.json.gz"))
+    (find-file (concat "/Users/" username "/AppData/Roaming/High Fidelity - dev/assignment-client/entities/models.json.gz")))
   (when is-macintosh-machine
     (find-file "~/Library/Application Support/High Fidelity/Stack Manager/resources/models.json.gz")))
 
@@ -100,7 +116,7 @@
   "Load the Hifi fidelity ini file"
   (interactive)
   (when is-windows-machine
-    (find-file "/Users/anthony/AppData/Roaming/High Fidelity/assignment-client/entities/models.json.gz"))
+    (find-file (concat "/Users/" username "/AppData/Roaming/High Fidelity/assignment-client/entities/models.json.gz")))
   (when is-macintosh-machine
     (find-file "~/Library/Application Support/High Fidelity/Stack Manager/resources/models.json.gz")))
 
