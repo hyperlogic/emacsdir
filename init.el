@@ -75,6 +75,7 @@
       (append '(("\\.cpp\\'" . c++-mode)
                 ("\\.h\\'" . c++-mode)
                 ("\\.hpp\\'" . c++-mode)
+                ("\\.cc\\'" . c++-mode)
                 ("\\.c\\'" . c-mode)
                 ("\\.cs\\'" . csharp-mode)
                 ("\\.rb\\'" . ruby-mode)
@@ -381,7 +382,7 @@ If point was already at that position, move point to beginning of line."
 ;; project specific stuff
 ;;
 
-(load "ajt-project-hifi")
+(load "ajt-project-unreal")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
