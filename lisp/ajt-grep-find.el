@@ -33,6 +33,9 @@
     (set-process-sentinel process 'ajt-refresh-compilation-mode-on-grep)
     (compilation-mode)))
 
+(defun ajt-filter-path-patterns (patterns)
+  (remq nil (mapcar (lambda (x) (if (string-equal (substring x 0 1) "!") nil (concat "\"" x "\""))) patterns)))
+
 (defun ajt-filter-include-patterns (patterns)
   (remq nil (mapcar (lambda (x) (if (string-equal (substring x 0 1) "!") nil x)) patterns)))
 
@@ -62,7 +65,7 @@ NAME-PATTERNS is a list of find style patterns that must match base filename.  I
 For example:
   (ajt-grep-find \"main\" '(\"d:/tras/cdc/runtime\" \"d:/tras/code/game\") '(\"*.cpp\" \"*.h\" \"*.c\")))"
 
-  (let* ((path-include-string (mapconcat 'identity (ajt-filter-include-patterns path-patterns) " "))
+  (let* ((path-include-string (mapconcat 'identity (ajt-filter-path-patterns path-patterns) " "))
          (path-exclude-string (ajt-concat-exclude-patterns "-path" path-patterns))
          (name-include-string (ajt-concat-include-patterns "-name" name-patterns))
          (name-exclude-string (ajt-concat-exclude-patterns "-name" name-patterns))
