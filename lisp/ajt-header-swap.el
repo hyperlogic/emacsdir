@@ -1,7 +1,7 @@
 ;; list of header and soruce file extentions
-(setq ajt-hdr-path-list `("./" "../Public/"))
+(setq ajt-hdr-path-list `("./" "../Public/" "../Classes/Engine/"))
 (setq ajt-hdr-ext-list `("h" "hpp" "vsh" "hh" "slv"))
-(setq ajt-src-path-list `("./" "../Private/"))
+(setq ajt-src-path-list `("./" "../Private/" "../../Private/"))
 (setq ajt-src-ext-list `("cpp" "c" "m" "mm" "fsh" "cc" "slf"))
 
 ;; fn can return non-nil to stop iteration

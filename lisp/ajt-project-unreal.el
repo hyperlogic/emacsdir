@@ -16,6 +16,13 @@
   (interactive "sunreal-plugins-cpp:")
   (ajt-grep-find arg (list (concat ajt-unreal-project-path "/Plugins")) '("*.h" "*.cpp")))
 
+;; unreal nativized blueprint cpp search with regex
+(defun ajt-unreal-blueprint-cpp-search (arg)
+  "Search for a regex in all unreal nativized blueprint cpp files"
+  (interactive "sunreal-blueprint-cpp:")
+  ; C:\msys64\home\ajthy\code\vrdj-school\Intermediate\Plugins\NativizedAssets\Windows\Game\Source\NativizedAssets\Private\BP_TribeTwitchManager__pf4024189247.cpp
+  (ajt-grep-find arg (list (concat ajt-unreal-project-path "/Intermediate/Plugins/NativizedAssets/Windows/Game/Source/NativizedAssets")) '("*.h" "*.cpp")))
+
 ;; unreal engine cpp search with regex
 (defun ajt-unreal-engine-cpp-search (arg)
   "Search for a regex in all unreal engine cpp files"
@@ -25,4 +32,5 @@
 (global-set-key [f9] 'ajt-unreal-project-cpp-search)
 (global-set-key [f10] 'ajt-unreal-plugins-cpp-search)
 (global-set-key [f11] 'ajt-unreal-engine-cpp-search)
+(global-set-key [f12] 'ajt-unreal-blueprint-cpp-search)
 

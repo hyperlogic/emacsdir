@@ -20,7 +20,6 @@
 ;;
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
-(add-to-list 'custom-theme-load-path "~/.emacs.d/lisp/emacs-color-themes/themes")
 
 (require 'cl)
 (require 'thingatpt)
@@ -65,7 +64,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp/lua-mode" t)
 (autoload 'lua-mode "lua-mode")
-(setq lua-indent-level 2)
+(setq lua-indent-level 4)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/rust-mode" t)
 (autoload 'rust-mode "rust-mode")
@@ -137,11 +136,12 @@
                     (string-match "*shell*" (buffer-name))
                     (string-match "*ajt-grep*" (buffer-name)))
               (progn
-                (hl-line-mode)
+                (if window-system
+                    (hl-line-mode))
                 (set-face-foreground 'highlight nil)
                 (when (boundp 'hl-line-face)
                   (if (and window-system use-dark-theme)
-                      (set-face-background hl-line-face "midnight blue")
+                      (set-face-background hl-line-face "black")
                     (set-face-background hl-line-face "light gray")))))))
 
 
@@ -360,12 +360,12 @@ If point was already at that position, move point to beginning of line."
 ;; color theme
 ;;
 
-(setq use-dark-theme nil)
+(setq use-dark-theme t)
 
 (when (and window-system use-dark-theme)
   (load-theme 'granger t)
   (when (boundp 'hl-line-face)
-    (set-face-background hl-line-face "midnight blue")))
+    (set-face-background hl-line-face "black")))
 
 ;;
 ;; platform specific stuff
@@ -382,19 +382,4 @@ If point was already at that position, move point to beginning of line."
 ;; project specific stuff
 ;;
 
-(load "ajt-project-unreal")
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("7030bc3b02bdc470fa1884522ffdb09466179aea1d9246335011ba7f9c2ccc24" "ce79400f46bd76bebeba655465f9eadf60c477bd671cbcd091fe871d58002a88" "e26780280b5248eb9b2d02a237d9941956fc94972443b0f7aeec12b5c15db9f3" "53c542b560d232436e14619d058f81434d6bbcdc42e00a4db53d2667d841702e" "9bcb8ee9ea34ec21272bb6a2044016902ad18646bd09fdd65abae1264d258d89" "bf648fd77561aae6722f3d53965a9eb29b08658ed045207fe32ffed90433eb52" "1989847d22966b1403bab8c674354b4a2adf6e03e0ffebe097a6bd8a32be1e19" "33c5a452a4095f7e4f6746b66f322ef6da0e770b76c0ed98a438e76c497040bb" "c7359bd375132044fe993562dfa736ae79efc620f68bab36bd686430c980df1c" "90b5269aefee2c5f4029a6a039fb53803725af6f5c96036dee5dc029ff4dff60" "0ebe0307942b6e159ab794f90a074935a18c3c688b526a2035d14db1214cf69c" "a774c5551bc56d7a9c362dca4d73a374582caedb110c201a09b410c0ebbb5e70" default))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(load "ajt-project-xrtoy")

@@ -7,3 +7,4 @@ if [ $(uname)="Linux" ]; then
 	unset PROMPT_COMMAND
 fi
 export EDITOR=emacsclient
+source ~/.bash_profile
