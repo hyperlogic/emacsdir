@@ -360,7 +360,7 @@ If point was already at that position, move point to beginning of line."
 ;; color theme
 ;;
 
-(setq use-dark-theme t)
+(setq use-dark-theme nil)
 
 (when (and window-system use-dark-theme)
   (load-theme 'granger t)
@@ -382,4 +382,4 @@ If point was already at that position, move point to beginning of line."
 ;; project specific stuff
 ;;
 
-(load "ajt-project-xrtoy")
+(load "ajt-project-tribexr")
