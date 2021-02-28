@@ -24,6 +24,12 @@
   (interactive "stribexr-ini:")
   (ajt-grep-find arg (list (concat ajt-tribexr-path "/Config")) '("*.ini")))
 
+;; tribexr Build.cs file search
+(defun ajt-tribexr-build-search (arg)
+  "Search for a regex in tribexr ini files"
+  (interactive "stribexr-build:")
+  (ajt-grep-find arg (list ajt-tribexr-path) '("*.Build.cs" "*.uplugin" "*.uproject")))
+
 ;; tribexr nativized blueprint cpp search with regex
 ;; I needed this to track down a bug in the generated blueprint C++ code.
 (defun ajt-tribexr-blueprint-cpp-search (arg)
@@ -58,4 +64,9 @@
 (defun ajt-adb-clean ()
   (interactive)
   (shell-command "adb shell \"rm -rf /sdcard/UE4Game/TribeXR\""))
+
+;; convert from linear color to sRGB
+(defun ajt-linear-to-srgb (x)
+  (mapcar (lambda (x) (expt x (/ 1.0 2.2))) x))
+
 

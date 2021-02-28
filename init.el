@@ -15,6 +15,9 @@
 (if window-system
     (server-start))
 
+;; Try saving open buffers
+(desktop-save-mode 1)
+
 ;;
 ;; path & autoloads
 ;;
@@ -58,7 +61,6 @@
 (autoload 'ruby-mode "ruby-mode")
 (autoload 'glsl-mode "glsl-mode")
 (autoload 'yaml-mode "yaml-mode")
-(autoload 'csharp-mode "csharp-mode")
 (autoload 'thrift-mode "thrift-mode")
 (autoload 'typescript-mode "typescript-mode")
 
@@ -76,7 +78,7 @@
                 ("\\.hpp\\'" . c++-mode)
                 ("\\.cc\\'" . c++-mode)
                 ("\\.c\\'" . c-mode)
-                ("\\.cs\\'" . csharp-mode)
+                ; ("\\.cs\\'" . csharp-mode) ; csharp mode has bugs." c-guess-basic-syntax: Wrong number of arguments: "
                 ("\\.rb\\'" . ruby-mode)
                 ("\\.dd\\'" . ruby-mode)   ; bbq data definition file
                 ("\\.di\\'" . ruby-mode)   ; bbq data instance file
@@ -125,12 +127,50 @@
 ;; turn off line wrapping.
 (set-default 'truncate-lines t)
 
-;; by default use spaces to indent.
-(setq-default indent-tabs-mode nil)
+;;
+;; detects if code buffer uses spaces or tabs for indenting
+;; and preseves that setting
+;;
+(load "ajt-indent")
 
-;; line highlight
+;;
+;; color theme
+;;
+
+(setq use-dark-theme 't)
+
+;; build in emacs themes
+
+;; light theams
+;;(load-theme 'adwaita)
+;;(load-theme 'dichromacy)
+;;(load-theme 'light-blue)
+;;(load-theme 'tango)
+;;(load-theme 'tsdh-light)
+;;(load-theme 'whiteboard)
+
+;; dark themes
+;;(load-theme 'deeper-blue)
+;;(load-theme 'manoj-dark)
+;;(load-theme 'misterioso)
+;;(load-theme 'tango-dark)
+;;(load-theme 'tsdh-dark)
+;;(load-theme 'wheatgrass)
+;;(load-theme 'wombat)
+
+(if (and window-system use-dark-theme)
+    (progn
+      (setq ajt-line-color "dark green")
+      (load-theme 'wheatgrass)
+      (when (boundp 'hl-line-face)
+        (set-face-background hl-line-face ajt-line-color)))
+  (progn
+    (setq ajt-line-color "light gray")
+    (load-theme 'tango)))
+
 (add-hook 'find-file-hook
           (lambda ()
+            (ajt-detect-and-set-indentation)
             ;; don't enable line highlight for specific buffer names
             (unless (or (string-match "*ansi-term*" (buffer-name))
                     (string-match "*shell*" (buffer-name))
@@ -140,10 +180,7 @@
                     (hl-line-mode))
                 (set-face-foreground 'highlight nil)
                 (when (boundp 'hl-line-face)
-                  (if (and window-system use-dark-theme)
-                      (set-face-background hl-line-face "black")
-                    (set-face-background hl-line-face "light gray")))))))
-
+                  (set-face-background hl-line-face ajt-line-color))))))
 
 ;; better scroll wheel behavior
 (if window-system
@@ -179,11 +216,6 @@
 
 ;; no highlighted text when selecting.
 (transient-mark-mode 0)
-
-;; syntax highlighting for c++
-(setq c-basic-offset 4)
-(setq tab-width 4)
-(setq default-tab-width 4)
 
 (setq c-default-style '((java-mode . "java")
                         (awk-mode . "awk")
@@ -355,17 +387,11 @@ If point was already at that position, move point to beginning of line."
           (switch-to-buffer-other-window "*shell*"))
       (shell))))
 
-
 ;;
-;; color theme
+;; ajt-eslint & ajt-jsonlint
 ;;
 
-(setq use-dark-theme nil)
-
-(when (and window-system use-dark-theme)
-  (load-theme 'granger t)
-  (when (boundp 'hl-line-face)
-    (set-face-background hl-line-face "black")))
+(load "ajt-js-helpers")
 
 ;;
 ;; platform specific stuff
@@ -383,3 +409,4 @@ If point was already at that position, move point to beginning of line."
 ;;
 
 (load "ajt-project-tribexr")
+
