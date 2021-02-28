@@ -63,6 +63,7 @@
 (autoload 'yaml-mode "yaml-mode")
 (autoload 'thrift-mode "thrift-mode")
 (autoload 'typescript-mode "typescript-mode")
+(autoload 'csharp-mode "csharp-mode")
 
 (add-to-list 'load-path "~/.emacs.d/lisp/lua-mode" t)
 (autoload 'lua-mode "lua-mode")
@@ -78,7 +79,7 @@
                 ("\\.hpp\\'" . c++-mode)
                 ("\\.cc\\'" . c++-mode)
                 ("\\.c\\'" . c-mode)
-                ; ("\\.cs\\'" . csharp-mode) ; csharp mode has bugs." c-guess-basic-syntax: Wrong number of arguments: "
+                ("\\.cs\\'" . csharp-mode) ; csharp mode has bugs." c-guess-basic-syntax: Wrong number of arguments: "
                 ("\\.rb\\'" . ruby-mode)
                 ("\\.dd\\'" . ruby-mode)   ; bbq data definition file
                 ("\\.di\\'" . ruby-mode)   ; bbq data instance file
