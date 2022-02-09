@@ -101,3 +101,4 @@
     (list (- (* ay bz) (* az by))
           (- (* az bx) (* ax bz))
           (- (* ax by) (* ay bx)))))
+

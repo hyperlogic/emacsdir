@@ -1,6 +1,5 @@
 ;;
-;; detects if code buffer uses spaces or tabs for indenting
-;; and preseves that setting
+;; detects if buffer uses spaces or tabs for indenting and preseves that setting
 ;;
 
 ;; default offsets
@@ -16,17 +15,19 @@
   (save-excursion
     (goto-char (point-min))
     (let ((tab-count 0)
-	  (space-count 0))
-      (while (not (eobp))
-	(let ((c (following-char)))
-	  (if (eq c 32)
-	      (setq space-count (1+ space-count))
-	    (if (eq c 10)
-		(setq tab-count (1+ tab-count)))))
-	(forward-line 1))
+          (space-count 0)
+          (line-count 0))
+      (while (and (not (eobp)) (< line-count 1024))
+        (let ((c (following-char)))
+          (if (eq c 32)
+              (setq space-count (1+ space-count))
+            (if (eq c 10)
+                (setq tab-count (1+ tab-count)))))
+        (setq line-count (1+ line-count))
+        (forward-line 1))
       (if (> tab-count space-count)
-	  't
-	nil))))
+          't
+        nil))))
 
 (defun ajt-detect-and-set-indentation ()
   (interactive)

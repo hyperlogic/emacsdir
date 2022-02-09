@@ -39,15 +39,7 @@
       nil
     (ajt-lr-cmp (car l) (ajt-lr-window (cdr l)))))
 
-(defun ajt-split-window-thirds()
- "Split window into thirds"
- (interactive)
- (if (= 1 (length (window-list)))
-     (let* ((width (third (window-edges (car (window-list))))))
-       (split-window-horizontally (/ width -3))
-       (split-window-horizontally (/ width -3)))))
-
-(setq ajt-split-height-threshold 75)
+(setq ajt-split-height-threshold 1000)
 
 (defun ajt-split-window-preferred-function (x)
   "Always split the lower right most window, unless there is only one window."
