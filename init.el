@@ -40,6 +40,9 @@
 ;; some custom git functions
 (load "ajt-git")
 
+;; disabled git - prevent emacs from using git, fix index.lock conflicts.
+(delete 'Git vc-handled-backends)
+
 ;; improvements to grep
 (autoload 'ajt-grep-find "ajt-grep-find")
 

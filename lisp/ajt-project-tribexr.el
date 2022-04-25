@@ -51,12 +51,12 @@
 (defun ajt-mixreality-py-search (arg)
   "Search for a regex in mixreality python files"
   (interactive "smixreality-py:")
-  (ajt-grep-find arg (list ajt-mixreality-path) '("*.py")))
+  (ajt-grep-find arg (list ajt-mixreality-path "!*/venv/*") '("*.py")))
 
 (defun ajt-mixreality-js-search (arg)
   "Search for a regex in mixreality js files"
   (interactive "smixreality-js:")
-  (ajt-grep-find arg (list ajt-mixreality-path) '("*.js")))
+  (ajt-grep-find arg (list ajt-mixreality-path "!*/venv/*") '("*.js")))
 
 (global-set-key [f9] 'ajt-tribexr-cpp-search)
 (global-set-key [f10] 'ajt-mixreality-py-search)
