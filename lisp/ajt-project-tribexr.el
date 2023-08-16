@@ -1,10 +1,10 @@
 (load "ajt-vector-math")
 
 ;; tribexr source code
-(setq ajt-tribexr-path "C:/msys64/home/ajthy/code/vrdj-school")
+(setq ajt-tribexr-path "C:/msys64/home/ajthy/code/unstable-vrdj-school")
 
 ;; unreal source code
-(setq ajt-unreal-path "C:/msys64/home/ajthy/code/UnrealEngine/Engine/Source/Runtime")
+(setq ajt-unreal-path "E:/Epic Games/UE_4.27/Engine/Source/Runtime")
 
 ;; mixreality source code
 (setq ajt-mixreality-path "C:/msys64/home/ajthy/code/mixreality")
@@ -58,6 +58,11 @@
   (interactive "smixreality-js:")
   (ajt-grep-find arg (list ajt-mixreality-path "!*/venv/*") '("*.js")))
 
+(defun ajt-mixreality-html-search (arg)
+  "Search for a regex in mixreality html files"
+  (interactive "smixreality-html:")
+  (ajt-grep-find arg (list ajt-mixreality-path "!*/venv/*") '("*.html")))
+
 (global-set-key [f9] 'ajt-tribexr-cpp-search)
 (global-set-key [f10] 'ajt-mixreality-py-search)
 ;(global-set-key [f10] 'ajt-tribexr-plugins-cpp-search)
@@ -106,4 +111,5 @@
 
 (setq path-to-ctags "~/code/UnrealEngine")
 
+(setq compile-command (concat "cd " ajt-tribexr-path "; invoke build.steam"))
 
