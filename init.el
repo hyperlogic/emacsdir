@@ -26,7 +26,7 @@
 
 (require 'cl)
 (require 'thingatpt)
-(require 'powerline)
+;(require 'powerline)
 
 ;;
 ;; init melpa package manager
@@ -176,9 +176,9 @@
       (load-theme 'granger)
       (when (boundp 'hl-line-face)
         (set-face-background hl-line-face ajt-line-color)))
-  (progn
-    (setq ajt-line-color "light gray")
-    (load-theme 'dichromacy)))
+    (progn
+      (setq ajt-line-color "light gray")
+      (load-theme 'tango)))
 
 (add-hook 'find-file-hook
           (lambda ()

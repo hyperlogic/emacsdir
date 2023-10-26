@@ -1,10 +1,13 @@
 (load "ajt-vector-math")
 
-(setq compile-command (concat "cd ~/code2/3dgstoy/build; cmake --build . --config Debug"))
+(setq ajt-3dgs-config "Debug")
+(setq ajt-3dgs-build-dir "~/code/3dgstoy/build")
+
+(setq compile-command (concat "cd " ajt-3dgs-build-dir "; cmake --build . --config " ajt-3dgs-config))
 
 (defun ajt-run-3dgstoy ()
   (interactive)
-  (shell-command "cd ~/code2/3dgstoy/build/Debug; 3dgstoy.exe" "*3dgstoy-log*")
+  (shell-command (concat "cd " ajt-3dgs-build-dir "/" ajt-3dgs-config "; ./3dgstoy.exe") "*3dgstoy-log*")
   (pop-to-buffer "*3dgstoy-log*")
   (compilation-mode))
 

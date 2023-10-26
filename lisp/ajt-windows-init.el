@@ -16,5 +16,5 @@
 ;(set-face-attribute 'default nil :family "Glass TTY VT220" :height 120 :weight 'regular)
 
 
-(set-face-attribute 'default nil :family "Consolas" :height 120 :weight 'regular)
+(set-face-attribute 'default nil :family "Consolas" :height 130 :weight 'regular)
 ;(set-face-attribute 'default nil :family "Ac437 IBM EGA 8x14" :height 160 :weight 'regular)
