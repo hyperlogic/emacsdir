@@ -421,7 +421,7 @@ If point was already at that position, move point to beginning of line."
 ;; project specific stuff
 ;;
 
-(load "ajt-project-3dgstoy")
+(load "ajt-project-splatapult")
 
 
 (custom-set-variables
