@@ -149,7 +149,7 @@
 ;; color theme
 ;;
 
-(setq use-dark-theme nil)
+(setq use-dark-theme (not window-system))
 
 ;; build in emacs themes
 
@@ -170,15 +170,21 @@
 ;;(load-theme 'wheatgrass)
 ;;(load-theme 'wombat)
 
-(if (and window-system use-dark-theme)
-    (progn
-      (setq ajt-line-color "black")
-      (load-theme 'granger)
-      (when (boundp 'hl-line-face)
-        (set-face-background hl-line-face ajt-line-color)))
+(when window-system
+  (if use-dark-theme
+      (progn
+        (setq ajt-line-color "black")
+        (load-theme 'granger)
+        (when (boundp 'hl-line-face)
+          (set-face-background hl-line-face ajt-line-color)))
     (progn
       (setq ajt-line-color "light gray")
-      (load-theme 'tango)))
+      (load-theme 'tango))))
+
+(when (not window-system)
+  (if use-dark-theme
+      (load-theme 'wombat)
+    (load-theme 'light-blue)))
 
 (add-hook 'find-file-hook
           (lambda ()
