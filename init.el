@@ -227,7 +227,9 @@
 
 ;; enable scroll bars
 (if window-system
-    (scroll-bar-mode 1))
+    (progn
+      (scroll-bar-mode 1)
+      (set-scroll-bar-mode 'right)))
 
 ;; no gutters
 (fringe-mode '(0 . 0))
