@@ -12,7 +12,9 @@
 
 ;; emacsclient can be used to edit files from a terminal
 (if window-system
-    (server-start))
+    (progn
+      (server-start)
+      (add-hook 'server-switch-hook #'raise-frame)))
 
 ;; Try saving open buffers
 (if window-system

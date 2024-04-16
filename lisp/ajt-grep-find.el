@@ -92,3 +92,10 @@ For example:
     ;(message (format "name-exclude-patterns = %S" name-exclude-string))
 
     (ajt-grep-find-shell-cmd cmd)))
+
+
+;; cpp search with regex
+(defun ajt-cpp-search (arg)
+  "Search for a cpp files"
+  (interactive "scpp-search:")
+  (ajt-grep-find arg (list ".") '("*.cc" "*.c" "*.cpp" "*.h" "*.hpp" "*.txt" "*.cu" "*.cuh")))
