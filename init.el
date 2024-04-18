@@ -91,6 +91,8 @@
                 ("\\.h\\'" . c++-mode)
                 ("\\.hpp\\'" . c++-mode)
                 ("\\.cc\\'" . c++-mode)
+                ("\\.cu\\'" . c++-mode)
+                ("\\.cuh\\'" . c++-mode)
                 ("\\.c\\'" . c-mode)
                 ("\\.cs\\'" . csharp-mode) ; csharp mode has bugs." c-guess-basic-syntax: Wrong number of arguments: "
                 ("\\.rb\\'" . ruby-mode)
