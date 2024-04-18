@@ -1,8 +1,8 @@
 ;; list of header and soruce file extentions
 (setq ajt-hdr-path-list `("./" "../Public/" "../Classes/Engine/"))
-(setq ajt-hdr-ext-list `("h" "hpp" "vsh" "hh" "slv"))
+(setq ajt-hdr-ext-list `("h" "hpp" "vsh" "hh" "slv" "cuh"))
 (setq ajt-src-path-list `("./" "../Private/" "../../Private/"))
-(setq ajt-src-ext-list `("cpp" "c" "m" "mm" "fsh" "cc" "slf"))
+(setq ajt-src-ext-list `("cpp" "c" "m" "mm" "fsh" "cc" "slf" "cu"))
 
 ;; fn can return non-nil to stop iteration
 (defun ajt-for-each (fn lst)
