@@ -8,6 +8,8 @@
 ;; jsonlint
 (defun ajt-jsonlint ()
   (interactive)
-  (shell-command (concat "jsonlint \"" (buffer-file-name) "\"") "*jsonlint-log*")
+  (shell-command (concat "jq . \"" (buffer-file-name) "\"") "*jsonlint-log*")
   (pop-to-buffer "*jsonlint-log*")
   (compilation-mode))
+
+
