@@ -77,6 +77,7 @@
 (autoload 'thrift-mode "thrift-mode")
 (autoload 'typescript-mode "typescript-mode")
 (autoload 'csharp-mode "csharp-mode")
+(autoload 'cuda-mode "cuda-mode") ; from melpa
 
 (add-to-list 'load-path "~/.emacs.d/lisp/lua-mode" t)
 (autoload 'lua-mode "lua-mode")
@@ -149,13 +150,31 @@
 ;;
 (load "ajt-indent")
 
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
 ;;
 ;; color theme
 ;;
 
 (setq use-dark-theme (not window-system))
 
-;; build in emacs themes
+;; built in emacs themes
 
 ;; light themes
 ;;(load-theme 'adwaita)
@@ -183,7 +202,7 @@
           (set-face-background hl-line-face ajt-line-color)))
     (progn
       (setq ajt-line-color "light gray")
-      (load-theme 'tango))))
+      (load-theme 'doom-one-light))))
 
 (when (not window-system)
   (if use-dark-theme
@@ -398,18 +417,13 @@ If point was already at that position, move point to beginning of line."
         (if (string-equal (buffer-name b) name)
             (return 't))))
 
-(setq-default ajt-use-ansi-term (not is-windows-machine))
+;; this works but on windows you have to explictly source ~/.bash_profile
 (defun ajt-term ()
   (interactive)
-  (if ajt-use-ansi-term
-      (if (ajt-buffer-open "*ansi-term*")
-          (progn
-            (switch-to-buffer-other-window "*ansi-term*"))
-        (ansi-term "/bin/bash"))
-    (if (ajt-buffer-open "*shell*")
-        (progn
-          (switch-to-buffer-other-window "*shell*"))
-      (shell))))
+  (if (ajt-buffer-open "*shell*")
+      (progn
+        (switch-to-buffer-other-window "*shell*"))
+      (shell)))
 
 ;;
 ;; ajt-eslint & ajt-jsonlint
@@ -441,8 +455,10 @@ If point was already at that position, move point to beginning of line."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("9f297216c88ca3f47e5f10f8bd884ab24ac5bc9d884f0f23589b0a46a608fe14" default))
  '(package-selected-packages
-   '(python-mode jupyter chatgpt use-package sublime-themes powerline kaolin-themes flucui-themes ewal doom-themes csv color-theme-sanityinc-tomorrow almost-mono-themes)))
+   '(cuda-mode python-mode jupyter chatgpt use-package sublime-themes powerline kaolin-themes flucui-themes ewal doom-themes csv color-theme-sanityinc-tomorrow almost-mono-themes)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
