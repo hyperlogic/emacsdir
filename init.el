@@ -10,6 +10,8 @@
 
 (setq is-macintosh-machine (string= uname "Darwin"))
 
+(setq is-linux-machine (string= uname "Linux"))
+
 ;; emacsclient can be used to edit files from a terminal
 (if window-system
     (progn
@@ -443,11 +445,14 @@ If point was already at that position, move point to beginning of line."
 (if is-macintosh-machine
     (load "ajt-macintosh-init"))
 
+(if is-linux-machine
+    (load "ajt-linux-init"))
+
 ;;
 ;; project specific stuff
 ;;
 
-(load "ajt-project-splatapult")
+(load "ajt-project-splatvins")
 
 
 (custom-set-variables
