@@ -99,3 +99,7 @@ For example:
   "Search for a cpp files"
   (interactive "scpp-search:")
   (ajt-grep-find arg (list ".") '("*.cc" "*.c" "*.cpp" "*.h" "*.hpp" "*.txt" "*.cu" "*.cuh")))
+
+(defun ajt-rg (search-term path)
+  (ajt-grep-find-shell-cmd (concat "rg --no-heading " search-term " " path))
+  (ajt-refresh-compilation-mode-on-grep))
