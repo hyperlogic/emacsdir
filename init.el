@@ -42,6 +42,8 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
+
+
 ;; chatgpt-shell
 (setq chatgpt-shell-openai-key "XXX")
 (setq chatgpt-shell-model-version "gpt-3.5-turbo")
@@ -158,7 +160,7 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-one t)
+  (load-theme 'doom-one-light t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
