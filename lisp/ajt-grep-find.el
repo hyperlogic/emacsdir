@@ -100,6 +100,18 @@ For example:
   (interactive "scpp-search:")
   (ajt-grep-find arg (list ".") '("*.cc" "*.c" "*.cpp" "*.h" "*.hpp" "*.txt" "*.cu" "*.cuh")))
 
-(defun ajt-rg (search-term path)
-  (ajt-grep-find-shell-cmd (concat "rg --no-heading " search-term " " path))
-  (ajt-refresh-compilation-mode-on-grep))
+;; uses ripgrep
+(defun ajt-ripgrep-find (search-term path name-patterns)
+  "Passes the string SEARCH-TERM to ripgrep
+   SEARCH-TERM regex to search for (passed to grep)
+   PATH directory to search
+   NAME-PATTERNS is a list of find style patterns that must match base filename.
+       If pattern starts with a ! character then it can be used to exclude a file.
+For example:
+    (ajt-ripgrep-find \"main\" \"d:/tras/cdc/runtime\" '(\"*.cpp\" \"*.h\" \"*.c\")))"
+  (let* ((glob (mapconcat (lambda (x) (concat "-g \"" x "\"")) name-patterns " "))
+         (cmd (concat "rg --no-heading " "-e " search-term " " glob " " path)))
+    (ajt-grep-find-shell-cmd cmd)))
+
+
+
