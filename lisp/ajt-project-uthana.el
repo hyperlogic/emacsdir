@@ -2,6 +2,7 @@
 (load "ajt-grep-find")
 
 (setq ajt-uthana-path "/home/tony/uthana")
+(setq ajt-uthana-log "/opt/uthana/log/appserv.log")
 
 (defun ajt-uthana-code-search (arg)
   "Search for a regex in all uthana python code"
@@ -12,6 +13,13 @@
   "Search for regex in all uthana directory"
   (interactive "suthana-rg:")
   (ajt-ripgrep-find arg ajt-uthana-path (list "!*.ipynb")))
+
+; tail -f /opt/uthana/log/appserv.log
+(defun ajt-uthana-log ()
+  (interactive)
+  (find-file ajt-uthana-log)
+  (auto-revert-tail-mode)
+  (buffer-disable-undo))
 
 (global-set-key [f7] 'ajt-uthana-code-search)
 (global-set-key [f8] 'ajt-uthana-rg)
