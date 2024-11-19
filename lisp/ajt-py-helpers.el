@@ -1,7 +1,7 @@
 ;; black
 (defun ajt-black ()
   (interactive)
-  (shell-command (concat "black " (buffer-file-name)) "*black-log*")
+  (shell-command (concat "black --line-length=120 " (buffer-file-name)) "*black-log*")
   (pop-to-buffer "*black-log*")
   (compilation-mode))
 
@@ -12,9 +12,10 @@
   (pop-to-buffer "*flake8-log*")
   (compilation-mode))
 
-;; flake8
-(defun ajt-mypy ()
+;; isort
+(defun ajt-isort ()
   (interactive)
-  (shell-command (concat "mypy " (buffer-file-name)) "*mypy-log*")
-  (pop-to-buffer "*mypy-log*")
+  (shell-command (concat "isort --profile=black --line-length=120 " (buffer-file-name)) "*flake8-log*")
+  (pop-to-buffer "*isort-log*")
   (compilation-mode))
+
