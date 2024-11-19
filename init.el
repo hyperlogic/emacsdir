@@ -456,7 +456,7 @@ If point was already at that position, move point to beginning of line."
 ;; project specific stuff
 ;;
 
-(load "ajt-project-splatvins")
+(load "ajt-project-uthana")
 
 
 (custom-set-variables
