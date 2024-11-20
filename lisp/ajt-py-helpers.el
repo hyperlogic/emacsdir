@@ -19,3 +19,10 @@
   (pop-to-buffer "*isort-log*")
   (compilation-mode))
 
+;; isort
+(defun ajt-mypy ()
+  (interactive)
+  (shell-command (concat "mypy " (buffer-file-name)) "*mypy-log*")
+  (pop-to-buffer "*mypy-log*")
+  (compilation-mode))
+
