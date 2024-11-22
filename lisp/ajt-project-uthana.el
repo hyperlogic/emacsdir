@@ -30,4 +30,7 @@
 (global-set-key [f8] 'ajt-uthana-js-search)
 (global-set-key [f9] 'ajt-uthana-all-search)
 
-(server-start)
+(if (string-equal hostname "tony.uthana.dev")
+    (progn
+      (server-start)
+      (desktop-save-mode 1)))
