@@ -26,7 +26,7 @@
 ;(set-face-attribute 'default nil :family "Glass TTY VT220" :height 120 :weight 'regular)
 
 
-(set-face-attribute 'default nil :family "Consolas" :height 160 :weight 'regular)
-;(set-face-attribute 'default nil :family "Ac437 IBM EGA 8x14" :height 160 :weight 'regular)
-
-
+;(set-face-attribute 'default nil :family "Consolas" :height 120 :weight 'regular)
+(set-face-attribute 'default nil :family "Cascadia Mono" :height 110 :weight 'regular)
+;;(set-face-attribute 'default nil :family "Ac437 IBM EGA 8x14" :height 160 :weight 'regular)
+;;(set-face-attribute 'default nil :family "Departure Mono" :height 105 :weight 'regular)
