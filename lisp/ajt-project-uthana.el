@@ -30,7 +30,18 @@
 (global-set-key [f8] 'ajt-uthana-js-search)
 (global-set-key [f9] 'ajt-uthana-all-search)
 
+;; first install pyright - microsofts pyright server for python
+;; pip install pyright
 (if (string-equal hostname "tony.uthana.dev")
     (progn
       (server-start)
-      (desktop-save-mode 1)))
+      (desktop-save-mode 1)
+      (use-package company)))
+      (use-package lsp-pyright
+        :ensure t
+        :custom (lsp-pyright-langserver-command "pyright")
+        :hook (python-mode . (lambda ()
+                               (require 'lsp-pyright)
+                               (lsp)
+                               (company-mode))))
+

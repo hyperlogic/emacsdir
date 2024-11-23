@@ -1,3 +1,7 @@
 auto-save-list/
 backups/
 ido.last
+elpa/
+.emacs.desktop
+.emacs.desktop.lock
+.lsp-session-*

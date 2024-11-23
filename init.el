@@ -40,9 +40,24 @@
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("gnu-devel" . "https://elpa.gnu.org/devel/"))
 (package-initialize)
 
+;; Install `use-package` if not already installed
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
+;;
+;; if you receive the follwing error: (bad-signature "archive-contents.sig")
+;; try:
+;;  (setq package-check-signature nil)
+;;  gpg --recv-keys 066DAFCB81E42C40
+;;
+
+;; automatically install packages if not present
+(require 'use-package)
+(setq use-package-always-ensure t)
 
 ;; chatgpt-shell
 (setq chatgpt-shell-openai-key "XXX")
@@ -92,7 +107,8 @@
 
 ;; assign modes to file extentions
 (setq auto-mode-alist
-      (append '(("\\.cpp\\'" . c++-mode)
+      (append '(("\\.py\\'" . python-mode)
+                ("\\.cpp\\'" . c++-mode)
                 ("\\.h\\'" . c++-mode)
                 ("\\.hpp\\'" . c++-mode)
                 ("\\.cc\\'" . c++-mode)
@@ -467,7 +483,7 @@ If point was already at that position, move point to beginning of line."
  '(custom-safe-themes
    '("9f297216c88ca3f47e5f10f8bd884ab24ac5bc9d884f0f23589b0a46a608fe14" default))
  '(package-selected-packages
-   '(cuda-mode python-mode jupyter chatgpt use-package sublime-themes powerline kaolin-themes flucui-themes ewal doom-themes csv color-theme-sanityinc-tomorrow almost-mono-themes)))
+   '(company company-mode lsp-pyright gnu-elpa-keyring-update cuda-mode python-mode jupyter chatgpt use-package sublime-themes powerline kaolin-themes flucui-themes ewal doom-themes csv color-theme-sanityinc-tomorrow almost-mono-themes)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
