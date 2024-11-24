@@ -1,3 +1,6 @@
+;;
+;; init.el -  This is my emacs init file. There are many like it, but this one is mine.
+;;
 
 ;; used to determine which system are we running on.
 (setq uname (substring (shell-command-to-string "uname") 0 -1))
@@ -12,6 +15,15 @@
 
 (setq is-linux-machine (string= uname "Linux"))
 
+;;
+;; path & autoloads
+;;
+
+(add-to-list 'load-path "~/.emacs.d/lisp")
+
+;; setup packager manager bullshit.
+(load "ajt-package-manager")
+
 ;; emacsclient can be used to edit files from a terminal
 (if window-system
     (progn
@@ -22,42 +34,7 @@
 (if window-system
     (desktop-save-mode 1))
 
-;;
-;; path & autoloads
-;;
-
-(add-to-list 'load-path "~/.emacs.d/lisp")
-
-(require 'cl)
 (require 'thingatpt)
-;(require 'powerline)
-
-;;
-;; init melpa package manager
-;; M-x package-refresh-contents to get latest list of packages.
-;; M-x package-install blah
-;;
-
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("gnu-devel" . "https://elpa.gnu.org/devel/"))
-(package-initialize)
-
-;; Install `use-package` if not already installed
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-;;
-;; if you receive the follwing error: (bad-signature "archive-contents.sig")
-;; try:
-;;  (setq package-check-signature nil)
-;;  gpg --recv-keys 066DAFCB81E42C40
-;;
-
-;; automatically install packages if not present
-(require 'use-package)
-(setq use-package-always-ensure t)
 
 ;; chatgpt-shell
 (setq chatgpt-shell-openai-key "XXX")
@@ -107,7 +84,8 @@
 
 ;; assign modes to file extentions
 (setq auto-mode-alist
-      (append '(("\\.py\\'" . python-mode)
+      (append '(("\\.el\\'" . emacs-lisp-mode)
+                ("\\.py\\'" . python-mode)
                 ("\\.cpp\\'" . c++-mode)
                 ("\\.h\\'" . c++-mode)
                 ("\\.hpp\\'" . c++-mode)
@@ -139,8 +117,6 @@
                 ("\\.go\\'" . go-mode)
                 ("\\.coffee\\'" . coffee-mode)
                 ("BROWSE\\'" . ebrowse-tree-mode)
-                ("\\.lisp\\'" . common-lisp-mode)
-                ("\\.el\\'" . lisp-mode)
                 ("\\.json\\'" . js-mode)
                 ("\\.rs\\'" . rust-mode)
                 ("COMMIT_EDITMSG" . flyspell-mode)
@@ -169,81 +145,24 @@
 ;; and preseves that setting
 ;;
 (load "ajt-indent")
-
-(if (window-system)
-    (progn
-      (use-package doom-themes
-                   :ensure t
-                   :config
-                   ;; Global settings (defaults)
-                   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-                         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-                   (load-theme 'doom-one-light t)
-
-                   ;; Enable flashing mode-line on errors
-                   (doom-themes-visual-bell-config)
-                   ;; Enable custom neotree theme (all-the-icons must be installed!)
-                   (doom-themes-neotree-config)
-                   ;; or for treemacs users
-                   (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-                   (doom-themes-treemacs-config)
-                   ;; Corrects (and improves) org-mode's native fontification.
-                   (doom-themes-org-config))))
+(load "hl-line")
+(load "ajt-color-themes")
 
 ;;
-;; color theme
+;; find-file-hook
 ;;
-
-(setq use-dark-theme (not window-system))
-
-;; built in emacs themes
-
-;; light themes
-;;(load-theme 'adwaita)
-;;(load-theme 'dichromacy)
-;;(load-theme 'light-blue)
-;;(load-theme 'tango)
-;;(load-theme 'tsdh-light)
-;;(load-theme 'whiteboard)
-
-;; dark themes
-;;(load-theme 'deeper-blue)
-;;(load-theme 'manoj-dark)
-;;(load-theme 'misterioso)
-;;(load-theme 'tango-dark)
-;;(load-theme 'tsdh-dark)
-;;(load-theme 'wheatgrass)
-;;(load-theme 'wombat)
-
-(when window-system
-  (if use-dark-theme
-      (progn
-        (setq ajt-line-color "black")
-        (load-theme 'granger)
-        (when (boundp 'hl-line-face)
-          (set-face-background hl-line-face ajt-line-color)))
-    (progn
-      (setq ajt-line-color "light gray")
-      (load-theme 'doom-one-light))))
-
-(when (not window-system)
-  (if use-dark-theme
-      (load-theme 'wombat)
-    (load-theme 'light-blue)))
-
 (add-hook 'find-file-hook
           (lambda ()
+            ;; tabs or spaces?
             (ajt-detect-and-set-indentation)
             ;; don't enable line highlight for specific buffer names
             (unless (or (string-match "*ansi-term*" (buffer-name))
-                    (string-match "*shell*" (buffer-name))
-                    (string-match "*ajt-grep*" (buffer-name)))
+                        (string-match "*shell*" (buffer-name))
+                        (string-match "*ajt-grep*" (buffer-name)))
               (progn
-                (if window-system
-                    (hl-line-mode))
-                (set-face-foreground 'highlight nil)
-                (when (boundp 'hl-line-face)
-                  (set-face-background hl-line-face ajt-line-color))))))
+                ;; turn on line highlight
+                (hl-line-mode)
+                (set-face-background hl-line-face ajt-line-color)))))
 
 ;; better scroll wheel behavior
 (if window-system
@@ -455,6 +374,7 @@ If point was already at that position, move point to beginning of line."
 (load "ajt-py-helpers")
 (load "ajt-date-helpers")
 
+
 ;;
 ;; platform specific stuff
 ;;
@@ -472,21 +392,7 @@ If point was already at that position, move point to beginning of line."
 ;; project specific stuff
 ;;
 
-(load "ajt-project-uthana")
+(if (string-equal hostname "tony.uthana.dev")
+    (load "ajt-project-uthana")
+    (load "ajt-project-phasefuncnn"))
 
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("9f297216c88ca3f47e5f10f8bd884ab24ac5bc9d884f0f23589b0a46a608fe14" default))
- '(package-selected-packages
-   '(company company-mode lsp-pyright gnu-elpa-keyring-update cuda-mode python-mode jupyter chatgpt use-package sublime-themes powerline kaolin-themes flucui-themes ewal doom-themes csv color-theme-sanityinc-tomorrow almost-mono-themes)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:background nil)))))
