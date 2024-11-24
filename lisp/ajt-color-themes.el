@@ -47,3 +47,4 @@
       (load-theme 'whiteboard))))
 
 (set-face-background hl-line-face ajt-line-color)
+(set-face-underline-p 'highlight nil)
