@@ -4,15 +4,6 @@
 (defun ajt-refresh-compilation-mode-on-grep (process event)
   (let ((prev-buffer (current-buffer)))
     (switch-to-buffer "*ajt-grep*")
-
-    ;; bit of a hack, for windows using msys2
-    (when is-windows-machine
-      (let ((case-fold-search nil))
-        (setq buffer-read-only nil)
-        (goto-char (point-min))
-        (while (re-search-forward (concat "^/home/" username) nil t)
-          (replace-match (concat "c:/msys64/home/" username)))))
-
     (end-of-buffer)
     (setq buffer-read-only nil)
     (insert (format "\nProcess %s %s\n" process event))
@@ -110,7 +101,7 @@ For example:
 For example:
     (ajt-ripgrep-find \"main\" \"d:/tras/cdc/runtime\" '(\"*.cpp\" \"*.h\" \"*.c\")))"
   (let* ((glob (mapconcat (lambda (x) (concat "-g \"" x "\"")) name-patterns " "))
-         (cmd (concat "rg --no-heading " "-e " search-term " " glob " " path)))
+         (cmd (concat "rg --no-heading --column " "-e " search-term " " glob " " path)))
     (ajt-grep-find-shell-cmd cmd)))
 
 
