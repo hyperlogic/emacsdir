@@ -145,7 +145,12 @@
 ;; and preseves that setting
 ;;
 (load "ajt-indent")
-(load "hl-line")
+
+;; in terminal mode hl-line doesn't show synatax highlights on current line.
+(setq ajt-use-hl-line window-system)
+
+(if ajt-use-hl-line
+    (load "hl-line"))
 (load "ajt-color-themes")
 
 ;;
@@ -159,10 +164,11 @@
             (unless (or (string-match "*ansi-term*" (buffer-name))
                         (string-match "*shell*" (buffer-name))
                         (string-match "*ajt-grep*" (buffer-name)))
-              (progn
-                ;; turn on line highlight
-                (hl-line-mode)
-                (set-face-background hl-line-face ajt-line-color)))))
+              ;; turn on line highlight
+              (if ajt-use-hl-line
+                  (progn
+                    (hl-line-mode)
+                    (set-face-background hl-line-face ajt-line-color))))))
 
 ;; better scroll wheel behavior
 (if window-system
