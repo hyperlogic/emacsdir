@@ -29,6 +29,7 @@
 (global-set-key [f7] 'ajt-uthana-py-search)
 (global-set-key [f8] 'ajt-uthana-js-search)
 (global-set-key [f9] 'ajt-uthana-all-search)
+(global-set-key [f10] 'flymake-show-diagnostics-buffer)
 
 ;; first install pyright - microsofts pyright server for python
 ;; pip install pyright
