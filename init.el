@@ -400,5 +400,5 @@ If point was already at that position, move point to beginning of line."
 
 (if (string-equal hostname "tony.uthana.dev")
     (load "ajt-project-uthana")
-    (load "ajt-project-phasefuncnn"))
+  (load "ajt-project-phasefuncnn"))
 

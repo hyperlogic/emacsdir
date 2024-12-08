@@ -1,7 +1,9 @@
 (load "ajt-vector-math")
 (load "ajt-grep-find")
 
-(setq ajt-uthana-path "/home/tony/uthana")
+(if (string-equal hostname "tony.uthana.dev")
+    (setq ajt-uthana-path "/home/tony/uthana")
+  (setq ajt-uthana-path "~/uthana/uthana"))
 (setq ajt-uthana-log "/opt/uthana/log/appserv.log")
 
 (defun ajt-uthana-py-search (arg)
