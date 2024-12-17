@@ -239,6 +239,9 @@
 ;; keybinds
 ;;
 
+;; KILL overwrite-mode with FIRE
+(define-key global-map [(insertchar)] nil)
+
 ;; ibuffer is better then buffer-menu
 (global-set-key "\C-x\C-b" 'ibuffer)
 

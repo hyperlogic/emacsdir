@@ -6,6 +6,8 @@
   (setq ajt-uthana-path "~/uthana/uthana"))
 (setq ajt-uthana-log "/opt/uthana/log/appserv.log")
 
+(setq ajt-uthana-run-path (concat ajt-uthana-path "/poselib/tools/"))
+
 (defun ajt-uthana-py-search (arg)
   "Search for a regex in all uthana python code"
   (interactive "suthana-py:")
@@ -28,10 +30,19 @@
   (auto-revert-tail-mode)
   (buffer-disable-undo))
 
+
+(defun ajt-run-uthana ()
+  (interactive)
+  (shell-command (concat "cd " ajt-uthana-run-path "; python3 ik_test.py") "*uthana-run-log*")
+  (pop-to-buffer "*uthana-run-log*")
+  (compilation-mode))
+
+;;(global-set-key [f7] 'ajt-run-uthana)
 (global-set-key [f7] 'ajt-uthana-py-search)
 (global-set-key [f8] 'ajt-uthana-js-search)
 (global-set-key [f9] 'ajt-uthana-all-search)
 (global-set-key [f10] 'flymake-show-diagnostics-buffer)
+
 
 ;; first install pyright - microsofts pyright server for python
 ;; pip install pyright
@@ -47,4 +58,10 @@
                                (require 'lsp-pyright)
                                (lsp)
                                (company-mode))))
-
+;; useful commands
+;; -----------------------------
+;; lsp-find-references - list references to thing at point, bound to f10 (by me)
+;; flymake-show-diagnostics-buffer - show all warnings errors in file, bound to 'M-?'
+;; lsp-find-definitions - bound to 'M-.'
+;;
+;; TODO: try using dap-mode, dap-python and debugpy for integrated debugging
