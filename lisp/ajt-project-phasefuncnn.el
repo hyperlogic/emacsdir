@@ -1,8 +1,9 @@
 (load "ajt-vector-math")
 (load "ajt-grep-find")
 
-(setq ajt-pfnn-path "/home/hyperlogic/code/phasefuncnn")
-(setq ajt-venv-exclude-path "!/home/hyperlogic/code/phasefuncnn/venv/*")
+
+(setq ajt-pfnn-path (concat "/home/" username "/code/phasefuncnn"))
+(setq ajt-venv-exclude-path (concat "!/home/" username "/code/phasefuncnn/venv/*"))
 
 (defun ajt-pfnn-py-search (arg)
   "Search for a regex in all pfnn python code"
@@ -22,7 +23,7 @@
 
 (global-set-key [f7] 'ajt-pfnn-py-search)
 (global-set-key [f8] 'ajt-pfnn-all-search)
-(global-set-key [f10] 'ajt-pfnn-run)
+(global-set-key [f10] 'flymake-show-diagnostics-buffer)
 
 ;; first install pyright - microsofts pyright server for python
 ;; pip install pyright
