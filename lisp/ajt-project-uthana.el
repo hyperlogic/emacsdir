@@ -23,13 +23,15 @@
   (interactive "suthana-all:")
   (ajt-ripgrep-find arg ajt-uthana-path (list "!*.ipynb")))
 
+(use-package log4j-mode)
+
 ; tail -f /opt/uthana/log/appserv.log
 (defun ajt-uthana-log ()
   (interactive)
   (find-file ajt-uthana-log)
   (auto-revert-tail-mode)
+  (log4j-mode)
   (buffer-disable-undo))
-
 
 (defun ajt-run-uthana ()
   (interactive)
@@ -42,7 +44,6 @@
 (global-set-key [f8] 'ajt-uthana-js-search)
 (global-set-key [f9] 'ajt-uthana-all-search)
 (global-set-key [f10] 'flymake-show-diagnostics-buffer)
-
 
 ;; first install pyright - microsofts pyright server for python
 ;; pip install pyright
@@ -65,3 +66,4 @@
 ;; lsp-find-definitions - bound to 'M-.'
 ;;
 ;; TODO: try using dap-mode, dap-python and debugpy for integrated debugging
+
