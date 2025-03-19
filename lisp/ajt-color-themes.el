@@ -2,7 +2,7 @@
 ;; color theme
 ;;
 
-(setq use-dark-theme (not window-system))
+(setq use-dark-theme 't)
 
 ;; built in emacs themes
 
@@ -26,12 +26,17 @@
 ;;(load-theme 'wheatgrass)
 ;;(load-theme 'wombat)
 
+(use-package zenburn-theme)
+
+(defvar zenburn-override-colors-alist
+  '(("zenburn-bg" . "#181818")))
+
 (if window-system
     (if use-dark-theme
         ;; window-system dark
         (progn
           (setq ajt-line-color "black")
-          (load-theme 'wombat))
+          (load-theme 'zenburn t))
       ;; window-system light
       (progn
         (setq ajt-line-color "light gray")

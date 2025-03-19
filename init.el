@@ -147,10 +147,12 @@
 (load "ajt-indent")
 
 ;; in terminal mode hl-line doesn't show synatax highlights on current line.
-(setq ajt-use-hl-line window-system)
+;; don't use it at all
+(setq ajt-use-hl-line 'nil)
 
 (if ajt-use-hl-line
     (load "hl-line"))
+
 (load "ajt-color-themes")
 
 ;;
@@ -195,11 +197,14 @@
   (tool-bar-mode -1))
 (menu-bar-mode -1)
 
-;; enable scroll bars
-(if window-system
+
+;; enable scroll bars here
+(setq ajt-enable-scroll-bars nil)
+(if ajt-enable-scroll-bars
     (progn
       (scroll-bar-mode 1)
-      (set-scroll-bar-mode 'right)))
+      (set-scroll-bar-mode 'right))
+  (scroll-bar-mode -1))
 
 ;; no gutters
 (fringe-mode '(0 . 0))
@@ -401,7 +406,7 @@ If point was already at that position, move point to beginning of line."
 ;; project specific stuff
 ;;
 
-(if (string-equal hostname "tony.uthana.dev")
+(if (or (string-equal hostname "tony.uthana.dev")
+        (string-equal hostname "new-tony.uthana.dev"))
     (load "ajt-project-uthana")
-  (load "ajt-project-phasefuncnn"))
-
+  (load "ajt-project-runningman"))

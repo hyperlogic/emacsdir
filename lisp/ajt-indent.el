@@ -8,6 +8,13 @@
 
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
+(defvaralias 'js-indent-level 'tab-width)
+
+(defun buffer-file-has-extension-p (&rest exts)
+  "Check if the current buffer's file name ends with one of EXTS."
+  (let ((file (buffer-file-name)))
+    (when file
+      (seq-some (lambda (ext) (string-suffix-p ext file)) exts))))
 
 (defun ajt-tabs-modep()
   "determine if the current-buffer uses tabs or spaces for indentation"
@@ -31,4 +38,7 @@
 
 (defun ajt-detect-and-set-indentation ()
   (interactive)
-  (setq indent-tabs-mode (ajt-tabs-modep)))
+  (setq indent-tabs-mode (ajt-tabs-modep))
+  (if (buffer-file-has-extension-p "js")
+      (progn
+        (setq-local tab-width 2))))
