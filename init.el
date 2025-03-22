@@ -408,8 +408,5 @@ If point was already at that position, move point to beginning of line."
 (if (or (string-equal hostname "tony.uthana.dev")
         (string-equal hostname "new-tony.uthana.dev"))
     (load "ajt-project-uthana")
-<<<<<<< HEAD
-  (load "ajt-project-runningman"))
-=======
   (load "ajt-project-phasefuncnn"))
->>>>>>> 9c653f4 (update from mac)
+
