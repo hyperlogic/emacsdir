@@ -50,8 +50,3 @@
     (progn
       (setq ajt-line-color "light gray")
       (load-theme 'whiteboard))))
-
-(if ajt-use-hl-line
-    (progn
-      (set-face-background hl-line-face ajt-line-color)
-      (set-face-underline-p 'highlight nil)))
