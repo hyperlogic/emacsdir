@@ -9,6 +9,7 @@
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
 (defvaralias 'js-indent-level 'tab-width)
+(defvaralias 'typescript-indent-level 'tab-width)
 
 (defun buffer-file-has-extension-p (&rest exts)
   "Check if the current buffer's file name ends with one of EXTS."
@@ -39,6 +40,6 @@
 (defun ajt-detect-and-set-indentation ()
   (interactive)
   (setq indent-tabs-mode (ajt-tabs-modep))
-  (if (buffer-file-has-extension-p "js")
+  (if (or (buffer-file-has-extension-p "js") (buffer-file-has-extension-p "ts"))
       (progn
         (setq-local tab-width 2))))
