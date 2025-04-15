@@ -10,9 +10,7 @@
 
 (setq compile-command (concat "cd " ajt-camdm-path "; npm run tsc"))
 
-(use-package typescript-mode
-  :mode "\\.ts\\'"
-  :hook (typescript-mode . electric-pair-mode))
+(use-package typescript-mode :mode "\\.ts\\'")
 
 (global-set-key [f7] 'ajt-camdm-src-search)
 (global-set-key [f8] 'compile)
