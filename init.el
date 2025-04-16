@@ -164,6 +164,7 @@
             ;; don't enable line highlight for specific buffer names
             (unless (or (string-match "*ansi-term*" (buffer-name))
                         (string-match "*shell*" (buffer-name))
+                        (string-match "*vterm*" (buffer-name))
                         (string-match "*ajt-grep*" (buffer-name)))
               ;; turn on line highlight
               (if ajt-use-hl-line
@@ -407,18 +408,9 @@ If point was already at that position, move point to beginning of line."
 
 (if (or (string-equal hostname "tony.uthana.dev")
         (string-equal hostname "new-tony.uthana.dev"))
-    (load "ajt-project-uthana")
+    (progn
+      (load "ajt-project-uthana")
+      (use-package vterm :ensure t)
+      ;; NOTE: use vterm-copy-mode to move the cursor like shell
+    )
   (load "ajt-project-camdm"))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages '(typescript-mode zenburn-theme lsp-pyright company)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
