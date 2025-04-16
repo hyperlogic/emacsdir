@@ -59,6 +59,7 @@
                                (require 'lsp-pyright)
                                (lsp)
                                (company-mode))))
+
 ;; useful commands
 ;; -----------------------------
 ;; lsp-find-references - list references to thing at point, bound to f10 (by me)
