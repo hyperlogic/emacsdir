@@ -402,11 +402,15 @@ If point was already at that position, move point to beginning of line."
 (if is-linux-machine
     (load "ajt-linux-init"))
 
+;; Use vterm on linux
+;; NOTE: use vterm-copy-mode to move the cursor like shell
+(if (string-equal hostname "tony.uthana.dev")
+    (use-package vterm :ensure t))
+
 ;;
 ;; project specific stuff
 ;;
 
-(if (or (string-equal hostname "tony.uthana.dev")
-        (string-equal hostname "new-tony.uthana.dev"))
+(if (string-equal hostname "tony.uthana.dev")
     (load "ajt-project-uthana")
   (load "ajt-project-uthana-sdk"))
