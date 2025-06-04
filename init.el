@@ -408,20 +408,5 @@ If point was already at that position, move point to beginning of line."
 
 (if (or (string-equal hostname "tony.uthana.dev")
         (string-equal hostname "new-tony.uthana.dev"))
-    (progn
-      (load "ajt-project-uthana")
-    )
-  (load "ajt-project-camdm"))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(vterm lsp-pyright log4j-mode typescript-mode zenburn-theme use-package doom-themes)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+    (load "ajt-project-uthana")
+  (load "ajt-project-uthana-sdk"))
