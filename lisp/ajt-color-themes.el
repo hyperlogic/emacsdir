@@ -28,8 +28,9 @@
 
 (use-package zenburn-theme)
 
-(defvar zenburn-override-colors-alist
-  '(("zenburn-bg" . "#181818")))
+(setq zenburn-override-colors-alist
+  '(("zenburn-fg" . "#E0E0D0")
+    ("zenburn-bg" . "#181818")))
 
 (if window-system
     (if use-dark-theme
