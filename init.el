@@ -165,6 +165,7 @@
             (unless (or (string-match "*ansi-term*" (buffer-name))
                         (string-match "*shell*" (buffer-name))
                         (string-match "*vterm*" (buffer-name))
+                        (string-match "*eat*" (buffer-name))
                         (string-match "*ajt-grep*" (buffer-name)))
               ;; turn on line highlight
               (if ajt-use-hl-line
@@ -360,6 +361,7 @@ If point was already at that position, move point to beginning of line."
 
 (add-hook 'compilation-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 (add-hook 'diff-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
+(add-hook 'eat-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 
 ;;
 ;; term
@@ -406,6 +408,10 @@ If point was already at that position, move point to beginning of line."
 ;; NOTE: use vterm-copy-mode to move the cursor like shell
 (if (string-equal hostname "tony.uthana.dev")
     (use-package vterm :ensure t))
+(if (string-equal hostname "GrimTangle.Local")
+    (progn
+      (use-package eat)
+      (setq eat-term-name "xterm-256color")))
 
 ;;
 ;; project specific stuff
