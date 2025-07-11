@@ -13,10 +13,10 @@
   (interactive "suthana-py:")
   (ajt-ripgrep-find arg ajt-uthana-path '("*.py")))
 
-(defun ajt-uthana-js-search (arg)
+(defun ajt-uthana-ts-search (arg)
   "Search for a regex in all uthana javascript code"
-  (interactive "suthana-js:")
-  (ajt-ripgrep-find arg ajt-uthana-path '("*.js")))
+  (interactive "suthana-ts:")
+  (ajt-ripgrep-find arg ajt-uthana-path '("*.ts" "*.tsx")))
 
 (defun ajt-uthana-all-search (arg)
   "Search for regex in all uthana directory"
@@ -33,6 +33,16 @@
   (log4j-mode)
   (buffer-disable-undo))
 
+;; nsq_tail -lookupd-http-address=127.0.0.1:4161 -topic=event | jq .
+;; TODO: DOES NOT WORK
+(defun ajt-uthana-analytics ()
+  (interactive)
+  (shell-command (concat "cd " ajt-uthana-run-path "; nsq_tail -lookupd-http-address=127.0.0.1:4161 -topic=event | jq .") "*uthana-analytics*")
+  (pop-to-buffer "*uthana-run-log*")
+  (auto-revert-tail-mode)
+  ;(log4j-mode)
+  (buffer-disable-undo))
+
 (defun ajt-run-uthana ()
   (interactive)
   (shell-command (concat "cd " ajt-uthana-run-path "; python3 ik_test.py") "*uthana-run-log*")
@@ -41,9 +51,11 @@
 
 ;;(global-set-key [f7] 'ajt-run-uthana)
 (global-set-key [f7] 'ajt-uthana-py-search)
-(global-set-key [f8] 'ajt-uthana-js-search)
+(global-set-key [f8] 'ajt-uthana-ts-search)
 (global-set-key [f9] 'ajt-uthana-all-search)
 (global-set-key [f10] 'flymake-show-diagnostics-buffer)
+
+;; TODO: try lsp-bridge for faster lsp support, or eglot?
 
 ;; first install pyright - microsofts pyright server for python
 ;; pip install pyright
@@ -59,11 +71,23 @@
                                (require 'lsp-pyright)
                                (lsp)
                                (company-mode))))
+      (use-package lsp-ui
+        :ensure t
+        :hook (lsp-mode . lsp-ui-mode)
+        :config
+        (setq lsp-ui-sideline-enable t
+              lsp-ui-sideline-show-diagnostics t
+              lsp-ui-doc-enable t                  ;; ← enable doc popup
+              lsp-ui-doc-position 'at-point       ;; or 'top'/'bottom'/'left'/'right'
+              lsp-ui-doc-delay 0.2
+              lsp-ui-doc-show-with-cursor t       ;; popup when cursor is on symbol
+              lsp-ui-doc-show-with-mouse nil))    ;; disable mouse hover if not wanted
+
 
 ;; useful commands
 ;; -----------------------------
-;; lsp-find-references - list references to thing at point, bound to f10 (by me)
-;; flymake-show-diagnostics-buffer - show all warnings errors in file, bound to 'M-?'
+;; lsp-find-references - list references to thing at point, 'M-?'
+;; flymake-show-diagnostics-buffer - show all warnings errors in file
 ;; lsp-find-definitions - bound to 'M-.'
 ;;
 ;; TODO: try using dap-mode, dap-python and debugpy for integrated debugging

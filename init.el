@@ -405,7 +405,7 @@ If point was already at that position, move point to beginning of line."
     (load "ajt-linux-init"))
 
 ;; Use vterm on linux
-;; NOTE: use vterm-copy-mode to move the cursor like shell
+;; NOTE: use vterm-copy-mode (C-c C-t) to move the cursor like shell
 (if (string-equal hostname "tony.uthana.dev")
     (use-package vterm :ensure t))
 (if (string-equal hostname "GrimTangle.Local")
