@@ -10,6 +10,7 @@
 (defvaralias 'cperl-indent-level 'tab-width)
 (defvaralias 'js-indent-level 'tab-width)
 (defvaralias 'typescript-indent-level 'tab-width)
+(defvaralias 'cmake-indent-level 'tab-width)
 
 (defun buffer-file-has-extension-p (&rest exts)
   "Check if the current buffer's file name ends with one of EXTS."

@@ -17,6 +17,8 @@
 
 (use-package typescript-mode :mode "\\.ts\\'")
 
+(use-package cmake-mode)
+
 (global-set-key [f7] 'ajt-uthana-sdk-cpp-search)
 (global-set-key [f8] 'ajt-uthana-sdk-ts-search)
 (global-set-key [f9] 'compile)
