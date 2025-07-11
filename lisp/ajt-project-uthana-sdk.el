@@ -3,7 +3,7 @@
 
 (setq ajt-sdk-path "~/code/uthana-sdk")
 
-(setq compile-command (concat "cd " ajt-sdk-path "/core && ./lint.sh && cd ../web && NO_COLOR=true npm run build && cd samples/bones && npm run build_dev"))
+(setq compile-command (concat "cd " ajt-sdk-path "/core && ./lint.sh && cd ../web && NO_COLOR=true npm run build && cd samples/demo && npm run build_dev"))
 
 (defun ajt-uthana-sdk-cpp-search (arg)
   "Search for a regex in all core cpp code"
@@ -19,13 +19,13 @@
 
 (use-package cmake-mode)
 
-(global-set-key [f7] 'ajt-uthana-sdk-cpp-search)
-(global-set-key [f8] 'ajt-uthana-sdk-ts-search)
-(global-set-key [f9] 'compile)
+(defvar uthana-last-sample-name nil
+  "Last sample name used with uthana-dev-start.")
 
 (defun uthana-dev-start (sample-name)
   "Start webpack serve and puppeteer-logger, with output in a tailable buffer."
-  (interactive "ssample-name:")
+  (interactive (list (read-string "uthana-dev-start sample: " (or uthana-last-sample-name "bones"))))
+  (setq uthana-last-sample-name sample-name)
   (let* ((default-directory (concat ajt-sdk-path (concat "/web/samples/" sample-name)))
          (webpack-process-name "uthana-webpack-serve")
          (puppeteer-process-name "uthana-puppeteer-logger")
@@ -38,6 +38,11 @@
     (when (get-process puppeteer-process-name)
       (delete-process (get-process puppeteer-process-name)))
 
+    ;; Clear the buffer contents
+    (with-current-buffer output-buffer
+      (let ((inhibit-read-only t))
+        (erase-buffer)))
+
     ;; Start webpack serve in background
     (start-process-shell-command webpack-process-name nil "npx webpack serve")
 
@@ -48,7 +53,6 @@
 
       ;; Set up the output buffer
       (with-current-buffer output-buffer
-        (erase-buffer)
         (special-mode)
         (setq-local mode-line-process '(":%s"))
         (setq-local buffer-read-only t)
@@ -73,9 +77,14 @@
       ;; Display the buffer
       (pop-to-buffer output-buffer)
 
-	  ;; Enable auto-revert (tail -f behavior)
+      ;; Enable auto-revert (tail -f behavior)
       (auto-revert-tail-mode 1)
       (setq-local auto-revert-interval 0.5)
 
       (message "Started webpack serve and puppeteer-logger. Close %s to stop both processes."
                output-buffer-name))))
+
+(global-set-key [f7] 'ajt-uthana-sdk-cpp-search)
+(global-set-key [f8] 'ajt-uthana-sdk-ts-search)
+(global-set-key [f9] 'compile)
+(global-set-key [f10] 'uthana-dev-start)
