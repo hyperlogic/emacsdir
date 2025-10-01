@@ -3,7 +3,8 @@
 
 (setq ajt-sdk-path "~/code/uthana-sdk")
 
-(setq compile-command (concat "cd " ajt-sdk-path "/core && ./lint.sh && cd ../web && NO_COLOR=true npm run build && cd samples/demo && npm run build_dev"))
+(setq compile-command (concat "cd " ajt-sdk-path "/core && ./lint.sh && cd ../web && NO_COLOR=true npm run build && npm run docs && cd samples/demo && npm run build_dev"))
+;;(setq compile-command (concat "cd " ajt-sdk-path "/core && ./lint.sh && ./build_native_sdk.sh"))
 
 (defun ajt-uthana-sdk-cpp-search (arg)
   "Search for a regex in all core cpp code"
