@@ -31,8 +31,7 @@
       (add-hook 'server-switch-hook #'raise-frame)))
 
 ;; Try saving open buffers
-(if window-system
-    (desktop-save-mode 1))
+(desktop-save-mode 1)
 
 (require 'thingatpt)
 
@@ -154,6 +153,7 @@
     (load "hl-line"))
 
 (load "ajt-color-themes")
+
 ;;
 ;; find-file-hook
 ;;

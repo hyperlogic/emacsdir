@@ -26,7 +26,24 @@
 ;;(load-theme 'wheatgrass)
 ;;(load-theme 'wombat)
 
+(use-package doom-themes)
+
+;; terminal dark themes
+;;(load-theme 'doom-badger)
+;;(load-theme 'doom-dark+)
+;;(load-theme 'doom-gruvbox)
+;;(load-theme 'doom-homage-black)
+;;(load-theme 'doom-monokai-octagon)
+;;(load-theme 'doom-nord-aurora)
+;;(load-theme 'doom-nord)
+;;(load-theme 'doom-nova)
+;;(load-theme 'doom-opera)
+;;(load-theme 'doom-spacegrey)
+;;(load-theme 'doom-sourcerer)
+;;(load-theme 'doom-tokyo-night)
+
 (use-package zenburn-theme)
+
 
 (setq zenburn-override-colors-alist
   '(("zenburn-fg" . "#E0E0D0")
@@ -46,7 +63,7 @@
       ;; terminal dark
       (progn
         (setq ajt-line-color "black")
-        (load-theme 'wombat))
+        (load-theme 'doom-tokyo-night))
     ;; terminal light
     (progn
       (setq ajt-line-color "light gray")

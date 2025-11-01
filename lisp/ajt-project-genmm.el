@@ -22,16 +22,4 @@
 
 (global-set-key [f7] 'ajt-genmm-py-search)
 (global-set-key [f8] 'ajt-genmm-all-search)
-(global-set-key [f10] 'flymake-show-buffer-diagnostics)
-
-;; first install pyright - microsofts pyright server for python
-;; pip install pyright
-(use-package company)
-(use-package lsp-pyright
-    :ensure t
-    :custom (lsp-pyright-langserver-command "pyright")
-    :hook (python-mode . (lambda ()
-                           (require 'lsp-pyright)
-                           (lsp)
-                           (company-mode))))
 
