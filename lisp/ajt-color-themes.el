@@ -54,7 +54,7 @@
         ;; window-system dark
         (progn
           (setq ajt-line-color "black")
-          (load-theme 'zenburn t))
+          (load-theme 'doom-tokyo-night t))
       ;; window-system light
       (progn
         (setq ajt-line-color "light gray")

@@ -35,13 +35,13 @@
 (use-package lsp-mode)
 (use-package flycheck)
 (setq lsp-diagnostics-provider :flycheck)
+
 (setq flycheck-indication-mode 'left-margin)
 
 (add-hook 'flycheck-mode-hook
           (lambda ()
-            (when (not (display-graphic-p))
-              (setq left-margin-width 1)
-              (set-window-buffer nil (current-buffer)))))
+            (setq left-margin-width 1)
+            (set-window-buffer nil (current-buffer))))
 
 ;; Configure Ruff
 (add-to-list 'lsp-language-id-configuration '(python-mode . "python"))
