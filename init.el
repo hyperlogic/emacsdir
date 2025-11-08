@@ -362,6 +362,7 @@ If point was already at that position, move point to beginning of line."
 (add-hook 'compilation-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 (add-hook 'diff-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 (add-hook 'eat-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
+(add-hook 'vterm-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
 
 ;;
 ;; term
