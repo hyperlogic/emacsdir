@@ -415,9 +415,26 @@ If point was already at that position, move point to beginning of line."
       (setq eat-term-name "xterm-256color")))
 
 ;;
-;; project specific stuff
+;; machine specific projects
 ;;
 
-(if (string-equal hostname "tony.uthana.dev")
-    (load "ajt-project-uthana")
-  (load "ajt-project-uthana-sdk"))
+(cond
+ ;; work dev box
+ ((string-equal hostname "tony.uthana.dev")
+  (load "ajt-project-uthana")
+  (message "work dev box - linux"))
+
+ ;; home pc - linux
+ ((and (string-equal hostname "voidgazer") is-linux-machine)
+  (load "ajt-project-taming-camdm")
+  (message "home pc - linux"))
+
+ ;; home pc - windows
+ ((and (string-equal hostname "voidgazer") is-windows-machine)
+  (load "ajt-project-uthana-sdk")
+  (message "home pc - windows"))
+
+ ;; unknown machine
+ (t
+  (message "Unknown machine")
+  ))

@@ -43,14 +43,26 @@
             (setq left-margin-width 1)
             (set-window-buffer nil (current-buffer))))
 
-;; Configure Ruff
 (add-to-list 'lsp-language-id-configuration '(python-mode . "python"))
 
-(lsp-register-client
- (make-lsp-client
-  :new-connection (lsp-stdio-connection '("ruff" "server"))
-  :activation-fn (lsp-activate-on "python")
-  :server-id 'ruff))
+
+(setq ajt-use-ruff nil)
+(if ajt-use-ruff
+    (progn
+      ;; Configure Ruff
+      (lsp-register-client
+       (make-lsp-client
+        :new-connection (lsp-stdio-connection '("ruff" "server"))
+        :activation-fn (lsp-activate-on "python")
+        :server-id 'ruff)))
+  (progn
+    ;; Use pyright
+    (lsp-register-client
+     (make-lsp-client
+      :new-connection (lsp-stdio-connection '("pyright-langserver" "--stdio"))
+      :activation-fn (lsp-activate-on "python")
+      :priority 1   ; Higher priority
+      :server-id 'pyright))))
 
 ;; Auto-start lsp for Python files
 (add-hook 'python-mode-hook #'lsp)
