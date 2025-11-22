@@ -421,6 +421,7 @@ If point was already at that position, move point to beginning of line."
 (cond
  ;; work dev box
  ((string-equal hostname "tony.uthana.dev")
+  (server-start)
   (load "ajt-clipboard-osc52")
   (load "ajt-project-uthana")
   (message "work dev box - linux"))
