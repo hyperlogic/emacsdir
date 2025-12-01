@@ -391,7 +391,6 @@ If point was already at that position, move point to beginning of line."
 (load "ajt-py-helpers")
 (load "ajt-date-helpers")
 
-
 ;;
 ;; platform specific stuff
 ;;
@@ -423,11 +422,15 @@ If point was already at that position, move point to beginning of line."
  ((string-equal hostname "tony.uthana.dev")
   (server-start)
   (load "ajt-clipboard-osc52")
+  (require 'ajt-term-buddy)
+  (ajt-term-buddy-enable-deferred)
   (load "ajt-project-uthana")
   (message "work dev box - linux"))
 
  ;; home pc - linux
  ((and (string-equal hostname "voidgazer") is-linux-machine)
+  (require 'ajt-term-buddy)
+  (ajt-term-buddy-enable-deferred)
   (load "ajt-project-taming-camdm")
   (message "home pc - linux"))
 

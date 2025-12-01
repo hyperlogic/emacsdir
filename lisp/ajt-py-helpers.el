@@ -30,43 +30,16 @@
   (pop-to-buffer "*mypy-log*")
   (compilation-mode))
 
+;; eglot should use pyright for lsp
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '(python-mode . ("pyright-langserver" "--stdio"))))
 
-;; Install ruff with `pip install ruff`
-(use-package lsp-mode)
-(use-package flycheck)
-(setq lsp-diagnostics-provider :flycheck)
+;; help eglot find the root of the project.
+(defun project-root-override (dir)
+    "Find project root by looking for .git or pyproject.toml."
+    (let ((root (or (locate-dominating-file dir ".git")
+                    (locate-dominating-file dir "pyproject.toml"))))
+      (and root (cons 'transient root))))
 
-(setq flycheck-indication-mode 'left-margin)
-
-(add-hook 'flycheck-mode-hook
-          (lambda ()
-            (setq left-margin-width 1)
-            (set-window-buffer nil (current-buffer))))
-
-(add-to-list 'lsp-language-id-configuration '(python-mode . "python"))
-
-
-(setq ajt-use-ruff nil)
-(if ajt-use-ruff
-    (progn
-      ;; Configure Ruff
-      (lsp-register-client
-       (make-lsp-client
-        :new-connection (lsp-stdio-connection '("ruff" "server"))
-        :activation-fn (lsp-activate-on "python")
-        :server-id 'ruff)))
-  (progn
-    ;; Use pyright
-    (lsp-register-client
-     (make-lsp-client
-      :new-connection (lsp-stdio-connection '("pyright-langserver" "--stdio"))
-      :activation-fn (lsp-activate-on "python")
-      :priority 1   ; Higher priority
-      :server-id 'pyright))))
-
-;; Auto-start lsp for Python files
-(add-hook 'python-mode-hook #'lsp)
-
-;; C-c ! n / M-g n - next-error
-;; C-c ! p / M-g p - previous-error
-;; C-c ! l - flycheck-list-errors
+(add-hook 'project-find-functions #'project-root-override)
