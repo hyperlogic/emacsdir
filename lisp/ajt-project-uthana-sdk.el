@@ -6,7 +6,7 @@
   (setq ajt-sdk-path "~/code/uthana-sdk"))
 
 ;;(setq compile-command (concat "cd " ajt-sdk-path "/core && ./lint.sh && cd ../web && NO_COLOR=true npm run build && npm run docs && cd samples/demo && npm run build_dev"))
-(setq compile-command (concat "cd " ajt-sdk-path "/core && ./lint.sh && ./build_native_sdk.sh"))
+(setq compile-command (concat "cd " ajt-sdk-path "/core && ./lint.sh && ./build_native_sdk.sh Release"))
 
 (defun ajt-uthana-sdk-cpp-search (arg)
   "Search for a regex in all core cpp code"
@@ -18,6 +18,11 @@
   (interactive "suthana-sdk-ts:")
   (ajt-ripgrep-find arg (concat ajt-sdk-path "/web/src") '("*.ts")))
 
+(defun ajt-uthana-sdk-rerun-search (arg)
+  "Search for a regex in rerun code"
+  (interactive "suthana-sdk-rerun:")
+  (ajt-ripgrep-find arg (concat ajt-sdk-path "/core/native-sdk-build/_deps/rerun_sdk-src/") '("*.h" "*.hpp" "*.c" "*.cc" "*.cpp")))
+
 (use-package typescript-mode :mode "\\.ts\\'")
 
 (use-package cmake-mode)
@@ -25,6 +30,12 @@
 (use-package google-c-style)
 (require 'google-c-style)
 (add-hook 'c-mode-common-hook 'google-set-c-style)
+
+;; flymake-show-buffer-diagnostics to show errors/warnigns in current buffer.
+(with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '((c-mode c++-mode) . ("clangd" "--query-driver=/usr/bin/c++,/usr/bin/clang++"))))
+
 
 ;; kill tabs with fire!
 (setq-default indent-tabs-mode nil)
@@ -97,4 +108,4 @@
 (global-set-key [f7] 'ajt-uthana-sdk-cpp-search)
 (global-set-key [f8] 'ajt-uthana-sdk-ts-search)
 (global-set-key [f9] 'compile)
-(global-set-key [f10] 'uthana-dev-start)
+(global-set-key [f10] 'ajt-uthana-sdk-rerun-search)

@@ -39,7 +39,7 @@
 (setq chatgpt-shell-openai-key "XXX")
 (setq chatgpt-shell-model-version "gpt-3.5-turbo")
 ;(setq chatgpt-shell-system-prompt "You will answer my questions in the style of Lovecraftian Horror")
-;(require 'chatgpt-shell)
+                                        ;(require 'chatgpt-shell)
 
 ;; some custom git functions
 (load "ajt-git")
@@ -422,16 +422,17 @@ If point was already at that position, move point to beginning of line."
  ((string-equal hostname "tony.uthana.dev")
   (server-start)
   (load "ajt-clipboard-osc52")
-  (require 'ajt-term-buddy)
-  (ajt-term-buddy-enable-deferred)
+  ;;(require 'ajt-term-buddy)
+  ;;(ajt-term-buddy-enable-deferred)
   (load "ajt-project-uthana")
   (message "work dev box - linux"))
 
  ;; home pc - linux
  ((and (string-equal hostname "voidgazer") is-linux-machine)
-  (require 'ajt-term-buddy)
-  (ajt-term-buddy-enable-deferred)
-  (load "ajt-project-taming-camdm")
+  ;;(require 'ajt-term-buddy)
+  ;;(ajt-term-buddy-enable-deferred)
+  ;;(load "ajt-project-taming-camdm")
+  (load "ajt-project-uthana-sdk")
   (message "home pc - linux"))
 
  ;; home pc - windows
