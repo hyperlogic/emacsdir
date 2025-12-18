@@ -35,11 +35,9 @@
 
 (require 'thingatpt)
 
-;; chatgpt-shell
-(setq chatgpt-shell-openai-key "XXX")
-(setq chatgpt-shell-model-version "gpt-3.5-turbo")
-;(setq chatgpt-shell-system-prompt "You will answer my questions in the style of Lovecraftian Horror")
-                                        ;(require 'chatgpt-shell)
+;; custom org-mode keywoars
+(setq org-todo-keywords
+      '((sequence "TODO" "WIP" "WAIT" "|" "DONE" "PUNT")))
 
 ;; some custom git functions
 (load "ajt-git")
@@ -192,6 +190,7 @@
       kept-new-versions 6
       kept-old-versions 2
       version-control t)
+(setq create-lockfiles nil)
 
 ;; hide tool bar & menu
 (when window-system
