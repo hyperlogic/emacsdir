@@ -18,6 +18,11 @@
   (interactive "suthana-sdk-ts:")
   (ajt-ripgrep-find arg (concat ajt-sdk-path "/web/src") '("*.ts")))
 
+(defun ajt-uthana-sdk-py-search (arg)
+  "Search for a regex in all core cpp code"
+  (interactive "suthana-sdk-py:")
+  (ajt-ripgrep-find arg (concat ajt-sdk-path "/python") '("*.py")))
+
 (defun ajt-uthana-sdk-rerun-search (arg)
   "Search for a regex in rerun code"
   (interactive "suthana-sdk-rerun:")
@@ -108,4 +113,4 @@
 (global-set-key [f7] 'ajt-uthana-sdk-cpp-search)
 (global-set-key [f8] 'ajt-uthana-sdk-ts-search)
 (global-set-key [f9] 'compile)
-(global-set-key [f10] 'ajt-uthana-sdk-rerun-search)
+(global-set-key [f10] 'ajt-uthana-sdk-py-search)

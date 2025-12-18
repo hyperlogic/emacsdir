@@ -2,17 +2,23 @@
 (defun ajt-black ()
   (interactive)
   (save-buffer)
-  (shell-command (concat "black --line-length=120 " (buffer-file-name)) "*black-log*")
-  (pop-to-buffer "*black-log*")
-  (compilation-mode))
+  (let ((exit-code (shell-command (concat "black --line-length=120 " (buffer-file-name)) "*black-log*")))
+    (if (zerop exit-code)
+        (progn
+          (revert-buffer t t t)
+          (message "black: success"))
+      (pop-to-buffer "*black-log*")
+      (compilation-mode))))
 
-;; flake8
-(defun ajt-flake8 ()
+;; ty
+(defun ajt-ty ()
   (interactive)
   (save-buffer)
-  (shell-command (concat "flake8 " (buffer-file-name)) "*flake8-log*")
-  (pop-to-buffer "*flake8-log*")
-  (compilation-mode))
+  (let ((exit-code (shell-command (concat "uvx ty check " (buffer-file-name)) "*ty-log*")))
+    (if (zerop exit-code)
+        (message "ty: success")
+      (pop-to-buffer "*ty-log*")
+      (compilation-mode))))
 
 ;; isort
 (defun ajt-isort ()
@@ -22,13 +28,6 @@
   (pop-to-buffer "*isort-log*")
   (compilation-mode))
 
-;; isort
-(defun ajt-mypy ()
-  (interactive)
-  (save-buffer)
-  (shell-command (concat "mypy " (buffer-file-name)) "*mypy-log*")
-  (pop-to-buffer "*mypy-log*")
-  (compilation-mode))
 
 ;; eglot should use pyright for lsp
 (with-eval-after-load 'eglot
