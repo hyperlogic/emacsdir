@@ -181,16 +181,9 @@
 ;; Don't insert instructions in the *scratch* buffer
 (setq initial-scratch-message nil)
 
-;; prevent ~ emacs droppings.
-;; Change backup behavior to save in a directory, not in a miscellany
-;; of files all over the place.
-(setq backup-by-copying t
-      backup-directory-alist '(("." . "~/.emacs.d/backups"))
-      delete-old-versions t
-      kept-new-versions 6
-      kept-old-versions 2
-      version-control t)
+;; prevent ~ # emacs droppings.
 (setq create-lockfiles nil)
+(setq auto-save-default nil)
 
 ;; hide tool bar & menu
 (when window-system
