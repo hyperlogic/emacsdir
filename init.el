@@ -182,6 +182,7 @@
 (setq initial-scratch-message nil)
 
 ;; prevent ~ # emacs droppings.
+(setq make-backup-files nil)
 (setq create-lockfiles nil)
 (setq auto-save-default nil)
 
