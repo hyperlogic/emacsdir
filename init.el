@@ -54,9 +54,6 @@
 ;; new buffers should show up in lower right hand corner
 (load "ajt-special-display")
 
-;; irc chat
-(autoload 'erc "erc")
-
 ;; show entire kill ring in a buffer
 (autoload 'browse-kill-ring "browser-kill-ring")
 
@@ -78,6 +75,9 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp/rust-mode" t)
 (autoload 'rust-mode "rust-mode")
+
+(autoload 'odin-mode "odin-mode")
+
 
 ;; assign modes to file extentions
 (setq auto-mode-alist
@@ -118,7 +118,8 @@
                 ("\\.rs\\'" . rust-mode)
                 ("COMMIT_EDITMSG" . flyspell-mode)
                 ("\\.thrift\\'" . thrift-mode)
-                ("\\.lua\\'" . lua-mode))))
+                ("\\.lua\\'" . lua-mode)
+                ("\\.odin\\'" . odin-mode))))
 
 ;;
 ;; misc
