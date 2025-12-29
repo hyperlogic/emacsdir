@@ -1,3 +1,4 @@
+;; The best way to install these tools "globally" is to use `uv tool install black`
 ;; black
 (defun ajt-black ()
   (interactive)
@@ -14,7 +15,7 @@
 (defun ajt-ty ()
   (interactive)
   (save-buffer)
-  (let ((exit-code (shell-command (concat "uvx ty check " (buffer-file-name)) "*ty-log*")))
+  (let ((exit-code (shell-command (concat "ty check " (buffer-file-name)) "*ty-log*")))
     (if (zerop exit-code)
         (message "ty: success")
       (pop-to-buffer "*ty-log*")
@@ -29,10 +30,10 @@
   (compilation-mode))
 
 
-;; eglot should use pyright for lsp
+;; eglot should use ty for lsp
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs
-               '(python-mode . ("pyright-langserver" "--stdio"))))
+               '(python-mode . ("ty" "server"))))
 
 ;; help eglot find the root of the project.
 (defun project-root-override (dir)
