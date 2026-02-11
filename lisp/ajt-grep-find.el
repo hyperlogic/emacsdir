@@ -101,7 +101,7 @@ For example:
 For example:
     (ajt-ripgrep-find \"main\" \"d:/tras/cdc/runtime\" '(\"*.cpp\" \"*.h\" \"*.c\")))"
   (let* ((glob (mapconcat (lambda (x) (concat "-g \"" x "\"")) name-patterns " "))
-         (cmd (concat "rg --no-heading --column " "-e " search-term " " glob " " path)))
+         (cmd (concat "rg --color never --no-heading --column " "-e " search-term " " glob " " path)))
     (ajt-grep-find-shell-cmd cmd)))
 
 
