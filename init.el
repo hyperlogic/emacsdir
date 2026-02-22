@@ -434,6 +434,9 @@ If point was already at that position, move point to beginning of line."
   (load "ajt-project-uthana-sdk")
   (message "home pc - windows"))
 
+ (is-macintosh-machine
+  (message "Mac laptop")
+  (load "ajt-project-assimpbuddy"))
  ;; unknown machine
  (t
   (message "Unknown machine")
