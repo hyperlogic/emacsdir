@@ -430,8 +430,9 @@ If point was already at that position, move point to beginning of line."
   (message "home pc - linux"))
 
  ;; home pc - windows
- ((and (string-equal hostname "voidgazer") is-windows-machine)
-  (load "ajt-project-uthana-sdk")
+ ((and (string-equal hostname "VOIDGAZER") is-windows-machine)
+  ;(load "ajt-project-uthana-sdk")
+  (load "ajt-project-assimpbuddy")
   (message "home pc - windows"))
 
  (is-macintosh-machine

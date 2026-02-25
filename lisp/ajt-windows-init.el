@@ -15,5 +15,5 @@
 ;; Add emoji font as fallback for unicode symbols only
 (set-fontset-font t 'unicode "Segoe UI Emoji" nil 'prepend)
 
-(set-frame-font "JetBrains Mono NL Regular-12")
+(set-frame-font "JetBrains Mono NL Regular-11")
 
