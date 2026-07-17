@@ -41,6 +41,6 @@
 (defun ajt-detect-and-set-indentation ()
   (interactive)
   (setq indent-tabs-mode (ajt-tabs-modep))
-  (if (or (buffer-file-has-extension-p "js") (buffer-file-has-extension-p "ts"))
+  (if (or (buffer-file-has-extension-p "js") (buffer-file-has-extension-p "ts") (buffer-file-has-extension-p "json"))
       (progn
         (setq-local tab-width 2))))

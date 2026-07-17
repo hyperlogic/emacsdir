@@ -57,6 +57,9 @@
 ;; show entire kill ring in a buffer
 (autoload 'browse-kill-ring "browser-kill-ring")
 
+;; stop warnings from brining a buffer to front
+(setq warning-minimum-level :error)
+
 ;;
 ;; major-modes
 ;;
@@ -426,6 +429,7 @@ If point was already at that position, move point to beginning of line."
   ;;(require 'ajt-term-buddy)
   ;;(ajt-term-buddy-enable-deferred)
   ;;(load "ajt-project-taming-camdm")
+  ;(load "ajt-project-assimpbuddy")
   (load "ajt-project-uthana-sdk")
   (message "home pc - linux"))
 
