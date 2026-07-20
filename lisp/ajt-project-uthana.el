@@ -53,4 +53,5 @@
 (global-set-key [f7] 'ajt-uthana-py-search)
 (global-set-key [f8] 'ajt-uthana-ts-search)
 (global-set-key [f9] 'ajt-uthana-all-search)
+(global-set-key [f10] 'compile)
 

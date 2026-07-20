@@ -52,19 +52,19 @@
     (ajt-quat-mul (ajt-quat-mul q qv) (ajt-quat-conj q))))
 
 (defun ajt-vec-dot (a b)
-  (cl-reduce '+ (mapcar* '* a b)))
+  (cl-reduce '+ (cl-mapcar '* a b)))
 
 (defun ajt-vec-len (v)
   (sqrt (ajt-vec-dot v v)))
 
 (defun ajt-vec-add (a b)
-  (mapcar* '+ a b))
+  (cl-mapcar '+ a b))
 
 (defun ajt-vec3-sub (a b)
-  (mapcar* '- a b))
+  (cl-mapcar '- a b))
 
 (defun ajt-vec-mul (a b)
-  (mapcar* '* a b))
+  (cl-mapcar '* a b))
 
 (defun ajt-vec-x (v)
   (car v))

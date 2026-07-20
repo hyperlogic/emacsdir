@@ -63,7 +63,7 @@
       ;; terminal dark
       (progn
         (setq ajt-line-color "black")
-        (load-theme 'doom-tokyo-night))
+        (load-theme 'doom-gruvbox))
     ;; terminal light
     (progn
       (setq ajt-line-color "light gray")
