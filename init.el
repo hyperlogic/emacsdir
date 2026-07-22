@@ -28,7 +28,10 @@
 (if window-system
     (progn
       (server-start)
-      (add-hook 'server-switch-hook #'raise-frame)))
+      (add-hook 'server-switch-hook #'raise-frame))
+  (progn
+    ;; this makes it possible to copy from emacs into system clipboard
+    (load "ajt-clipboard-osc52")))
 
 ;; Try saving open buffers
 (desktop-save-mode 1)
@@ -432,6 +435,14 @@ If point was already at that position, move point to beginning of line."
   ;(load "ajt-project-assimpbuddy")
   (load "ajt-project-uthana-sdk")
   (message "home pc - linux"))
+
+ ;; dgx-spark - linux
+ ((and (string-equal hostname "hyperspark") is-linux-machine)
+  ;; make it look different so I don't get confused about which machine i'm running over ssh
+  (if (not window-system)
+      (progn
+        (load-theme 'doom-sourcerer)
+        (message "home pc - hyperspark"))))
 
  ;; home pc - windows
  ((and (string-equal hostname "VOIDGAZER") is-windows-machine)
